@@ -26,10 +26,10 @@ export const FeaturesSection: React.FC = () => {
     },
     {
       icon: <Smartphone className="w-5 h-5 text-[#3ecf8e]" />,
-      title: 'Zashi & Ywallet Native Handoff',
-      badge: 'Deep Linking',
+      title: 'Zucchini, Zashi & Ywallet Handoff',
+      badge: 'Browser + Mobile',
       description:
-        'Integrated QR codes and deep links open directly in official Zcash mobile apps like Zashi (Electric Coin Co.) and Ywallet, allowing users to approve shielded transactions with biometric auth.',
+        'Direct 1-click in-browser approval with the Zucchini Wallet Chrome extension, plus dynamic QR codes and deep links for mobile shielded wallets like Zashi (Electric Coin Co.) and Ywallet.',
     },
     {
       icon: <Cpu className="w-5 h-5 text-[#3ecf8e]" />,

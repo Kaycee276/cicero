@@ -38,6 +38,7 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
+    "@zucchinifi/dapp-sdk": "^0.3.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
     "qrcode.react": "^4.2.0",

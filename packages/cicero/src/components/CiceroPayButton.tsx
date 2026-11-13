@@ -38,6 +38,9 @@ export const CiceroPayButton: React.FC<CiceroPayProps> = ({
     isShielded,
     memoValidation,
     simulateDetection,
+    zucchiniAvailable,
+    zucchiniPaying,
+    payWithZucchini,
   } = useCiceroPayment({
     recipient,
     amount,
@@ -107,6 +110,9 @@ export const CiceroPayButton: React.FC<CiceroPayProps> = ({
         title={modalTitle}
         subtitle={modalSubtitle}
         showUsd={showUsd}
+        zucchiniAvailable={zucchiniAvailable}
+        zucchiniPaying={zucchiniPaying}
+        onPayWithZucchini={payWithZucchini}
       />
     </>
   );

@@ -45,10 +45,11 @@ export function Checkout() {
 ## ⚡ Core Features
 
 - **🛡️ Native Zero-Knowledge Checkout:** Full support for Orchard and Sapling shielded pools with mathematical sender/recipient confidentiality.
+- **🥒 1-Click Zucchini Browser Wallet:** Directly prompts the **Zucchini Wallet** Chrome extension side-panel for instant in-browser signing without needing a second device.
 - **✉️ 512-Byte Shielded Encrypted Memos:** Safely attach order numbers, licensing tokens, or private notes directly into the transaction without leaking plaintext to the public ledger.
 - **📜 RFC ZIP-321 URI Standard:** Compliant with official Zcash Payment Request URIs, featuring padding-free Base64URL memo encoding.
 - **🌐 Unified Address Intelligence (ZIP-316):** Auto-detects receiver types (`u1`, `zs1`, `t1`) and provides warnings if users attempt unshielded transactions.
-- **📱 One-Tap Mobile Handoff:** Pre-configured deep links and dynamic QR codes compatible with **Zashi** (Electric Coin Co.) and **Ywallet**.
+- **📱 Mobile & Desktop Handoff:** Pre-configured deep links and dynamic QR codes compatible with **Zashi** (Electric Coin Co.) and **Ywallet**.
 - **🎨 Supabase Design Language:** Clean, technical aesthetic styled strictly with Supabase tokens (emerald `#3ecf8e` primary CTAs, `#171717` ink typography, 6px button radii, and `#1c1c1c` code blocks).
 - **⏱️ Lifecycle State Watcher:** Manages countdowns (15-min invoices), mempool transaction detection, confirmed states, and developer simulation controls for rapid hackathon testing.
 
@@ -129,6 +130,33 @@ function CustomPaymentUI() {
       <p>Address: {addressType} ({isShielded ? 'Shielded' : 'Transparent'})</p>
       <p>Remaining: {secondsRemaining}s</p>
     </div>
+  );
+}
+```
+
+### Direct Browser Wallet Hook: `useZucchiniWallet()`
+Directly prompt the **Zucchini Wallet** Chrome extension side-panel for in-browser payments:
+
+```tsx
+import { useZucchiniWallet } from '@cicero-zcash/react';
+
+function ZucchiniCheckout() {
+  const { isAvailable, connect, requestPayment } = useZucchiniWallet();
+
+  const handlePay = async () => {
+    await connect();
+    const { txId } = await requestPayment({
+      recipient: 'u1qwe829...',
+      amount: 0.1,
+      memo: 'Order #9821',
+    });
+    console.log('Payment submitted via Zucchini!', txId);
+  };
+
+  return (
+    <button onClick={handlePay} disabled={!isAvailable}>
+      {isAvailable ? 'Pay with Zucchini Wallet' : 'Install Zucchini'}
+    </button>
   );
 }
 ```

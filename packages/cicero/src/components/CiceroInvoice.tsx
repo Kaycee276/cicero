@@ -44,6 +44,9 @@ export const CiceroInvoice: React.FC<CiceroPayProps> = ({
     memoValidation,
     simulateDetection,
     resetPayment,
+    zucchiniAvailable,
+    zucchiniPaying,
+    payWithZucchini,
   } = useCiceroPayment({
     recipient,
     amount,
@@ -154,6 +157,27 @@ export const CiceroInvoice: React.FC<CiceroPayProps> = ({
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <CiceroQRCode value={zip321Uri} size={140} />
               <div className="space-y-2.5 w-full">
+                {/* Zucchini Extension Pay Button */}
+                {zucchiniAvailable && (
+                  <button
+                    onClick={payWithZucchini}
+                    disabled={zucchiniPaying}
+                    className="inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-md bg-[#3ecf8e] text-[#171717] text-xs font-semibold hover:bg-[#24b47e] transition-colors disabled:opacity-60 shadow-sm"
+                  >
+                    {zucchiniPaying ? (
+                      <>
+                        <span className="w-3.5 h-3.5 border-2 border-[#171717]/30 border-t-[#171717] rounded-full animate-spin" />
+                        <span>Confirming in Zucchini...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>🥒</span>
+                        <span>Pay with Zucchini Wallet</span>
+                      </>
+                    )}
+                  </button>
+                )}
+
                 <a
                   href={zip321Uri}
                   className="inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-md bg-[#171717] text-white text-xs font-medium hover:bg-[#212121] transition-colors"

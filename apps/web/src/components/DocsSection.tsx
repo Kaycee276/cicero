@@ -45,27 +45,26 @@ export function Checkout() {
 }`,
     },
     {
-      title: 'Headless / Custom Hook Usage',
-      code: `import { useCiceroPayment, CiceroQRCode } from '@cicero-zcash/react';
+      title: 'Direct Zucchini Browser Wallet Hook',
+      code: `import { useZucchiniWallet } from '@cicero-zcash/react';
 
-export function CustomCheckout() {
-  const {
-    status,
-    zip321Uri,
-    secondsRemaining,
-    simulateDetection,
-  } = useCiceroPayment({
-    recipient: 'u1...',
-    amount: 0.5,
-    memo: 'Custom Invoice #10',
-  });
+export function ZucchiniPay() {
+  const { isAvailable, connect, requestPayment } = useZucchiniWallet();
+
+  const handlePay = async () => {
+    await connect();
+    const { txId } = await requestPayment({
+      recipient: 'u1...',
+      amount: 0.25,
+      memo: 'Order #1042',
+    });
+    alert(\`Submitted in Zucchini! Tx: \${txId}\`);
+  };
 
   return (
-    <div>
-      <CiceroQRCode value={zip321Uri} size={180} />
-      <p>Status: {status}</p>
-      <p>Expires in: {secondsRemaining}s</p>
-    </div>
+    <button onClick={handlePay} disabled={!isAvailable}>
+      {isAvailable ? 'Pay with Zucchini' : 'Install Zucchini'}
+    </button>
   );
 }`,
     },

@@ -20,6 +20,7 @@ import {
   validateMemoSupport,
   generateZip321Uri,
   ZcashNetwork,
+  ZucchiniWalletAdapter,
 } from '@cicero-zcash/react';
 
 interface ScenarioPreset {
@@ -74,6 +75,11 @@ export const PlaygroundStudio: React.FC = () => {
   const [displayMode, setDisplayMode] = useState<'modal' | 'invoice'>('modal');
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedUri, setCopiedUri] = useState(false);
+  const [zucchiniDetected, setZucchiniDetected] = useState(false);
+
+  React.useEffect(() => {
+    setZucchiniDetected(ZucchiniWalletAdapter.isAvailable());
+  }, []);
 
   const addressType = getAddressType(recipient);
   const memoValidation = validateMemoSupport(recipient, memo);
@@ -362,7 +368,7 @@ export default function EmbeddedInvoice() {
           <div className="lg:col-span-7 space-y-6">
             {/* Live Component Preview Box */}
             <div className="p-6 bg-white rounded-[12px] border border-[#ededed] shadow-sm">
-              <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#ededed]">
+              <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#ededed]">
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#3ecf8e]"></div>
                   <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#171717]">
@@ -373,6 +379,41 @@ export default function EmbeddedInvoice() {
                   {displayMode === 'modal' ? 'Click trigger below' : 'Interactive inline card'}
                 </span>
               </div>
+
+              {/* Zucchini Extension Status Banner */}
+              {zucchiniDetected ? (
+                <div className="mb-4 p-3 bg-emerald-50 rounded-[8px] border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🥒</span>
+                    <div>
+                      <span className="font-semibold">Zucchini Wallet Detected!</span>
+                      <p className="text-[11px] text-emerald-700">1-click browser extension payment is active in the modal.</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded bg-emerald-200/80 text-emerald-800">
+                    Active
+                  </span>
+                </div>
+              ) : (
+                <div className="mb-4 p-3 bg-[#fafafa] rounded-[8px] border border-[#ededed] text-xs text-[#707070] flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🥒</span>
+                    <div>
+                      <span className="font-medium text-[#171717]">Zucchini Browser Wallet Ready</span>
+                      <p className="text-[11px] text-[#9a9a9a]">Install Zucchini in Chrome to enable direct 1-click in-browser approval.</p>
+                    </div>
+                  </div>
+                  <a
+                    href="https://chromewebstore.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] font-medium text-[#24b47e] hover:underline flex items-center gap-1"
+                  >
+                    <span>Extension</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              )}
 
               {/* Component Rendering Area */}
               <div className="min-h-[160px] flex items-center justify-center p-6 bg-[#fafafa] rounded-[8px] border border-dashed border-[#dfdfdf]">

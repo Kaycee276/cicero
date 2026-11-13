@@ -37,6 +37,10 @@ export interface CiceroModalProps {
   title?: string;
   subtitle?: string;
   showUsd?: boolean;
+  /** Zucchini Wallet integration */
+  zucchiniAvailable?: boolean;
+  zucchiniPaying?: boolean;
+  onPayWithZucchini?: () => void;
 }
 
 export const CiceroModal: React.FC<CiceroModalProps> = ({
@@ -59,6 +63,9 @@ export const CiceroModal: React.FC<CiceroModalProps> = ({
   title = 'Pay with Shielded Zcash',
   subtitle = 'Zero-Knowledge, Confidential Checkout',
   showUsd = true,
+  zucchiniAvailable = false,
+  zucchiniPaying = false,
+  onPayWithZucchini,
 }) => {
   const [copiedType, setCopiedType] = useState<'address' | 'uri' | 'memo' | null>(null);
   const { convertZecToUsd } = useZcashPrice(showUsd);
@@ -270,6 +277,27 @@ export const CiceroModal: React.FC<CiceroModalProps> = ({
                     <span>Open in Mobile / Desktop Wallet</span>
                     <ExternalLink className="w-3.5 h-3.5 text-[#3ecf8e]" />
                   </a>
+
+                  {/* Zucchini Wallet — Browser Extension Pay */}
+                  {zucchiniAvailable && onPayWithZucchini && (
+                    <button
+                      onClick={onPayWithZucchini}
+                      disabled={zucchiniPaying}
+                      className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-md bg-[#3ecf8e] text-[#171717] text-xs font-semibold hover:bg-[#24b47e] transition-colors disabled:opacity-60 disabled:cursor-wait shadow-sm"
+                    >
+                      {zucchiniPaying ? (
+                        <>
+                          <span className="w-3.5 h-3.5 border-2 border-[#171717]/30 border-t-[#171717] rounded-full animate-spin" />
+                          <span>Confirming in Zucchini...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-sm">🥒</span>
+                          <span>Pay with Zucchini Wallet</span>
+                        </>
+                      )}
+                    </button>
+                  )}
 
                   <div className="flex items-center gap-2">
                     <button

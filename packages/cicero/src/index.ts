@@ -8,6 +8,17 @@ export { CiceroInvoice } from './components/CiceroInvoice';
 export { useCiceroPayment } from './hooks/useCiceroPayment';
 export type { UseCiceroPaymentOptions } from './hooks/useCiceroPayment';
 export { useZcashPrice } from './hooks/useZcashPrice';
+export { useZucchiniWallet } from './hooks/useZucchiniWallet';
+export type { UseZucchiniWalletOptions } from './hooks/useZucchiniWallet';
+
+// Wallet Adapters
+export { ZucchiniWalletAdapter } from './wallet/zucchini';
+export type {
+  WalletConnectionStatus,
+  WalletPaymentStatus,
+  WalletSession,
+  WalletPaymentResult,
+} from './wallet/zucchini';
 
 // Utilities
 export {
