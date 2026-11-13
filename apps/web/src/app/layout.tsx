@@ -1,0 +1,35 @@
+import type { Metadata } from 'next';
+import './globals.css';
+
+export const metadata: Metadata = {
+  title: 'Cicero — The Developer Payment Kit for Shielded Zcash',
+  description:
+    'Drop-in React components for zero-knowledge Zcash payments, ZIP-321 request URIs, and 512-byte encrypted memos.',
+  keywords: [
+    'Zcash',
+    'Shielded Payments',
+    'zk-SNARKs',
+    'ZIP-321',
+    'React Checkout',
+    'Web3 Payments',
+    'Cicero',
+  ],
+  authors: [{ name: 'Kaycee276' }],
+  icons: {
+    icon: '/favicon.ico',
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" className="scroll-smooth">
+      <body className="min-h-screen bg-white text-[#171717] antialiased">
+        {children}
+      </body>
+    </html>
+  );
+}

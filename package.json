@@ -1,0 +1,26 @@
+{
+  "name": "cicero-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cicero: The developer payment kit and checkout component for shielded Zcash",
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter \"@cicero-zcash/react\" build && pnpm --filter web build",
+    "build:package": "pnpm --filter \"@cicero-zcash/react\" build",
+    "build:web": "pnpm --filter web build",
+    "lint": "pnpm -r lint"
+  },
+  "keywords": [
+    "zcash",
+    "shielded-payments",
+    "react",
+    "web3",
+    "crypto-checkout",
+    "zip-321",
+    "zero-knowledge",
+    "cicero"
+  ],
+  "author": "Kaycee276",
+  "license": "MIT",
+  "packageManager": "pnpm@11.18.0"
+}

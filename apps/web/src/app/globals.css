@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #3ecf8e;
+  --primary-deep: #24b47e;
+  --canvas-night: #1c1c1c;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Supabase Engineered Typography with Negative Letter-Spacing */
+.display-xxl {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .display-xxl {
+    font-size: 4rem;
+    letter-spacing: -1.92px;
+  }
+}
+
+.display-xl {
+  font-size: 2.5rem;
+  line-height: 1.15;
+  letter-spacing: -1.44px;
+  font-weight: 500;
+}
+
+.display-lg {
+  font-size: 2rem;
+  line-height: 1.2;
+  letter-spacing: -0.72px;
+  font-weight: 500;
+}
+
+/* Custom scrollbars for code blocks */
+pre::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background-color: #383838;
+  border-radius: 4px;
+}
