@@ -25,17 +25,17 @@ export const HeroSection: React.FC = () => {
           {/* Pill Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3ecf8e]/15 border border-[#3ecf8e]/30 text-xs font-medium text-[#24b47e] mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-[#24b47e] animate-pulse"></span>
-            <span>Introducing Cicero v0.1.0 • Shielded Zcash Checkout</span>
+            <span>The RainbowKit of Shielded Zcash • Cicero v0.2.0</span>
           </div>
 
           {/* Display Headline per DESIGN.md: weight 500, tight negative tracking */}
           <h1 className="display-xxl text-[#171717] tracking-tight">
-            The developer payment kit for <span className="underline decoration-[#3ecf8e] decoration-4 underline-offset-4">Shielded Zcash</span>.
+            Universal wallet connection & checkout for <span className="underline decoration-[#3ecf8e] decoration-4 underline-offset-4">Shielded Zcash</span>.
           </h1>
 
           {/* Body Lead */}
           <p className="mt-6 text-lg sm:text-xl text-[#707070] leading-relaxed font-normal">
-            Drop-in React components for zero-knowledge payments, RFC-compliant ZIP-321 request URIs, and 512-byte encrypted memos. Built for consumer dApps, private payroll, and creator paywalls with zero configuration.
+            The developer toolkit for Zcash: connect to any wallet (Zucchini extension, Zashi, Ywallet, Viewing Keys) with a single hook, plus drop-in zero-knowledge checkout modals and 512-byte encrypted memos.
           </p>
 
           {/* Action Row */}

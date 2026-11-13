@@ -16,6 +16,7 @@ import {
 import {
   CiceroPayButton,
   CiceroInvoice,
+  CiceroConnectButton,
   getAddressType,
   validateMemoSupport,
   generateZip321Uri,
@@ -72,7 +73,7 @@ export const PlaygroundStudio: React.FC = () => {
   const [variant, setVariant] = useState<'primary' | 'outline' | 'dark'>('primary');
   const [size, setSize] = useState<'sm' | 'md' | 'lg'>('md');
   const [network, setNetwork] = useState<ZcashNetwork>('mainnet');
-  const [displayMode, setDisplayMode] = useState<'modal' | 'invoice'>('modal');
+  const [displayMode, setDisplayMode] = useState<'modal' | 'invoice' | 'connect'>('modal');
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedUri, setCopiedUri] = useState(false);
   const [zucchiniDetected, setZucchiniDetected] = useState(false);
@@ -104,7 +105,40 @@ export const PlaygroundStudio: React.FC = () => {
   });
 
   const generatedCode =
-    displayMode === 'modal'
+    displayMode === 'connect'
+      ? `import { CiceroProvider, CiceroConnectButton, useAccount, useBalance } from '@cicero-zcash/react';
+
+export default function App() {
+  return (
+    <CiceroProvider initialNetwork="${network}">
+      <nav className="flex justify-between p-4 border-b">
+        <span>My Zcash dApp</span>
+        <CiceroConnectButton variant="${variant}" size="${size}" />
+      </nav>
+      <MainDashboard />
+    </CiceroProvider>
+  );
+}
+
+function MainDashboard() {
+  const { address, isConnected, wallet } = useAccount();
+  const { zec, usd } = useBalance();
+
+  return (
+    <div className="p-6">
+      {isConnected ? (
+        <div>
+          <h3>Connected to {wallet?.name}</h3>
+          <p>Address: {address}</p>
+          <p>Balance: {zec} ZEC (~$\{usd\} USD)</p>
+        </div>
+      ) : (
+        <p>Please connect your Zcash wallet above.</p>
+      )}
+    </div>
+  );
+}`
+      : displayMode === 'modal'
       ? `import { CiceroPayButton } from '@cicero-zcash/react';
 
 export default function CheckoutPage() {
@@ -226,6 +260,16 @@ export default function EmbeddedInvoice() {
                   }`}
                 >
                   Inline Card
+                </button>
+                <button
+                  onClick={() => setDisplayMode('connect')}
+                  className={`px-2.5 py-1 rounded-[4px] font-medium transition-colors ${
+                    displayMode === 'connect'
+                      ? 'bg-[#171717] text-white'
+                      : 'text-[#707070] hover:text-[#171717]'
+                  }`}
+                >
+                  Connect Wallet
                 </button>
               </div>
             </div>
@@ -417,7 +461,14 @@ export default function EmbeddedInvoice() {
 
               {/* Component Rendering Area */}
               <div className="min-h-[160px] flex items-center justify-center p-6 bg-[#fafafa] rounded-[8px] border border-dashed border-[#dfdfdf]">
-                {displayMode === 'modal' ? (
+                {displayMode === 'connect' ? (
+                  <div className="text-center space-y-3">
+                    <CiceroConnectButton variant={variant} size={size} />
+                    <p className="text-[11px] text-[#707070]">
+                      RainbowKit-style button: opens the wallet selector modal or account drawer
+                    </p>
+                  </div>
+                ) : displayMode === 'modal' ? (
                   <div className="text-center space-y-3">
                     <CiceroPayButton
                       recipient={recipient}

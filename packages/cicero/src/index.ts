@@ -1,4 +1,26 @@
+// Provider & Context (RainbowKit-style)
+export {
+  CiceroProvider,
+  useCicero,
+  useAccount,
+  useBalance,
+  useConnectModal,
+  useAccountModal,
+} from './context/CiceroContext';
+export type {
+  CiceroContextType,
+  CiceroProviderProps,
+  AccountState,
+  BalanceState,
+} from './context/CiceroContext';
+
 // Components
+export { CiceroConnectButton } from './components/CiceroConnectButton';
+export type { CiceroConnectButtonProps } from './components/CiceroConnectButton';
+export { CiceroConnectModal } from './components/CiceroConnectModal';
+export type { CiceroConnectModalProps } from './components/CiceroConnectModal';
+export { CiceroAccountModal } from './components/CiceroAccountModal';
+export type { CiceroAccountModalProps } from './components/CiceroAccountModal';
 export { CiceroPayButton } from './components/CiceroPayButton';
 export { CiceroModal } from './components/CiceroModal';
 export { CiceroQRCode } from './components/CiceroQRCode';
@@ -11,14 +33,11 @@ export { useZcashPrice } from './hooks/useZcashPrice';
 export { useZucchiniWallet } from './hooks/useZucchiniWallet';
 export type { UseZucchiniWalletOptions } from './hooks/useZucchiniWallet';
 
-// Wallet Adapters
+// Wallet Registry & Connectors
+export * from './wallets';
+
+// Low-level Adapter
 export { ZucchiniWalletAdapter } from './wallet/zucchini';
-export type {
-  WalletConnectionStatus,
-  WalletPaymentStatus,
-  WalletSession,
-  WalletPaymentResult,
-} from './wallet/zucchini';
 
 // Utilities
 export {

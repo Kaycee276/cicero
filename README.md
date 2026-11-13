@@ -21,21 +21,21 @@
 
 **Cicero** (named after *Marcus Tullius Cicero*, Roman defender of liberty and confidential correspondence) is the **"RainbowKit / Stripe Elements of Zcash"**.
 
-Building checkout flows on privacy chains has historically been tedious and fragmented: developers have had to manually assemble ZIP-321 URIs, calculate Base64URL encodings for encrypted memos, validate Unified Address receivers (Orchard vs Sapling vs Transparent), and hand-code polling watchers.
-
-**Cicero solves this with a single drop-in React component.**
+It provides two interconnected primitives:
+1. **Universal Wallet Connection (`<CiceroConnectButton />` & `<CiceroProvider>`):** Connect any Zcash wallet (Zucchini Chrome Extension, Zashi Mobile, Ywallet, Viewing Keys, or Dev Sessions) with custom modal UI and React hooks (`useAccount()`, `useBalance()`, `useCicero()`).
+2. **Drop-in Shielded Checkout (`<CiceroPayButton />` & `<CiceroInvoice />`):** Accept zero-knowledge Zcash payments with automatic ZIP-321 request URIs, 512-byte encrypted memos, and live settlement detection.
 
 ```tsx
-import { CiceroPayButton } from '@cicero-zcash/react';
+import { CiceroProvider, CiceroConnectButton } from '@cicero-zcash/react';
 
-export function Checkout() {
+export default function App() {
   return (
-    <CiceroPayButton
-      recipient="u1qwe829xkps9482mzsll049281kz8471..."
-      amount={0.15}
-      memo="Order #8921 - Digital Pass"
-      onSuccess={({ txId }) => console.log('Payment verified!', txId)}
-    />
+    <CiceroProvider initialNetwork="mainnet">
+      <nav>
+        <CiceroConnectButton />
+      </nav>
+      <MainApp />
+    </CiceroProvider>
   );
 }
 ```

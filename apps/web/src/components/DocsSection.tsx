@@ -26,6 +26,21 @@ npm install @cicero-zcash/react
 yarn add @cicero-zcash/react`,
     },
     {
+      title: 'RainbowKit-style Connect Wallet',
+      code: `import { CiceroProvider, CiceroConnectButton } from '@cicero-zcash/react';
+
+export function App() {
+  return (
+    <CiceroProvider initialNetwork="mainnet">
+      <header>
+        <CiceroConnectButton variant="primary" size="md" />
+      </header>
+      <MainApp />
+    </CiceroProvider>
+  );
+}`,
+    },
+    {
       title: 'Quickstart Checkout Button',
       code: `import { CiceroPayButton } from '@cicero-zcash/react';
 

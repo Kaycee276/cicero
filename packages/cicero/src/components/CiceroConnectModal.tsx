@@ -1,0 +1,307 @@
+import React, { useState } from 'react';
+import {
+  X,
+  ExternalLink,
+  Shield,
+  Sparkles,
+  AlertCircle,
+  ArrowRight,
+} from 'lucide-react';
+import { useCicero } from '../context/CiceroContext';
+import { CiceroQRCode } from './CiceroQRCode';
+
+export interface CiceroConnectModalProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
+  isOpen: propIsOpen,
+  onClose: propOnClose,
+}) => {
+  const {
+    isConnectModalOpen,
+    closeConnectModal,
+    wallets,
+    connect,
+    network,
+    appName,
+  } = useCicero();
+
+  const isOpen = propIsOpen !== undefined ? propIsOpen : isConnectModalOpen;
+  const handleClose = propOnClose || closeConnectModal;
+
+  const [selectedWalletId, setSelectedWalletId] = useState<string>('zucchini');
+  const [customKeyInput, setCustomKeyInput] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  if (!isOpen) return null;
+
+  const selectedWallet = wallets.find((w) => w.id === selectedWalletId) || wallets[0];
+  const isAvailable = selectedWallet?.isAvailable();
+
+  const handleWalletSelect = (walletId: string) => {
+    setSelectedWalletId(walletId);
+    setError(null);
+  };
+
+  const handleConnectAction = async () => {
+    if (!selectedWallet) return;
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      if (selectedWallet.id === 'viewing-key') {
+        if (!customKeyInput.trim()) {
+          throw new Error('Please enter a valid Unified Address or Viewing Key.');
+        }
+        await connect(selectedWallet.id, customKeyInput.trim());
+      } else {
+        await connect(selectedWallet.id);
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Connection failed');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans">
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 bg-[#171717]/60 backdrop-blur-sm transition-opacity"
+        onClick={handleClose}
+      />
+
+      {/* Modal Surface - Supabase design */}
+      <div className="relative w-full max-w-2xl bg-white rounded-xl border border-[#ededed] shadow-2xl overflow-hidden z-10 text-[#171717] animate-in fade-in zoom-in-95 duration-150">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#ededed] bg-[#fafafa]">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-md bg-[#171717] flex items-center justify-center text-[#3ecf8e]">
+              <Shield className="w-4 h-4 fill-[#3ecf8e]" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-sm text-[#171717]">Connect Zcash Wallet</span>
+                <span className="text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full bg-[#3ecf8e]/15 text-[#24b47e] border border-[#3ecf8e]/30">
+                  {network}
+                </span>
+              </div>
+              <p className="text-xs text-[#707070] mt-0.5">
+                Connect to <strong className="text-[#171717]">{appName}</strong> with your preferred zero-knowledge wallet.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={handleClose}
+            className="p-1 rounded-md text-[#707070] hover:text-[#171717] hover:bg-[#ededed] transition-colors"
+            aria-label="Close modal"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* 2-Column RainbowKit Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-12 min-h-[380px]">
+          {/* Left Column: Wallet Selector List (5 cols) */}
+          <div className="md:col-span-5 p-3 bg-[#fafafa] border-r border-[#ededed] space-y-1">
+            <div className="px-3 py-2 text-[11px] font-mono uppercase tracking-wider text-[#707070]">
+              Available Wallets
+            </div>
+
+            {wallets.map((w) => {
+              const active = w.id === selectedWalletId;
+              const available = w.isAvailable();
+
+              return (
+                <button
+                  key={w.id}
+                  onClick={() => handleWalletSelect(w.id)}
+                  className={`w-full flex items-center justify-between p-3 rounded-lg text-left text-xs transition-all ${
+                    active
+                      ? 'bg-white shadow-sm border border-[#dfdfdf] text-[#171717] font-medium'
+                      : 'hover:bg-white/60 text-[#707070] hover:text-[#171717] border border-transparent'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-base">{w.icon}</span>
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm text-[#171717] font-medium">{w.name}</span>
+                        {w.id === 'zucchini' && available && (
+                          <span className="text-[9px] uppercase font-mono px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 font-bold">
+                            Detected
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[11px] text-[#9a9a9a] line-clamp-1">
+                        {w.category === 'extension'
+                          ? 'Browser Extension'
+                          : w.category === 'mobile'
+                          ? 'Mobile / QR'
+                          : w.category === 'read-only'
+                          ? 'Auditor View'
+                          : 'Dev Session'}
+                      </span>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right Column: Wallet Connection Screen (7 cols) */}
+          <div className="md:col-span-7 p-6 flex flex-col justify-between bg-white">
+            <div className="space-y-4">
+              {/* Wallet Header */}
+              <div className="flex items-start justify-between pb-4 border-b border-[#ededed]">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-2xl">{selectedWallet.icon}</span>
+                  <div>
+                    <h4 className="text-base font-semibold text-[#171717]">
+                      {selectedWallet.name}
+                    </h4>
+                    <p className="text-xs text-[#707070] mt-0.5">
+                      {selectedWallet.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Error message */}
+              {error && (
+                <div className="p-3 rounded-md bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
+                  <span>{error}</span>
+                </div>
+              )}
+
+              {/* Specific Content by Wallet Type */}
+
+              {/* 1. Zucchini Wallet (Browser Extension) */}
+              {selectedWallet.id === 'zucchini' && (
+                <div className="space-y-4 py-2">
+                  {isAvailable ? (
+                    <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-950 space-y-2">
+                      <div className="flex items-center gap-2 font-semibold">
+                        <Sparkles className="w-4 h-4 text-[#24b47e]" />
+                        <span>Extension Detected & Ready</span>
+                      </div>
+                      <p className="text-emerald-800 leading-relaxed">
+                        Clicking connect will prompt your Zucchini Wallet side-panel to authorize access.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="p-4 rounded-lg bg-[#fafafa] border border-[#ededed] text-xs text-[#707070] space-y-3">
+                      <p>
+                        Zucchini Wallet extension was not detected in this browser. Install it to enable 1-click in-browser approvals.
+                      </p>
+                      {selectedWallet.downloadUrl && (
+                        <a
+                          href={selectedWallet.downloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#171717] text-white text-xs font-medium hover:bg-[#212121]"
+                        >
+                          <span>Install from Chrome Web Store</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* 2. Mobile Wallets (Zashi or Ywallet via ZIP-321 QR) */}
+              {(selectedWallet.id === 'zashi' || selectedWallet.id === 'ywallet') && (
+                <div className="text-center space-y-3 py-1">
+                  <div className="flex justify-center">
+                    <CiceroQRCode
+                      value={`zcash:u1demo?message=Connect%20to%20${encodeURIComponent(appName || 'Cicero App')}`}
+                      size={150}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-[#171717]">
+                      Scan with {selectedWallet.name} app
+                    </p>
+                    <p className="text-[11px] text-[#707070] mt-0.5">
+                      Open {selectedWallet.name} on iOS/Android and scan this QR code to authenticate.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* 3. Viewing Key / Auditor Mode */}
+              {selectedWallet.id === 'viewing-key' && (
+                <div className="space-y-3 py-2 text-xs">
+                  <div>
+                    <label className="font-medium text-[#171717] block mb-1">
+                      Unified Address or Viewing Key
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={customKeyInput}
+                      onChange={(e) => setCustomKeyInput(e.target.value)}
+                      placeholder="Paste u1... address, zxviews... or uview... key"
+                      className="w-full p-2.5 rounded-md bg-white border border-[#dfdfdf] font-mono text-xs text-[#171717] focus:outline-none focus:border-[#3ecf8e]"
+                    />
+                  </div>
+                  <p className="text-[11px] text-[#707070]">
+                    Read-only connection for tax calculation, accounting reconciliation, or proof-of-reserves.
+                  </p>
+                </div>
+              )}
+
+              {/* 4. Burner / Dev Wallet */}
+              {selectedWallet.id === 'burner' && (
+                <div className="space-y-3 py-2 text-xs">
+                  <div className="p-3.5 rounded-lg bg-[#fafafa] border border-[#ededed] space-y-1.5">
+                    <span className="font-semibold text-[#171717]">Ephemeral Shielded Test Wallet</span>
+                    <p className="text-[#707070] leading-relaxed">
+                      Instantly creates an in-memory session wallet pre-funded with simulated testnet ZEC. Perfect for testing dApps without needing external extensions.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Bottom Connect Action Button */}
+            <div className="pt-4 border-t border-[#ededed] mt-4 flex items-center justify-between">
+              <span className="text-[11px] text-[#9a9a9a]">
+                End-to-End Encrypted
+              </span>
+
+              <button
+                onClick={handleConnectAction}
+                disabled={isSubmitting}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-[#3ecf8e] text-[#171717] font-semibold text-xs hover:bg-[#24b47e] transition-colors disabled:opacity-50 shadow-sm"
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="w-3.5 h-3.5 border-2 border-[#171717]/30 border-t-[#171717] rounded-full animate-spin" />
+                    <span>Connecting...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>
+                      {selectedWallet.id === 'viewing-key'
+                        ? 'Connect Read-Only'
+                        : selectedWallet.id === 'burner'
+                        ? 'Launch Dev Session'
+                        : `Connect ${selectedWallet.name}`}
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
