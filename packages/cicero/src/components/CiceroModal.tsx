@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Shield,
   Copy,
@@ -81,7 +82,12 @@ export const CiceroModal: React.FC<CiceroModalProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !mounted) return null;
 
   const copyToClipboard = async (text: string, type: 'address' | 'uri' | 'memo') => {
     try {
@@ -101,16 +107,16 @@ export const CiceroModal: React.FC<CiceroModalProps> = ({
 
   const usdValue = convertZecToUsd(amount);
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#171717]/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-[#171717]/60 backdrop-blur-sm transition-opacity z-[99999]"
         onClick={onClose}
       />
 
       {/* Modal Surface - Supabase clean canvas */}
-      <div className="relative w-full max-w-lg bg-white rounded-xl border border-[#ededed] shadow-2xl overflow-hidden z-10 text-[#171717] font-sans animate-in fade-in zoom-in-95 duration-150">
+      <div className="relative w-full max-w-lg bg-white rounded-xl border border-[#ededed] shadow-2xl overflow-hidden z-[100000] text-[#171717] font-sans animate-in fade-in zoom-in-95 duration-150">
         {/* Top Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#ededed] bg-[#fafafa]">
           <div className="flex items-center gap-2.5">
@@ -403,6 +409,7 @@ export const CiceroModal: React.FC<CiceroModalProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

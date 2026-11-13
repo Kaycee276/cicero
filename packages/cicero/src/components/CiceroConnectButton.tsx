@@ -2,8 +2,6 @@ import React from 'react';
 import { Shield, ChevronDown } from 'lucide-react';
 import { useCicero } from '../context/CiceroContext';
 import { truncateAddress } from '../utils/address';
-import { CiceroConnectModal } from './CiceroConnectModal';
-import { CiceroAccountModal } from './CiceroAccountModal';
 
 export interface CiceroConnectButtonProps {
   label?: string;
@@ -100,10 +98,6 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
           </button>
         </div>
       )}
-
-      {/* Connected & Disconnected Modals */}
-      <CiceroConnectModal />
-      <CiceroAccountModal />
     </>
   );
 };

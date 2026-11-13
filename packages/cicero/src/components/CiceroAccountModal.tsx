@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   X,
   Copy,
@@ -40,8 +41,24 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
 
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Escape key handler
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        handleClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, handleClose]);
+
+  if (!isOpen || !mounted) return null;
 
   const copyAddress = async () => {
     if (!address) return;
@@ -54,16 +71,16 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans">
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#171717]/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-[#171717]/60 backdrop-blur-sm transition-opacity z-[99999]"
         onClick={handleClose}
       />
 
       {/* Modal Surface */}
-      <div className="relative w-full max-w-md bg-white rounded-xl border border-[#ededed] shadow-2xl overflow-hidden z-10 text-[#171717] animate-in fade-in zoom-in-95 duration-150">
+      <div className="relative w-full max-w-md bg-white rounded-xl border border-[#ededed] shadow-2xl overflow-hidden z-[100000] text-[#171717] animate-in fade-in zoom-in-95 duration-150">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#ededed] bg-[#fafafa]">
           <div className="flex items-center gap-2">
@@ -227,6 +244,7 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

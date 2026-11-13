@@ -15,6 +15,8 @@ import {
   getDefaultWallets,
 } from '../wallets';
 import { useZcashPrice } from '../hooks/useZcashPrice';
+import { CiceroConnectModal } from '../components/CiceroConnectModal';
+import { CiceroAccountModal } from '../components/CiceroAccountModal';
 
 export interface AccountState {
   address: string | null;
@@ -346,7 +348,13 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
     ]
   );
 
-  return <CiceroContext.Provider value={value}>{children}</CiceroContext.Provider>;
+  return (
+    <CiceroContext.Provider value={value}>
+      {children}
+      <CiceroConnectModal />
+      <CiceroAccountModal />
+    </CiceroContext.Provider>
+  );
 };
 
 export function useCicero(): CiceroContextType {
