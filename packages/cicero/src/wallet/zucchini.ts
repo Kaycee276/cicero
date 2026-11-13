@@ -15,6 +15,7 @@ export type WalletPaymentStatus =
 export interface WalletSession {
   address?: string;
   connected: boolean;
+  balance?: number;
 }
 
 export interface WalletPaymentResult {
@@ -33,6 +34,7 @@ export class ZucchiniWalletAdapter {
   private provider: any = null;
   private _connected = false;
   private _address: string | null = null;
+  private _lastAccounts: any[] = [];
 
   /**
    * Checks whether the Zucchini Wallet extension is installed and its
@@ -195,13 +197,102 @@ export class ZucchiniWalletAdapter {
       }
     }
 
+    this._lastAccounts = connection?.accounts || [];
+
+    // Query live balance via view_balance grant
+    const balance = await this.getBalance({ address });
+
     this._connected = true;
     this._address = address || null;
 
     return {
       address,
       connected: true,
+      balance: balance ?? undefined,
     };
+  }
+
+  /**
+   * Helper to normalize raw balance formats (e.g. number, string, zatoshis, or pool totals).
+   */
+  private parseBalancePayload(payload: any): number | null {
+    if (payload === undefined || payload === null) return null;
+    if (typeof payload === 'number') {
+      return payload > 1000000 ? payload / 100000000 : payload;
+    }
+    if (typeof payload === 'string') {
+      const parsed = parseFloat(payload);
+      if (!isNaN(parsed)) {
+        return parsed > 1000000 ? parsed / 100000000 : parsed;
+      }
+    }
+    if (typeof payload === 'object') {
+      const cand =
+        payload.total ??
+        payload.balance ??
+        payload.amount ??
+        payload.zec ??
+        payload.value ??
+        payload.zatoshis;
+      if (cand !== undefined && cand !== null) {
+        return this.parseBalancePayload(cand);
+      }
+      let sum = 0;
+      let hasPool = false;
+      for (const pool of ['orchard', 'sapling', 'transparent', 'shielded', 'unshielded']) {
+        if (payload[pool] !== undefined) {
+          const v = this.parseBalancePayload(payload[pool]);
+          if (v !== null) {
+            sum += v;
+            hasPool = true;
+          }
+        }
+      }
+      if (hasPool) return sum;
+    }
+    return null;
+  }
+
+  /**
+   * Reads real-time balance from Zucchini provider.
+   */
+  async getBalance(options?: { address?: string; network?: string }): Promise<number | null> {
+    const raw =
+      this.provider ||
+      (typeof window !== 'undefined'
+        ? (window as any).zucchini || (window as any).zcash
+        : null);
+
+    const methods = [
+      'getBalance',
+      'getBalances',
+      'zcash_getBalance',
+      'zcash_getBalances',
+      'view_balance',
+      'getBalanceSummary',
+    ];
+
+    if (raw && typeof raw.request === 'function') {
+      for (const method of methods) {
+        try {
+          const res = await raw.request({ method, params: options });
+          const parsed = this.parseBalancePayload(res);
+          if (parsed !== null) return parsed;
+        } catch {
+          // try next RPC method
+        }
+      }
+    }
+
+    // Inspect cached accounts from connection
+    if (this._lastAccounts && this._lastAccounts.length > 0) {
+      for (const acc of this._lastAccounts) {
+        const parsed = this.parseBalancePayload(acc);
+        if (parsed !== null) return parsed;
+      }
+    }
+
+    return null;
   }
 
   /**

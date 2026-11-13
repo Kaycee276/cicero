@@ -8,6 +8,7 @@ export interface WalletSession {
   network?: ZcashNetwork;
   connected: boolean;
   walletId: string;
+  balance?: number;
 }
 
 export interface SendPaymentParams {
@@ -33,5 +34,6 @@ export interface ZcashWallet {
   isAvailable: () => boolean;
   connect: (options?: { network?: ZcashNetwork }) => Promise<WalletSession>;
   disconnect?: () => Promise<void>;
+  getBalance?: (options?: { address?: string; network?: ZcashNetwork }) => Promise<number | null>;
   sendPayment?: (params: SendPaymentParams) => Promise<SendPaymentResult>;
 }

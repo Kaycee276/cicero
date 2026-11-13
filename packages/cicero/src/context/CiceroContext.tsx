@@ -138,8 +138,10 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
       const targetWallet = walletsRef.current.find((w) => w.id === savedWalletId);
       // If we have a saved address or the wallet is available, restore session immediately
       if (targetWallet && (savedAddress || targetWallet.isAvailable())) {
-        const demoZec = 1.45;
-        const initialUsd = convertZecToUsdRef.current(demoZec);
+        const savedBal = localStorage.getItem('cicero_balance');
+        const parsedBal = savedBal ? parseFloat(savedBal) : null;
+        const activeZec = parsedBal !== null && !isNaN(parsedBal) ? parsedBal : 0;
+        const initialUsd = convertZecToUsdRef.current(activeZec);
 
         setAccount({
           address: savedAddress || null,
@@ -152,10 +154,27 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
         });
 
         setBalance({
-          zec: demoZec,
+          zec: activeZec,
           usd: initialUsd,
           isLoading: false,
         });
+
+        // Background query to sync latest real balance once wallet is ready
+        if (targetWallet.getBalance) {
+          targetWallet
+            .getBalance({ address: savedAddress || undefined, network })
+            .then((freshBal) => {
+              if (freshBal !== null && !isNaN(freshBal)) {
+                setBalance({
+                  zec: freshBal,
+                  usd: convertZecToUsdRef.current(freshBal),
+                  isLoading: false,
+                });
+                localStorage.setItem('cicero_balance', freshBal.toString());
+              }
+            })
+            .catch(() => {});
+        }
       }
     }
   }, [autoConnect]);
@@ -258,13 +277,38 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
           error: null,
         });
 
-        // Demo initial balance
-        const initialZec = 1.25;
+        // Resolve real balance from wallet session or getBalance query
+        let resolvedZec: number | null = session.balance ?? null;
+
+        if (resolvedZec === null && targetWallet.getBalance) {
+          try {
+            resolvedZec = await targetWallet.getBalance({
+              address: resolvedAddress || undefined,
+              network,
+            });
+          } catch {
+            // best effort
+          }
+        }
+
+        if (resolvedZec === null && typeof window !== 'undefined') {
+          const cached = localStorage.getItem('cicero_balance');
+          if (cached && !isNaN(parseFloat(cached))) {
+            resolvedZec = parseFloat(cached);
+          }
+        }
+
+        const activeZec = resolvedZec !== null && !isNaN(resolvedZec) ? resolvedZec : 0;
+
         setBalance({
-          zec: initialZec,
-          usd: convertZecToUsd(initialZec),
+          zec: activeZec,
+          usd: convertZecToUsd(activeZec),
           isLoading: false,
         });
+
+        if (typeof window !== 'undefined' && resolvedZec !== null) {
+          localStorage.setItem('cicero_balance', resolvedZec.toString());
+        }
 
         if (typeof window !== 'undefined') {
           localStorage.setItem('cicero_wallet_id', walletId);
@@ -316,6 +360,7 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
     if (typeof window !== 'undefined') {
       localStorage.removeItem('cicero_wallet_id');
       localStorage.removeItem('cicero_address');
+      localStorage.removeItem('cicero_balance');
     }
 
     setIsAccountModalOpen(false);
@@ -337,15 +382,39 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
   );
 
   const refetchBalance = useCallback(async () => {
+    if (!account.wallet) return;
     setBalance((prev) => ({ ...prev, isLoading: true }));
-    // Simulate query or query light client
-    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    try {
+      let freshZec: number | null = null;
+      if (account.wallet.getBalance) {
+        freshZec = await account.wallet.getBalance({
+          address: account.address || undefined,
+          network,
+        });
+      }
+
+      if (freshZec !== null && !isNaN(freshZec)) {
+        setBalance({
+          zec: freshZec,
+          usd: convertZecToUsd(freshZec),
+          isLoading: false,
+        });
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('cicero_balance', freshZec.toString());
+        }
+        return;
+      }
+    } catch {
+      // best effort
+    }
+
     setBalance((prev) => ({
       ...prev,
       isLoading: false,
       usd: convertZecToUsd(prev.zec),
     }));
-  }, [convertZecToUsd]);
+  }, [account.wallet, account.address, network, convertZecToUsd]);
 
   const openConnectModal = useCallback(() => setIsConnectModalOpen(true), []);
   const closeConnectModal = useCallback(() => setIsConnectModalOpen(false), []);

@@ -19,11 +19,16 @@ export const zucchiniWallet: ZcashWallet = {
       connected: true,
       network: options?.network || 'mainnet',
       walletId: 'zucchini',
+      balance: session.balance,
     };
   },
 
   disconnect: async () => {
     await adapter.disconnect();
+  },
+
+  getBalance: async (options) => {
+    return adapter.getBalance(options);
   },
 
   sendPayment: async (params: SendPaymentParams): Promise<SendPaymentResult> => {
