@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface ZcashPriceState {
   usdPrice: number | null;
@@ -13,12 +13,12 @@ let lastFetchTime = 0;
 const CACHE_DURATION_MS = 60000; // 1 minute
 
 export function useZcashPrice(enabled = true) {
-  const [state, setState] = useState<ZcashPriceState>({
+  const [state, setState] = useState<ZcashPriceState>(() => ({
     usdPrice: cachedPrice,
     loading: !cachedPrice && enabled,
     error: null,
     lastUpdated: lastFetchTime || null,
-  });
+  }));
 
   useEffect(() => {
     if (!enabled) return;
@@ -28,11 +28,14 @@ export function useZcashPrice(enabled = true) {
 
     // Use cached value if fresh
     if (cachedPrice && now - lastFetchTime < CACHE_DURATION_MS) {
-      setState({
-        usdPrice: cachedPrice,
-        loading: false,
-        error: null,
-        lastUpdated: lastFetchTime,
+      setState((prev) => {
+        if (prev.usdPrice === cachedPrice && !prev.loading) return prev;
+        return {
+          usdPrice: cachedPrice,
+          loading: false,
+          error: null,
+          lastUpdated: lastFetchTime,
+        };
       });
       return;
     }
@@ -110,11 +113,14 @@ export function useZcashPrice(enabled = true) {
     };
   }, [enabled]);
 
-  const convertZecToUsd = (zecAmount: number | string): string | null => {
-    const num = typeof zecAmount === 'number' ? zecAmount : parseFloat(zecAmount);
-    if (isNaN(num) || state.usdPrice === null) return null;
-    return (num * state.usdPrice).toFixed(2);
-  };
+  const convertZecToUsd = useCallback(
+    (zecAmount: number | string): string | null => {
+      const num = typeof zecAmount === 'number' ? zecAmount : parseFloat(zecAmount);
+      if (isNaN(num) || state.usdPrice === null) return null;
+      return (num * state.usdPrice).toFixed(2);
+    },
+    [state.usdPrice]
+  );
 
   return {
     ...state,

@@ -1,3 +1,5 @@
+import { generateZip321Uri } from '../utils/zip321';
+
 export type WalletConnectionStatus =
   | 'disconnected'
   | 'connecting'
@@ -23,15 +25,14 @@ export interface WalletPaymentResult {
 /**
  * Adapter for the Zucchini Wallet browser extension.
  *
- * Zucchini injects a provider via @zucchinifi/dapp-sdk that exposes:
- *   - connect()         → prompts user for site permissions
- *   - requestPayment()  → opens the send-review screen with ZIP-321 params
- *
- * This adapter wraps that SDK so Cicero components can call it cleanly.
+ * Zucchini injects a provider onto window.zucchini (or window.zcash) and implements
+ * the typed @zucchinifi/dapp-sdk Zcash contract.
  */
 export class ZucchiniWalletAdapter {
+  private client: any = null;
   private provider: any = null;
   private _connected = false;
+  private _address: string | null = null;
 
   /**
    * Checks whether the Zucchini Wallet extension is installed and its
@@ -39,72 +40,172 @@ export class ZucchiniWalletAdapter {
    */
   static isAvailable(): boolean {
     if (typeof window === 'undefined') return false;
-    // Zucchini injects onto window.zcash or window.zucchini
-    return !!(
-      (window as any).zcash ||
-      (window as any).zucchini
-    );
+    const win = window as any;
+    if (win.zucchini && typeof win.zucchini.request === 'function') {
+      return true;
+    }
+    if (win.zcash) {
+      return true;
+    }
+    return !!win.zucchini;
   }
 
   /**
-   * Lazily imports and initialises the ZucchiniWalletProvider.
-   * Falls back to the raw window.zcash / window.zucchini global
-   * if the npm package isn't bundled.
+   * Subscribes to wallet readiness. Fires callback immediately if already available,
+   * or listens for injection events / polls briefly for late extension initialization.
    */
-  private async getProvider(): Promise<any> {
-    if (this.provider) return this.provider;
+  static onReady(callback: () => void): () => void {
+    if (typeof window === 'undefined') return () => {};
 
-    try {
-      // Try the official npm SDK first
-      const sdk = await import('@zucchinifi/dapp-sdk');
-      const Provider = (sdk as any).ZucchiniWalletProvider ?? (sdk as any).default;
-      if (Provider) {
-        this.provider = new Provider();
-        return this.provider;
-      }
-    } catch {
-      // SDK not bundled – fall through to raw window global
+    if (ZucchiniWalletAdapter.isAvailable()) {
+      callback();
+      return () => {};
     }
 
-    // Direct window global fallback
-    if (typeof window !== 'undefined') {
-      const win = window as any;
-      if (win.zcash) {
-        this.provider = win.zcash;
-        return this.provider;
+    const handler = () => callback();
+    window.addEventListener('zucchini#initialized', handler);
+    window.addEventListener('zcash#initialized', handler);
+
+    // Poll every 150ms for up to 3.5 seconds
+    const interval = setInterval(() => {
+      if (ZucchiniWalletAdapter.isAvailable()) {
+        clearInterval(interval);
+        callback();
       }
-      if (win.zucchini) {
-        this.provider = win.zucchini;
-        return this.provider;
+    }, 150);
+
+    const timeout = setTimeout(() => {
+      clearInterval(interval);
+    }, 3500);
+
+    return () => {
+      window.removeEventListener('zucchini#initialized', handler);
+      window.removeEventListener('zcash#initialized', handler);
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }
+
+  /**
+   * Discovers and initializes the Zucchini Client using @zucchinifi/dapp-sdk/zcash
+   * with graceful fallback to raw window.zucchini / window.zcash globals.
+   */
+  private async getClient(): Promise<any> {
+    if (this.client) return this.client;
+
+    if (typeof window === 'undefined') {
+      throw new Error('Zucchini Wallet is only available in browser environments.');
+    }
+
+    const win = window as any;
+    let rawProvider = win.zucchini || win.zcash;
+
+    try {
+      // Import the official dapp SDK
+      const { discoverZucchiniProvider, createZucchiniClient } = await import(
+        '@zucchinifi/dapp-sdk/zcash'
+      );
+
+      const discovered = discoverZucchiniProvider() || rawProvider;
+      if (discovered) {
+        this.provider = discovered;
+        this.client = createZucchiniClient(discovered);
+        return this.client;
       }
+    } catch {
+      // SDK import fallback to direct window object wrapping
+    }
+
+    if (rawProvider) {
+      this.provider = rawProvider;
+      // Synthetic fallback client
+      this.client = {
+        async connect(req?: any) {
+          if (typeof rawProvider.connect === 'function') {
+            return rawProvider.connect(req?.permissions || ['view_addresses', 'view_balance', 'send_transaction']);
+          }
+          if (typeof rawProvider.request === 'function') {
+            return rawProvider.request({ method: 'connect', params: req });
+          }
+          return { connected: true };
+        },
+        async disconnect() {
+          if (typeof rawProvider.disconnect === 'function') {
+            return rawProvider.disconnect();
+          }
+        },
+        async requestPayment(uri: string) {
+          if (typeof rawProvider.request === 'function') {
+            const res = await rawProvider.request({
+              method: 'zcash_requestPayment',
+              params: { uri },
+            });
+            return { txid: res?.txid || res?.txId || res };
+          }
+          throw new Error('Direct ZIP-321 send not supported by provider');
+        },
+        async getAddresses() {
+          if (typeof rawProvider.request === 'function') {
+            return rawProvider.request({ method: 'getAddresses' });
+          }
+          return {};
+        },
+        on(event: string, listener: (val: any) => void) {
+          rawProvider.on?.(event, listener);
+          return () => rawProvider.off?.(event, listener);
+        },
+      };
+      return this.client;
     }
 
     throw new Error(
-      'Zucchini Wallet extension not detected. Please install it from the Chrome Web Store.'
+      'Zucchini Wallet extension not detected. Please install it from the Chrome Web Store or ensure the side-panel is open.'
     );
   }
 
   /**
-   * Requests a connection to the user's Zucchini wallet.
-   * This prompts the user inside the extension side-panel for permission.
-   * Connection does NOT authorize transactions – each payment is a separate approval.
+   * Requests connection with view_addresses and send_transaction permissions.
+   * Resolves the user's active Shielded Unified Address.
    */
   async connect(): Promise<WalletSession> {
-    const provider = await this.getProvider();
-    const session = await provider.connect();
+    const client = await this.getClient();
+
+    const connection = await client.connect({
+      permissions: ['view_addresses', 'view_balance', 'send_transaction'],
+    });
+
+    let address: string | undefined = undefined;
+
+    // Check connection accounts array
+    if (connection?.accounts && connection.accounts.length > 0) {
+      address = connection.accounts[0].address;
+    }
+
+    // If address not in connection result, query getAddresses() explicitly
+    if (!address && typeof client.getAddresses === 'function') {
+      try {
+        const addresses = await client.getAddresses();
+        address =
+          addresses?.unified ||
+          addresses?.orchard ||
+          addresses?.sapling ||
+          addresses?.transparent;
+      } catch {
+        // best effort
+      }
+    }
+
     this._connected = true;
+    this._address = address || null;
+
     return {
-      address: session?.address ?? undefined,
+      address,
       connected: true,
     };
   }
 
   /**
-   * Sends a ZIP-321 payment request to Zucchini for user review & approval.
-   * The wallet opens its standard send-review screen; the user must explicitly
-   * review the recipient, amount, memo, and fee before signing.
-   *
-   * Returns a transaction ID upon broadcast submission (note: submission ≠ confirmation).
+   * Sends payment via standard ZIP-321 URI requestPayment or transaction fallback.
    */
   async requestPayment(params: {
     recipient: string;
@@ -115,8 +216,7 @@ export class ZucchiniWalletAdapter {
       await this.connect();
     }
 
-    const provider = await this.getProvider();
-
+    const client = await this.getClient();
     const numAmount =
       typeof params.amount === 'number'
         ? params.amount
@@ -126,38 +226,87 @@ export class ZucchiniWalletAdapter {
       throw new Error('Payment amount must be a positive number.');
     }
 
-    const paymentRequest: Record<string, any> = {
-      recipient: params.recipient.trim(),
-      amount: numAmount.toString(),
-    };
+    // 1. Generate standard ZIP-321 URI
+    const uri = generateZip321Uri({
+      address: params.recipient.trim(),
+      amount: numAmount,
+      memo: params.memo?.trim(),
+    });
 
-    if (params.memo && params.memo.trim().length > 0) {
-      paymentRequest.memo = params.memo.trim();
+    try {
+      if (typeof client.requestPayment === 'function') {
+        const res = await client.requestPayment(uri);
+        const txId = res?.txid || res?.txId || '';
+        return { txId, submitted: true };
+      }
+    } catch (e) {
+      // If requestPayment fails or is unsupported, try requestTransaction
     }
 
-    const txResponse = await provider.requestPayment(paymentRequest);
+    // 2. Fallback: requestTransaction
+    if (typeof client.requestTransaction === 'function') {
+      const zatoshis = BigInt(Math.round(numAmount * 100000000));
+      const res = await client.requestTransaction({
+        amountZatoshis: zatoshis,
+        recipient: params.recipient.trim(),
+        memo: params.memo?.trim(),
+      });
+      return { txId: res?.txid || '', submitted: true };
+    }
 
-    return {
-      txId: txResponse?.txId ?? txResponse?.transactionId ?? txResponse?.hash ?? '',
-      submitted: true,
-    };
+    throw new Error('Zucchini Wallet does not support payment dispatch.');
   }
 
   /**
-   * Disconnects the current session (if the provider supports it).
+   * Subscribes to accountsChanged events.
+   */
+  onAccountsChanged(listener: (accounts: any) => void): () => void {
+    if (this.client?.on) {
+      return this.client.on('accountsChanged', listener);
+    }
+    if (this.provider?.on) {
+      this.provider.on('accountsChanged', listener);
+      return () => this.provider?.off?.('accountsChanged', listener);
+    }
+    return () => {};
+  }
+
+  /**
+   * Subscribes to disconnect events.
+   */
+  onDisconnect(listener: () => void): () => void {
+    if (this.client?.on) {
+      return this.client.on('disconnect', listener);
+    }
+    if (this.provider?.on) {
+      this.provider.on('disconnect', listener);
+      return () => this.provider?.off?.('disconnect', listener);
+    }
+    return () => {};
+  }
+
+  /**
+   * Disconnects the current session.
    */
   async disconnect(): Promise<void> {
     try {
-      if (this.provider?.disconnect) {
+      if (this.client?.disconnect) {
+        await this.client.disconnect();
+      } else if (this.provider?.disconnect) {
         await this.provider.disconnect();
       }
     } catch {
       // best-effort
     }
     this._connected = false;
+    this._address = null;
   }
 
   get isConnected(): boolean {
     return this._connected;
+  }
+
+  get address(): string | null {
+    return this._address;
   }
 }

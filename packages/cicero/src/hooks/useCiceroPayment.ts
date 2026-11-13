@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { PaymentStatus, ZcashNetwork } from '../types';
 import { generateZip321Uri, getWalletDeepLinks } from '../utils/zip321';
 import { getAddressType, isShieldedAddress, validateMemoSupport } from '../utils/address';
@@ -31,6 +31,14 @@ export function useCiceroPayment({
   onError,
   onStatusChange,
 }: UseCiceroPaymentOptions) {
+  // Callback refs to prevent infinite re-render loops from inline handler props
+  const onSuccessRef = useRef(onSuccess);
+  onSuccessRef.current = onSuccess;
+  const onErrorRef = useRef(onError);
+  onErrorRef.current = onError;
+  const onStatusChangeRef = useRef(onStatusChange);
+  onStatusChangeRef.current = onStatusChange;
+
   const [status, setStatus] = useState<PaymentStatus>('pending');
   const [txId, setTxId] = useState<string | null>(null);
   const [secondsRemaining, setSecondsRemaining] = useState<number>(expiresInSeconds);
@@ -54,11 +62,17 @@ export function useCiceroPayment({
     [recipient, memo]
   );
 
+  const lastWarningRef = useRef<string | null>(null);
   useEffect(() => {
     if (!memoValidation.valid && memoValidation.warning) {
-      onError?.(new Error(memoValidation.warning));
+      if (lastWarningRef.current !== memoValidation.warning) {
+        lastWarningRef.current = memoValidation.warning;
+        onErrorRef.current?.(new Error(memoValidation.warning));
+      }
+    } else {
+      lastWarningRef.current = null;
     }
-  }, [memoValidation, onError]);
+  }, [memoValidation.valid, memoValidation.warning]);
 
   // ZIP-321 URI & Deep links
   const zip321Uri = useMemo(() => {
@@ -72,14 +86,11 @@ export function useCiceroPayment({
 
   const deepLinks = useMemo(() => getWalletDeepLinks(zip321Uri), [zip321Uri]);
 
-  // Update status and fire callback
-  const updateStatus = useCallback(
-    (newStatus: PaymentStatus) => {
-      setStatus(newStatus);
-      onStatusChange?.(newStatus);
-    },
-    [onStatusChange]
-  );
+  // Stable update status and fire callback
+  const updateStatus = useCallback((newStatus: PaymentStatus) => {
+    setStatus(newStatus);
+    onStatusChangeRef.current?.(newStatus);
+  }, []);
 
   // Expiration countdown
   useEffect(() => {
@@ -139,7 +150,7 @@ export function useCiceroPayment({
       // Brief delay to show the "detected" animation, then confirm
       setTimeout(() => {
         updateStatus('confirmed');
-        onSuccess?.({
+        onSuccessRef.current?.({
           txId: result.txId,
           amount: isNaN(numAmount) ? 0 : numAmount,
           memo,
@@ -148,10 +159,10 @@ export function useCiceroPayment({
       }, 1500);
     } catch (err: unknown) {
       const error = err instanceof Error ? err : new Error('Zucchini payment failed');
-      onError?.(error);
+      onErrorRef.current?.(error);
       setZucchiniPaying(false);
     }
-  }, [recipient, amount, memo, zucchiniAdapter, updateStatus, onSuccess, onError]);
+  }, [recipient, amount, memo, zucchiniAdapter, updateStatus]);
 
   // Demo simulator functions (allows judges and developers to test the payment flow)
   const simulateDetection = useCallback(() => {
@@ -163,13 +174,13 @@ export function useCiceroPayment({
       setTxId(mockTxId);
       updateStatus('confirmed');
       const numAmount = typeof amount === 'number' ? amount : parseFloat(amount);
-      onSuccess?.({
+      onSuccessRef.current?.({
         txId: mockTxId,
         amount: isNaN(numAmount) ? 0 : numAmount,
         memo,
       });
     }, 2000);
-  }, [amount, memo, onSuccess, updateStatus]);
+  }, [amount, memo, updateStatus]);
 
   return {
     status,

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useCicero } from '../context/CiceroContext';
 import { CiceroQRCode } from './CiceroQRCode';
+import { ZucchiniWalletAdapter } from '../wallet/zucchini';
 
 export interface CiceroConnectModalProps {
   isOpen?: boolean;
@@ -37,10 +38,29 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
+  const [, setAvailabilityTick] = useState<number>(0);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Live detection of extension readiness (e.g. user unlocks wallet while modal is open)
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const cleanupReady = ZucchiniWalletAdapter.onReady(() => {
+      setAvailabilityTick((t) => t + 1);
+    });
+
+    const interval = setInterval(() => {
+      setAvailabilityTick((t) => t + 1);
+    }, 600);
+
+    return () => {
+      cleanupReady();
+      clearInterval(interval);
+    };
+  }, [isOpen]);
 
   // Escape key handler
   useEffect(() => {

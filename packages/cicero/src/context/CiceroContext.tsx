@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useCallback,
   useMemo,
+  useRef,
 } from 'react';
 import { ZcashNetwork } from '../types';
 import {
@@ -15,6 +16,7 @@ import {
   getDefaultWallets,
 } from '../wallets';
 import { useZcashPrice } from '../hooks/useZcashPrice';
+import { ZucchiniWalletAdapter } from '../wallet/zucchini';
 import { CiceroConnectModal } from '../components/CiceroConnectModal';
 import { CiceroAccountModal } from '../components/CiceroAccountModal';
 
@@ -113,7 +115,14 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
   // Price oracle
   const { convertZecToUsd } = useZcashPrice(true);
 
-  // Local storage restoration
+  // Stable refs for props/hooks to prevent infinite re-render loops
+  const convertZecToUsdRef = useRef(convertZecToUsd);
+  convertZecToUsdRef.current = convertZecToUsd;
+
+  const walletsRef = useRef(wallets);
+  walletsRef.current = wallets;
+
+  // Local storage restoration on initial mount
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -126,8 +135,12 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
     }
 
     if (autoConnect && savedWalletId) {
-      const targetWallet = wallets.find((w) => w.id === savedWalletId);
-      if (targetWallet && (targetWallet.isAvailable() || savedAddress)) {
+      const targetWallet = walletsRef.current.find((w) => w.id === savedWalletId);
+      // If we have a saved address or the wallet is available, restore session immediately
+      if (targetWallet && (savedAddress || targetWallet.isAvailable())) {
+        const demoZec = 1.45;
+        const initialUsd = convertZecToUsdRef.current(demoZec);
+
         setAccount({
           address: savedAddress || null,
           viewingKey: null,
@@ -138,24 +151,60 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
           error: null,
         });
 
-        // Set simulated initial balance for demo
-        const demoZec = 1.45;
         setBalance({
           zec: demoZec,
-          usd: convertZecToUsd(demoZec),
+          usd: initialUsd,
           isLoading: false,
         });
       }
     }
-  }, [autoConnect, wallets, convertZecToUsd]);
+  }, [autoConnect]);
+
+  // Live Zucchini event listener: detects unlock, account changes, or late injection
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Listen for extension readiness (handles late injection without disconnect)
+    const cleanupReady = ZucchiniWalletAdapter.onReady(() => {
+      const savedWalletId = localStorage.getItem('cicero_wallet_id');
+      const savedAddress = localStorage.getItem('cicero_address');
+
+      if (savedWalletId === 'zucchini' && autoConnect) {
+        const zucchini = walletsRef.current.find((w) => w.id === 'zucchini');
+        if (zucchini) {
+          // If extension became ready, ensure connected state is active
+          setAccount((prev) => {
+            if (prev.isConnected && prev.wallet?.id === 'zucchini') return prev;
+            return {
+              address: savedAddress || null,
+              viewingKey: null,
+              isConnected: true,
+              isConnecting: false,
+              status: 'connected',
+              wallet: zucchini,
+              error: null,
+            };
+          });
+        }
+      }
+    });
+
+    return () => {
+      cleanupReady();
+    };
+  }, [autoConnect]);
 
   // Update USD balance when ZEC price updates
   useEffect(() => {
     if (account.isConnected) {
-      setBalance((prev) => ({
-        ...prev,
-        usd: convertZecToUsd(prev.zec),
-      }));
+      setBalance((prev) => {
+        const newUsd = convertZecToUsd(prev.zec);
+        if (prev.usd === newUsd) return prev; // Prevent unnecessary state churn
+        return {
+          ...prev,
+          usd: newUsd,
+        };
+      });
     }
   }, [account.isConnected, balance.zec, convertZecToUsd]);
 
