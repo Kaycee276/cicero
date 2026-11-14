@@ -591,19 +591,31 @@ export function ExtensionCard() {
                       <td className="py-2 px-3 font-semibold text-[#171717] dark:text-white">🥒 Zucchini Wallet</td>
                       <td className="py-2 px-3 text-[#707070] dark:text-[#a1a1aa]">Browser Extension</td>
                       <td className="py-2 px-3 font-mono text-[#24b47e] dark:text-[#3ecf8e]">1-Click Sidepanel Approval</td>
-                      <td className="py-2 px-3">Orchard & Sapling</td>
+                      <td className="py-2 px-3">Mainnet & Testnet (Orchard & Sapling)</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 px-3 font-semibold text-[#171717] dark:text-white">🖤 Noir Wallet</td>
+                      <td className="py-2 px-3 text-[#707070] dark:text-[#a1a1aa]">Browser Extension</td>
+                      <td className="py-2 px-3 font-mono text-[#24b47e] dark:text-[#3ecf8e]">1-Click In-Browser Popup</td>
+                      <td className="py-2 px-3">Mainnet & Testnet (Shielded & ZECFi)</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 px-3 font-semibold text-[#171717] dark:text-white">🔷 Zelcore</td>
+                      <td className="py-2 px-3 text-[#707070] dark:text-[#a1a1aa]">Multi-Asset Extension</td>
+                      <td className="py-2 px-3 font-mono text-amber-600 dark:text-amber-400">Address Input (No ZEC dApp RPC)</td>
+                      <td className="py-2 px-3">Mainnet Only (Transparent t1)</td>
                     </tr>
                     <tr>
                       <td className="py-2 px-3 font-semibold text-[#171717] dark:text-white">🛡️ Zashi</td>
                       <td className="py-2 px-3 text-[#707070] dark:text-[#a1a1aa]">Mobile (ECC)</td>
                       <td className="py-2 px-3 font-mono text-[#707070] dark:text-[#a1a1aa]">ZIP-321 QR Scan</td>
-                      <td className="py-2 px-3">Orchard & Sapling</td>
+                      <td className="py-2 px-3">Mainnet (Orchard & Sapling)</td>
                     </tr>
                     <tr>
                       <td className="py-2 px-3 font-semibold text-[#171717] dark:text-white">📱 Ywallet</td>
                       <td className="py-2 px-3 text-[#707070] dark:text-[#a1a1aa]">Mobile & Desktop</td>
                       <td className="py-2 px-3 font-mono text-[#707070] dark:text-[#a1a1aa]">ZIP-321 QR Scan</td>
-                      <td className="py-2 px-3">Orchard & Sapling</td>
+                      <td className="py-2 px-3">Mainnet & Testnet (Orchard & Sapling)</td>
                     </tr>
                     <tr>
                       <td className="py-2 px-3 font-semibold text-[#171717] dark:text-white">👁️ Viewing Key</td>

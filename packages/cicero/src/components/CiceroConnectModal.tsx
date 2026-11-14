@@ -94,7 +94,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
           throw new Error('Please enter a valid Unified Address or Viewing Key.');
         }
         await connect(selectedWallet.id, customKeyInput.trim());
-      } else if (selectedWallet.id === 'zelcore') {
+      } else if (selectedWallet.id === 'zelcore' || selectedWallet.id === 'noir') {
         await connect(selectedWallet.id, customKeyInput.trim() || undefined);
       } else {
         await connect(selectedWallet.id);
@@ -264,23 +264,82 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                 </div>
               )}
 
-              {/* 2. Zelcore Wallet (Multi-Asset Browser Extension) */}
-              {selectedWallet.id === 'zelcore' && (
+              {/* 2. Noir Wallet (Native Zcash Privacy Browser Extension) */}
+              {selectedWallet.id === 'noir' && (
                 <div className="space-y-4 py-2">
                   {isAvailable ? (
                     <div className="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-950 dark:text-emerald-200 space-y-2">
                       <div className="flex items-center gap-2 font-semibold">
                         <Sparkles className="w-4 h-4 text-[#24b47e]" />
-                        <span>Zelcore Extension Detected</span>
+                        <span>Noir Wallet Extension Detected</span>
                       </div>
                       <p className="text-emerald-800 dark:text-emerald-300 leading-relaxed">
-                        Zelcore browser extension was detected. Click connect to authorize, or specify your Zelcore ZEC address below.
+                        Noir Wallet extension was detected. Clicking connect will prompt your Noir extension popup to authorize this application.
                       </p>
                     </div>
                   ) : (
                     <div className="p-4 rounded-lg bg-[#fafafa] dark:bg-[#1f1f1f] border border-[#ededed] dark:border-[#2b2b2b] text-xs text-[#707070] dark:text-[#a1a1aa] space-y-3">
                       <p>
-                        Zelcore browser extension was not detected on this page. If you recently installed it, please refresh your tab or paste your Zelcore ZEC address below.
+                        Noir Wallet extension was not detected in this browser. Install it to enable 1-click in-browser shielded Zcash approvals.
+                      </p>
+                      {selectedWallet.downloadUrl && (
+                        <a
+                          href={selectedWallet.downloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#171717] dark:bg-[#2a2a2a] text-white text-xs font-medium hover:bg-[#212121] dark:hover:bg-[#333]"
+                        >
+                          <span>Install Noir from Chrome Web Store</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="space-y-1.5 text-xs">
+                    <label className="font-medium text-[#171717] dark:text-white block">
+                      Orchard / Unified Address (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={customKeyInput}
+                      onChange={(e) => setCustomKeyInput(e.target.value)}
+                      placeholder="Paste u1... address from Noir (or connect via popup)"
+                      className="w-full p-2.5 rounded-md bg-white dark:bg-[#141414] border border-[#dfdfdf] dark:border-[#333] font-mono text-xs text-[#171717] dark:text-white focus:outline-none focus:border-[#3ecf8e]"
+                    />
+                    <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa]">
+                      Noir Wallet supports zero-knowledge shielded Orchard pools and ZECFi applications.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* 3. Zelcore Wallet (Multi-Asset Browser Extension) */}
+              {selectedWallet.id === 'zelcore' && (
+                <div className="space-y-4 py-2">
+                  <div className="p-3.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 text-xs text-amber-900 dark:text-amber-200 space-y-1.5">
+                    <div className="flex items-center gap-1.5 font-semibold">
+                      <span>⚠️ Zelcore Compatibility Note</span>
+                    </div>
+                    <p className="text-[11px] leading-relaxed">
+                      Zelcore is a multi-asset wallet operating on <strong>Mainnet only</strong> for transparent Zcash (<code className="font-mono">t1...</code>). The Zelcore browser extension does <em>not</em> expose an in-browser Zcash dApp signing API (it only provides EVM/Solana injection). Enter your Zelcore <code className="font-mono">t1</code> address below to track balances and generate payment requests.
+                    </p>
+                  </div>
+
+                  {isAvailable ? (
+                    <div className="p-3.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-950 dark:text-emerald-200 space-y-1">
+                      <div className="flex items-center gap-2 font-semibold">
+                        <Sparkles className="w-3.5 h-3.5 text-[#24b47e]" />
+                        <span>Zelcore Extension Installed</span>
+                      </div>
+                      <p className="text-emerald-800 dark:text-emerald-300 text-[11px] leading-relaxed">
+                        Extension detected. Paste your Zelcore ZEC transparent address below to complete connection.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="p-3.5 rounded-lg bg-[#fafafa] dark:bg-[#1f1f1f] border border-[#ededed] dark:border-[#2b2b2b] text-xs text-[#707070] dark:text-[#a1a1aa] space-y-2">
+                      <p className="text-[11px]">
+                        Zelcore browser extension not detected. Ensure it is enabled in your browser or download it from the official website.
                       </p>
                       {selectedWallet.downloadUrl && (
                         <a
@@ -298,7 +357,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
 
                   <div className="space-y-1.5 text-xs">
                     <label className="font-medium text-[#171717] dark:text-white block">
-                      Zelcore ZEC Address (Optional)
+                      Zelcore ZEC Address (Required for Zelcore)
                     </label>
                     <input
                       type="text"
@@ -308,13 +367,13 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                       className="w-full p-2.5 rounded-md bg-white dark:bg-[#141414] border border-[#dfdfdf] dark:border-[#333] font-mono text-xs text-[#171717] dark:text-white focus:outline-none focus:border-[#3ecf8e]"
                     />
                     <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa]">
-                      Zelcore manages transparent ZEC addresses (t1). Cicero connects to read balances and generate payment requests.
+                      Open your Zelcore app/extension, copy your ZEC address (<code className="font-mono">t1...</code>), and paste it here.
                     </p>
                   </div>
                 </div>
               )}
 
-              {/* 3. Mobile Wallets (Zashi or Ywallet via ZIP-321 QR) */}
+              {/* 4. Mobile Wallets (Zashi or Ywallet via ZIP-321 QR) */}
               {(selectedWallet.id === 'zashi' || selectedWallet.id === 'ywallet') && (
                 <div className="text-center space-y-3 py-1">
                   <div className="flex justify-center p-3 bg-white rounded-lg inline-block mx-auto border border-[#ededed] dark:border-[#333]">
