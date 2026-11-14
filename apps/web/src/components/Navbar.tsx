@@ -7,7 +7,15 @@ import { useStudioSettings } from '@/context/StudioSettingsContext';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { variant, size, showBalance, showNetwork } = useStudioSettings();
+  const {
+    variant,
+    size,
+    radius,
+    label,
+    showBalance,
+    showNetwork,
+    showIcon,
+  } = useStudioSettings();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[#ededed] bg-white/95 backdrop-blur-sm">
@@ -59,8 +67,11 @@ export const Navbar: React.FC = () => {
           <CiceroConnectButton
             variant={variant}
             size={size}
+            radius={radius}
+            label={label}
             showBalance={showBalance}
             showNetwork={showNetwork}
+            showIcon={showIcon}
           />
         </div>
 
@@ -121,8 +132,11 @@ export const Navbar: React.FC = () => {
               <CiceroConnectButton
                 variant={variant}
                 size={size}
+                radius={radius}
+                label={label}
                 showBalance={showBalance}
                 showNetwork={showNetwork}
+                showIcon={showIcon}
                 className="w-full"
               />
             </div>

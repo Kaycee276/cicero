@@ -2,7 +2,17 @@ export type ZcashAddressType = 'unified' | 'sapling' | 'transparent' | 'unknown'
 
 export type ZcashNetwork = 'mainnet' | 'testnet';
 
-export type CiceroTheme = 'supabase' | 'emerald' | 'dark' | 'light';
+export type CiceroTheme = 'supabase' | 'emerald' | 'dark' | 'light' | 'gold' | 'cyber';
+
+export type CiceroButtonVariant =
+  | 'primary'
+  | 'outline'
+  | 'dark'
+  | 'ghost'
+  | 'gradient'
+  | 'gold';
+
+export type CiceroButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 
 export interface Zip321PaymentRequest {
   address: string;

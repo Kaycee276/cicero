@@ -56,4 +56,6 @@ export type {
   ZcashNetwork,
   ZcashAddressType,
   CiceroTheme,
+  CiceroButtonVariant,
+  CiceroButtonRadius,
 } from './types';
