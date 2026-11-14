@@ -1,12 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Shield, Github, Menu, X, ArrowUpRight, Sun, Moon } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Shield, Github, Menu, X, ArrowUpRight, Sun, Moon, Bot } from 'lucide-react';
 import { CiceroConnectButton } from '@cicero-zcash/react';
 import { useStudioSettings } from '@/context/StudioSettingsContext';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isDocs = pathname === '/docs';
+
   const {
     variant,
     size,
@@ -19,12 +24,16 @@ export const Navbar: React.FC = () => {
     toggleTheme,
   } = useStudioSettings();
 
+  const studioHref = isDocs ? '/#playground' : '#playground';
+  const featuresHref = isDocs ? '/#features' : '#features';
+  const useCasesHref = isDocs ? '/#use-cases' : '#use-cases';
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[#ededed] dark:border-[#262626] bg-white/95 dark:bg-[#121212]/95 backdrop-blur-sm transition-colors duration-200">
       <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand / Logo */}
         <div className="flex items-center gap-3">
-          <a href="#" className="flex items-center gap-2.5 group">
+          <Link href="/" className="flex items-center gap-2.5 group">
             <div className="w-8 h-8 rounded-[6px] bg-[#171717] dark:bg-white flex items-center justify-center text-[#3ecf8e] dark:text-[#171717] transition-transform group-hover:scale-105">
               <Shield className="w-4 h-4 fill-[#3ecf8e] dark:fill-[#171717]" />
             </div>
@@ -36,35 +45,46 @@ export const Navbar: React.FC = () => {
                 Zcash
               </span>
             </div>
-          </a>
+          </Link>
         </div>
 
         {/* Desktop Nav Links */}
         <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-[#707070] dark:text-[#a1a1aa]">
           <a
-            href="#playground"
+            href={studioHref}
             className="hover:text-[#171717] dark:hover:text-white transition-colors"
           >
             Studio
           </a>
           <a
-            href="#features"
+            href={featuresHref}
             className="hover:text-[#171717] dark:hover:text-white transition-colors"
           >
             Protocol Features
           </a>
           <a
-            href="#use-cases"
+            href={useCasesHref}
             className="hover:text-[#171717] dark:hover:text-white transition-colors"
           >
             Use Cases
           </a>
-          <a
-            href="#docs"
-            className="hover:text-[#171717] dark:hover:text-white transition-colors"
+          <Link
+            href="/docs"
+            className={`transition-colors flex items-center gap-1 ${
+              isDocs
+                ? 'text-[#3ecf8e] font-semibold'
+                : 'hover:text-[#171717] dark:hover:text-white'
+            }`}
           >
-            Documentation
-          </a>
+            <span>Documentation</span>
+          </Link>
+          <Link
+            href="/docs#ai-agent"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#3ecf8e]/10 border border-[#3ecf8e]/30 text-xs font-mono text-[#24b47e] dark:text-[#3ecf8e] hover:bg-[#3ecf8e]/20 transition-all"
+          >
+            <Bot className="w-3.5 h-3.5" />
+            <span>AI Skill</span>
+          </Link>
         </nav>
 
         {/* Right CTA Actions */}
@@ -137,33 +157,41 @@ export const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="sm:hidden border-b border-[#ededed] dark:border-[#262626] bg-white dark:bg-[#121212] px-4 pt-3 pb-5 space-y-3 animate-in slide-in-from-top-2 duration-150">
           <a
-            href="#playground"
+            href={studioHref}
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm font-medium text-[#171717] dark:text-[#ededed] py-2"
           >
             Design Studio
           </a>
           <a
-            href="#features"
+            href={featuresHref}
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm font-medium text-[#171717] dark:text-[#ededed] py-2"
           >
             Protocol Features
           </a>
           <a
-            href="#use-cases"
+            href={useCasesHref}
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm font-medium text-[#171717] dark:text-[#ededed] py-2"
           >
             Use Cases
           </a>
-          <a
-            href="#docs"
+          <Link
+            href="/docs"
             onClick={() => setMobileMenuOpen(false)}
             className="block text-sm font-medium text-[#171717] dark:text-[#ededed] py-2"
           >
             Documentation
-          </a>
+          </Link>
+          <Link
+            href="/docs#ai-agent"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 text-sm font-medium text-[#24b47e] dark:text-[#3ecf8e] py-2"
+          >
+            <Bot className="w-4 h-4" />
+            <span>AI Skill & Prompts</span>
+          </Link>
 
           <div className="pt-2 border-t border-[#ededed] dark:border-[#262626] flex flex-col gap-2.5">
             <a

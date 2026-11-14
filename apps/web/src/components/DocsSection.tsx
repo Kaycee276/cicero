@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { BookOpen, Copy, Check, Terminal, ExternalLink } from 'lucide-react';
+import Link from 'next/link';
+import { BookOpen, Copy, Check, Terminal, ExternalLink, Bot, ArrowRight, Sparkles } from 'lucide-react';
 
 export const DocsSection: React.FC = () => {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
@@ -145,16 +146,35 @@ export function ZucchiniConnect() {
   return (
     <section id="docs" className="py-16 sm:py-20 bg-white dark:bg-[#121212] border-b border-[#ededed] dark:border-[#262626] transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <span className="text-xs font-mono text-[#24b47e] dark:text-[#3ecf8e] uppercase tracking-wider">
-            API & Documentation
-          </span>
-          <h2 className="display-lg text-[#171717] dark:text-white tracking-tight mt-2">
-            Developer Reference
-          </h2>
-          <p className="mt-3 text-sm sm:text-base text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
-            Everything you need to integrate Zcash wallet connection into your React applications.
-          </p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
+          <div className="max-w-2xl">
+            <span className="text-xs font-mono text-[#24b47e] dark:text-[#3ecf8e] uppercase tracking-wider">
+              API & Documentation
+            </span>
+            <h2 className="display-lg text-[#171717] dark:text-white tracking-tight mt-2">
+              Developer Reference
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
+              Everything you need to integrate Zcash wallet connection into your React applications.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/docs"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[6px] bg-[#3ecf8e] text-[#171717] font-semibold text-xs hover:bg-[#24b47e] transition-colors shadow-sm"
+            >
+              <span>Explore Dedicated Docs Page</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/docs#ai-agent"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[6px] bg-[#1c1c1c] dark:bg-[#202020] border border-[#2b2b2b] dark:border-[#333] text-white font-medium text-xs hover:border-[#3ecf8e] transition-colors shadow-sm"
+            >
+              <Bot className="w-3.5 h-3.5 text-[#3ecf8e]" />
+              <span>Install AI Skill</span>
+            </Link>
+          </div>
         </div>
 
         {/* Code Snippets Grid */}
@@ -255,6 +275,31 @@ export function ZucchiniConnect() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* AI Skill & Prompts Callout Banner */}
+          <div className="mt-8 p-6 rounded-[12px] bg-gradient-to-r from-[#171717] via-[#212121] to-[#171717] border border-[#2b2b2b] dark:border-[#333] text-white flex flex-col sm:flex-row items-center justify-between gap-5 shadow-lg">
+            <div className="flex items-center gap-4 text-center sm:text-left">
+              <div className="w-10 h-10 rounded-lg bg-[#3ecf8e]/20 border border-[#3ecf8e]/40 flex items-center justify-center flex-shrink-0 text-[#3ecf8e]">
+                <Bot className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-sm font-semibold text-white">
+                  Using Cursor, Claude Code, Windsurf, or Antigravity?
+                </h4>
+                <p className="text-xs text-[#a1a1aa] mt-0.5">
+                  Install the official Cicero Agent Skill or copy battle-tested prompts to supercharge your AI coding speed.
+                </p>
+              </div>
+            </div>
+
+            <Link
+              href="/docs#ai-agent"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-[6px] bg-[#3ecf8e] text-[#171717] text-xs font-semibold hover:bg-[#24b47e] transition-colors flex-shrink-0 shadow-sm"
+            >
+              <span>Get Agent Skill & Prompts</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </div>

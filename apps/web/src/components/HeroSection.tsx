@@ -23,9 +23,18 @@ export const HeroSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
           {/* Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3ecf8e]/15 border border-[#3ecf8e]/30 text-xs font-medium text-[#24b47e] dark:text-[#3ecf8e] mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#24b47e] dark:bg-[#3ecf8e] animate-pulse"></span>
-            <span>The RainbowKit of Shielded Zcash • Cicero v0.2.1</span>
+          <div className="flex flex-wrap items-center gap-2 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3ecf8e]/15 border border-[#3ecf8e]/30 text-xs font-medium text-[#24b47e] dark:text-[#3ecf8e]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#24b47e] dark:bg-[#3ecf8e] animate-pulse"></span>
+              <span>The RainbowKit of Shielded Zcash • Cicero v0.2.1</span>
+            </div>
+            <a
+              href="/docs#ai-agent"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1c1c1c] dark:bg-[#202020] border border-[#2b2b2b] dark:border-[#333] text-xs font-mono text-[#a1a1aa] hover:text-white hover:border-[#3ecf8e] transition-all shadow-sm"
+            >
+              <span>🤖 AI Skill Ready</span>
+              <span className="text-[#3ecf8e]">→</span>
+            </a>
           </div>
 
           {/* Display Headline */}
@@ -52,7 +61,7 @@ export const HeroSection: React.FC = () => {
             </a>
 
             <a
-              href="#docs"
+              href="/docs"
               className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-[6px] bg-white dark:bg-[#1c1c1c] text-[#171717] dark:text-[#ededed] font-medium text-sm border border-[#dfdfdf] dark:border-[#333] hover:border-[#c7c7c7] dark:hover:border-[#444] hover:bg-[#fafafa] dark:hover:bg-[#242424] transition-colors shadow-sm"
             >
               <span>Read Documentation</span>
