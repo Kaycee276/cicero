@@ -8,18 +8,26 @@ import {
   Sliders,
   Sparkles,
   ExternalLink,
+  Radio,
 } from 'lucide-react';
 import {
   CiceroConnectButton,
   ZucchiniWalletAdapter,
-  ZcashNetwork,
 } from '@cicero-zcash/react';
+import { useStudioSettings } from '@/context/StudioSettingsContext';
 
 export const PlaygroundStudio: React.FC = () => {
-  const [variant, setVariant] = useState<'primary' | 'outline' | 'dark'>('primary');
-  const [size, setSize] = useState<'sm' | 'md' | 'lg'>('md');
-  const [showBalance, setShowBalance] = useState(true);
-  const [showNetwork, setShowNetwork] = useState(true);
+  const {
+    variant,
+    setVariant,
+    size,
+    setSize,
+    showBalance,
+    setShowBalance,
+    showNetwork,
+    setShowNetwork,
+  } = useStudioSettings();
+
   const [copiedCode, setCopiedCode] = useState(false);
   const [zucchiniDetected, setZucchiniDetected] = useState(false);
 
@@ -100,6 +108,10 @@ function MainDashboard() {
               <span className="text-sm font-medium text-[#171717] flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-[#3ecf8e]" />
                 <span>Button Parameters</span>
+              </span>
+              <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-emerald-50 text-[#24b47e] border border-emerald-200 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#24b47e] animate-pulse"></span>
+                <span>Syncs with Header</span>
               </span>
             </div>
 

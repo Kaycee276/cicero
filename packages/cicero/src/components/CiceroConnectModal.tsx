@@ -145,8 +145,18 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-12 min-h-[380px]">
           {/* Left Column: Wallet Selector List (5 cols) */}
           <div className="md:col-span-5 p-3 bg-[#fafafa] border-r border-[#ededed] space-y-1">
-            <div className="px-3 py-2 text-[11px] font-mono uppercase tracking-wider text-[#707070]">
-              Available Wallets
+            <div className="px-3 py-2 flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-[#707070]">
+              <span>Wallets</span>
+              {wallets.some((w) => w.isAvailable()) ? (
+                <span className="text-[10px] text-[#24b47e] font-semibold flex items-center gap-1 normal-case">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#24b47e] animate-pulse"></span>
+                  <span>Extension found</span>
+                </span>
+              ) : (
+                <span className="text-[10px] text-[#9a9a9a] font-normal normal-case">
+                  Browser scan ready
+                </span>
+              )}
             </div>
 
             {wallets.map((w) => {
@@ -266,7 +276,10 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                       Scan with {selectedWallet.name} app
                     </p>
                     <p className="text-[11px] text-[#707070] mt-0.5">
-                      Open {selectedWallet.name} on iOS/Android and scan this QR code to authenticate.
+                      Open {selectedWallet.name} on your device and scan this QR code to authenticate.
+                    </p>
+                    <p className="text-[10px] text-[#9a9a9a] mt-2 leading-relaxed">
+                      Browsers sandbox websites from querying local OS applications. Mobile & desktop wallets connect securely via zero-knowledge QR handoff.
                     </p>
                   </div>
                 </div>

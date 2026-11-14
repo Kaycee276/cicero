@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import { Shield, Github, Menu, X, ArrowUpRight } from 'lucide-react';
 import { CiceroConnectButton } from '@cicero-zcash/react';
+import { useStudioSettings } from '@/context/StudioSettingsContext';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { variant, size, showBalance, showNetwork } = useStudioSettings();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[#ededed] bg-white/95 backdrop-blur-sm">
@@ -54,7 +56,12 @@ export const Navbar: React.FC = () => {
             <ArrowUpRight className="w-3 h-3 text-[#707070]" />
           </a>
 
-          <CiceroConnectButton size="sm" />
+          <CiceroConnectButton
+            variant={variant}
+            size={size}
+            showBalance={showBalance}
+            showNetwork={showNetwork}
+          />
         </div>
 
         {/* Mobile Hamburger Toggle */}
@@ -111,7 +118,13 @@ export const Navbar: React.FC = () => {
               <span>GitHub</span>
             </a>
             <div className="pt-1">
-              <CiceroConnectButton size="sm" className="w-full" />
+              <CiceroConnectButton
+                variant={variant}
+                size={size}
+                showBalance={showBalance}
+                showNetwork={showNetwork}
+                className="w-full"
+              />
             </div>
           </div>
         </div>

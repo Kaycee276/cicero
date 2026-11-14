@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { CiceroProvider } from '@cicero-zcash/react';
+import { StudioSettingsProvider } from '@/context/StudioSettingsContext';
 
 export const ClientProviders: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -12,7 +13,7 @@ export const ClientProviders: React.FC<{ children: React.ReactNode }> = ({
       appName="Cicero Studio"
       autoConnect={true}
     >
-      {children}
+      <StudioSettingsProvider>{children}</StudioSettingsProvider>
     </CiceroProvider>
   );
 };
