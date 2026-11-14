@@ -1,6 +1,6 @@
 {
   "name": "@cicero-zcash/react",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Universal wallet connection toolkit for shielded Zcash (RainbowKit of Zcash)",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
