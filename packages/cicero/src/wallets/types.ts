@@ -32,7 +32,7 @@ export interface ZcashWallet {
   category: WalletCategory;
   downloadUrl?: string;
   isAvailable: () => boolean;
-  connect: (options?: { network?: ZcashNetwork }) => Promise<WalletSession>;
+  connect: (options?: { network?: ZcashNetwork; customKey?: string }) => Promise<WalletSession>;
   disconnect?: () => Promise<void>;
   getBalance?: (options?: { address?: string; network?: ZcashNetwork }) => Promise<number | null>;
   getNetwork?: () => Promise<ZcashNetwork>;

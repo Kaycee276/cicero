@@ -94,6 +94,8 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
           throw new Error('Please enter a valid Unified Address or Viewing Key.');
         }
         await connect(selectedWallet.id, customKeyInput.trim());
+      } else if (selectedWallet.id === 'zelcore') {
+        await connect(selectedWallet.id, customKeyInput.trim() || undefined);
       } else {
         await connect(selectedWallet.id);
       }
@@ -178,7 +180,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                     <div>
                       <div className="flex items-center gap-1.5">
                         <span className="text-sm text-[#171717] dark:text-white font-medium">{w.name}</span>
-                        {w.id === 'zucchini' && available && (
+                        {w.category === 'extension' && available && (
                           <span className="text-[9px] uppercase font-mono px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold">
                             Detected
                           </span>
@@ -262,7 +264,57 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                 </div>
               )}
 
-              {/* 2. Mobile Wallets (Zashi or Ywallet via ZIP-321 QR) */}
+              {/* 2. Zelcore Wallet (Multi-Asset Browser Extension) */}
+              {selectedWallet.id === 'zelcore' && (
+                <div className="space-y-4 py-2">
+                  {isAvailable ? (
+                    <div className="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-950 dark:text-emerald-200 space-y-2">
+                      <div className="flex items-center gap-2 font-semibold">
+                        <Sparkles className="w-4 h-4 text-[#24b47e]" />
+                        <span>Zelcore Extension Detected</span>
+                      </div>
+                      <p className="text-emerald-800 dark:text-emerald-300 leading-relaxed">
+                        Zelcore browser extension was detected. Click connect to authorize, or specify your Zelcore ZEC address below.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="p-4 rounded-lg bg-[#fafafa] dark:bg-[#1f1f1f] border border-[#ededed] dark:border-[#2b2b2b] text-xs text-[#707070] dark:text-[#a1a1aa] space-y-3">
+                      <p>
+                        Zelcore browser extension was not detected on this page. If you recently installed it, please refresh your tab or paste your Zelcore ZEC address below.
+                      </p>
+                      {selectedWallet.downloadUrl && (
+                        <a
+                          href={selectedWallet.downloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#171717] dark:bg-[#2a2a2a] text-white text-xs font-medium hover:bg-[#212121] dark:hover:bg-[#333]"
+                        >
+                          <span>Zelcore Download Page</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="space-y-1.5 text-xs">
+                    <label className="font-medium text-[#171717] dark:text-white block">
+                      Zelcore ZEC Address (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={customKeyInput}
+                      onChange={(e) => setCustomKeyInput(e.target.value)}
+                      placeholder="Paste your t1... transparent address from Zelcore"
+                      className="w-full p-2.5 rounded-md bg-white dark:bg-[#141414] border border-[#dfdfdf] dark:border-[#333] font-mono text-xs text-[#171717] dark:text-white focus:outline-none focus:border-[#3ecf8e]"
+                    />
+                    <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa]">
+                      Zelcore manages transparent ZEC addresses (t1). Cicero connects to read balances and generate payment requests.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* 3. Mobile Wallets (Zashi or Ywallet via ZIP-321 QR) */}
               {(selectedWallet.id === 'zashi' || selectedWallet.id === 'ywallet') && (
                 <div className="text-center space-y-3 py-1">
                   <div className="flex justify-center p-3 bg-white rounded-lg inline-block mx-auto border border-[#ededed] dark:border-[#333]">

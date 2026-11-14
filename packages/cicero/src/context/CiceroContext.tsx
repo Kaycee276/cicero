@@ -347,7 +347,7 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
             walletId: 'viewing-key',
           };
         } else {
-          session = await targetWallet.connect({ network });
+          session = await targetWallet.connect({ network, customKey: customAddressOrKey });
         }
 
         const resolvedAddress = session.address || customAddressOrKey || null;
