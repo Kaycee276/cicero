@@ -1,11 +1,12 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { CiceroButtonVariant, CiceroButtonRadius } from '@cicero-zcash/react';
 
 export type ButtonVariant = CiceroButtonVariant;
 export type ButtonSize = 'sm' | 'md' | 'lg';
 export type ButtonRadius = CiceroButtonRadius;
+export type ThemeMode = 'light' | 'dark';
 
 export interface DesignPreset {
   id: string;
@@ -100,6 +101,9 @@ export interface StudioSettingsContextType {
   setShowIcon: (i: boolean) => void;
   activePreset: string | null;
   applyPreset: (presetId: string) => void;
+  theme: ThemeMode;
+  toggleTheme: () => void;
+  setTheme: (t: ThemeMode) => void;
 }
 
 const StudioSettingsContext = createContext<StudioSettingsContextType | null>(null);
@@ -115,6 +119,44 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
   const [showNetwork, setShowNetwork] = useState<boolean>(true);
   const [showIcon, setShowIcon] = useState<boolean>(true);
   const [activePreset, setActivePreset] = useState<string | null>('supabase');
+  const [theme, setThemeState] = useState<ThemeMode>('light');
+
+  // Synchronize theme with DOM & localStorage
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const saved = localStorage.getItem('cicero_theme') as ThemeMode | null;
+    if (saved === 'dark' || saved === 'light') {
+      setThemeState(saved);
+      if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initial = prefersDark ? 'dark' : 'light';
+      setThemeState(initial);
+      if (initial === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    }
+  }, []);
+
+  const setTheme = (newTheme: ThemeMode) => {
+    setThemeState(newTheme);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('cicero_theme', newTheme);
+      if (newTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+  };
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   const applyPreset = (presetId: string) => {
     const p = DESIGN_PRESETS[presetId];
@@ -183,6 +225,9 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
         setShowIcon: handleSetShowIcon,
         activePreset,
         applyPreset,
+        theme,
+        toggleTheme,
+        setTheme,
       }}
     >
       {children}

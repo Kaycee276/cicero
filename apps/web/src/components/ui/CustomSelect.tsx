@@ -54,7 +54,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
   return (
     <div className={`space-y-1.5 ${className}`} ref={containerRef}>
       {label && (
-        <label className="block text-xs font-medium text-[#171717]">
+        <label className="block text-xs font-medium text-[#171717] dark:text-[#ededed]">
           {label}
         </label>
       )}
@@ -66,7 +66,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
           onClick={() => setIsOpen(!isOpen)}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
-          className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-[6px] bg-white border border-[#dfdfdf] hover:border-[#c7c7c7] text-xs text-[#171717] shadow-sm transition-all focus:outline-none focus:border-[#3ecf8e] focus:ring-1 focus:ring-[#3ecf8e]"
+          className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-[6px] bg-white dark:bg-[#1c1c1c] border border-[#dfdfdf] dark:border-[#333] hover:border-[#c7c7c7] dark:hover:border-[#444] text-xs text-[#171717] dark:text-[#ededed] shadow-sm transition-all focus:outline-none focus:border-[#3ecf8e] focus:ring-1 focus:ring-[#3ecf8e]"
         >
           <div className="flex items-center gap-2.5 truncate">
             {selectedOption?.indicatorColor && (
@@ -79,7 +79,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
           </div>
 
           <ChevronDown
-            className={`w-4 h-4 text-[#707070] transition-transform duration-200 flex-shrink-0 ${
+            className={`w-4 h-4 text-[#707070] dark:text-[#a1a1aa] transition-transform duration-200 flex-shrink-0 ${
               isOpen ? 'rotate-180' : ''
             }`}
           />
@@ -89,7 +89,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
         {isOpen && (
           <div
             role="listbox"
-            className="absolute z-50 mt-1.5 w-full rounded-[8px] bg-white border border-[#dfdfdf] shadow-xl py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-100 max-h-64 overflow-y-auto"
+            className="absolute z-50 mt-1.5 w-full rounded-[8px] bg-white dark:bg-[#181818] border border-[#dfdfdf] dark:border-[#2b2b2b] shadow-xl py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-100 max-h-64 overflow-y-auto"
           >
             {options.map((option) => {
               const isSelected = option.value === value;
@@ -105,8 +105,8 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                   }}
                   className={`w-full flex items-center justify-between px-3.5 py-2 text-left text-xs transition-colors ${
                     isSelected
-                      ? 'bg-[#fafafa] text-[#171717] font-semibold'
-                      : 'text-[#707070] hover:bg-[#f5f5f5] hover:text-[#171717]'
+                      ? 'bg-[#fafafa] dark:bg-[#202020] text-[#171717] dark:text-white font-semibold'
+                      : 'text-[#707070] dark:text-[#a1a1aa] hover:bg-[#f5f5f5] dark:hover:bg-[#222] hover:text-[#171717] dark:hover:text-white'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0 pr-2">
@@ -117,11 +117,11 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                       />
                     )}
                     <div className="truncate">
-                      <div className="truncate font-medium text-[#171717]">
+                      <div className="truncate font-medium text-[#171717] dark:text-[#ededed]">
                         {option.label}
                       </div>
                       {option.description && (
-                        <div className="text-[10px] text-[#9a9a9a] truncate font-normal">
+                        <div className="text-[10px] text-[#9a9a9a] dark:text-[#707070] truncate font-normal">
                           {option.description}
                         </div>
                       )}
@@ -130,12 +130,12 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 
                   <div className="flex items-center gap-2 flex-shrink-0">
                     {option.badge && (
-                      <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-[#ededed] text-[#707070]">
+                      <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-[#ededed] dark:bg-[#2a2a2a] text-[#707070] dark:text-[#a1a1aa]">
                         {option.badge}
                       </span>
                     )}
                     {isSelected && (
-                      <Check className="w-3.5 h-3.5 text-[#24b47e]" />
+                      <Check className="w-3.5 h-3.5 text-[#24b47e] dark:text-[#3ecf8e]" />
                     )}
                   </div>
                 </button>

@@ -20,14 +20,14 @@ export const CustomSwitch: React.FC<CustomSwitchProps> = ({
   return (
     <div
       onClick={() => onChange(!checked)}
-      className={`flex items-center justify-between p-3 rounded-[8px] bg-white border border-[#dfdfdf] hover:border-[#c7c7c7] transition-all cursor-pointer select-none group ${className}`}
+      className={`flex items-center justify-between p-3 rounded-[8px] bg-white dark:bg-[#1c1c1c] border border-[#dfdfdf] dark:border-[#333] hover:border-[#c7c7c7] dark:hover:border-[#444] transition-all cursor-pointer select-none group ${className}`}
     >
       <div className="space-y-0.5 pr-3 min-w-0">
-        <span className="text-xs font-medium text-[#171717] group-hover:text-black block truncate">
+        <span className="text-xs font-medium text-[#171717] dark:text-[#ededed] group-hover:text-black dark:group-hover:text-white block truncate">
           {label}
         </span>
         {description && (
-          <span className="text-[11px] text-[#707070] block leading-tight">
+          <span className="text-[11px] text-[#707070] dark:text-[#a1a1aa] block leading-tight">
             {description}
           </span>
         )}
@@ -43,7 +43,7 @@ export const CustomSwitch: React.FC<CustomSwitchProps> = ({
           onChange(!checked);
         }}
         className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#3ecf8e] focus:ring-offset-1 ${
-          checked ? 'bg-[#3ecf8e]' : 'bg-[#dfdfdf]'
+          checked ? 'bg-[#3ecf8e]' : 'bg-[#dfdfdf] dark:bg-[#333]'
         }`}
       >
         {/* Switch Thumb */}

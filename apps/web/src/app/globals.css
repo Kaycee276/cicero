@@ -10,50 +10,87 @@
   --canvas-night: #1c1c1c;
 }
 
+html.dark {
+  --background: #121212;
+  --foreground: #ededed;
+  --canvas-night: #181818;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Supabase Engineered Typography with Negative Letter-Spacing */
 .display-xxl {
-  font-size: 3.5rem;
-  line-height: 1.1;
-  letter-spacing: -0.04em;
+  font-size: 2.25rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
   font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .display-xxl {
+    font-size: 3rem;
+    letter-spacing: -0.04em;
+  }
 }
 
 @media (min-width: 768px) {
   .display-xxl {
-    font-size: 4rem;
+    font-size: 3.75rem;
     letter-spacing: -1.92px;
   }
 }
 
 .display-xl {
-  font-size: 2.5rem;
-  line-height: 1.15;
-  letter-spacing: -1.44px;
+  font-size: 1.875rem;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
   font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .display-xl {
+    font-size: 2.5rem;
+    line-height: 1.15;
+    letter-spacing: -1.44px;
+  }
 }
 
 .display-lg {
-  font-size: 2rem;
-  line-height: 1.2;
-  letter-spacing: -0.72px;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   font-weight: 500;
 }
 
-/* Custom scrollbars for code blocks */
-pre::-webkit-scrollbar {
+@media (min-width: 640px) {
+  .display-lg {
+    font-size: 2rem;
+    line-height: 1.2;
+    letter-spacing: -0.72px;
+  }
+}
+
+/* Custom scrollbars for code blocks and overflow elements */
+pre::-webkit-scrollbar,
+div::-webkit-scrollbar {
   height: 6px;
   width: 6px;
 }
 
-pre::-webkit-scrollbar-thumb {
+pre::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb {
   background-color: #383838;
   border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-track,
+div::-webkit-scrollbar-track {
+  background-color: transparent;
 }

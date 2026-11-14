@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Briefcase, Globe, ShieldAlert, Wallet, Check } from 'lucide-react';
+import { Briefcase, Globe, ShieldAlert, Check } from 'lucide-react';
 
 export const UseCasesSection: React.FC = () => {
   const useCases = [
@@ -47,48 +47,48 @@ export const UseCasesSection: React.FC = () => {
   ];
 
   return (
-    <section id="use-cases" className="py-20 bg-[#fafafa] border-b border-[#ededed]">
+    <section id="use-cases" className="py-16 sm:py-20 bg-[#fafafa] dark:bg-[#181818] border-b border-[#ededed] dark:border-[#262626] transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
-          <span className="text-xs font-mono text-[#24b47e] uppercase tracking-wider">
+          <span className="text-xs font-mono text-[#24b47e] dark:text-[#3ecf8e] uppercase tracking-wider">
             Real-World Impact
           </span>
-          <h2 className="display-lg text-[#171717] tracking-tight mt-2">
+          <h2 className="display-lg text-[#171717] dark:text-white tracking-tight mt-2">
             Where Zero-Knowledge Wallet Connection Matters
           </h2>
-          <p className="mt-3 text-base text-[#707070] leading-relaxed">
+          <p className="mt-3 text-sm sm:text-base text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
             Privacy isn't just a luxury — it is fundamental security for decentralized applications, treasury management, and freedom of information.
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="mt-10 sm:mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {useCases.map((uc, i) => (
             <div
               key={i}
-              className="flex flex-col justify-between p-8 rounded-[12px] bg-white border border-[#dfdfdf] shadow-sm hover:shadow-md transition-shadow"
+              className="flex flex-col justify-between p-6 sm:p-8 rounded-[12px] bg-white dark:bg-[#121212] border border-[#dfdfdf] dark:border-[#262626] shadow-sm hover:shadow-md transition-all"
             >
               <div className="space-y-5">
-                <div className="w-10 h-10 rounded-[6px] bg-[#fafafa] border border-[#ededed] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-[6px] bg-[#fafafa] dark:bg-[#202020] border border-[#ededed] dark:border-[#333] flex items-center justify-center">
                   {uc.icon}
                 </div>
 
                 <div>
-                  <h3 className="text-base font-semibold text-[#171717]">{uc.title}</h3>
+                  <h3 className="text-base font-semibold text-[#171717] dark:text-white">{uc.title}</h3>
                   <div className="mt-3 space-y-2 text-xs">
-                    <p className="text-[#707070] leading-relaxed">
-                      <strong className="text-[#171717]">The Pain: </strong>
+                    <p className="text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
+                      <strong className="text-[#171717] dark:text-[#ededed]">The Pain: </strong>
                       {uc.problem}
                     </p>
-                    <p className="text-[#707070] leading-relaxed">
-                      <strong className="text-[#24b47e]">The Cicero Fix: </strong>
+                    <p className="text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
+                      <strong className="text-[#24b47e] dark:text-[#3ecf8e]">The Cicero Fix: </strong>
                       {uc.solution}
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-[#ededed] space-y-2">
+                <div className="pt-2 border-t border-[#ededed] dark:border-[#262626] space-y-2">
                   {uc.highlights.map((h, hi) => (
-                    <div key={hi} className="flex items-center gap-2 text-xs text-[#171717]">
+                    <div key={hi} className="flex items-center gap-2 text-xs text-[#171717] dark:text-[#ededed]">
                       <Check className="w-3.5 h-3.5 text-[#3ecf8e] flex-shrink-0" />
                       <span>{h}</span>
                     </div>

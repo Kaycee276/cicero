@@ -54,11 +54,11 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
     primary:
       'bg-[#3ecf8e] text-[#171717] hover:bg-[#24b47e] font-semibold shadow-sm',
     outline:
-      'bg-white text-[#171717] border border-[#dfdfdf] hover:border-[#c7c7c7] hover:bg-[#fafafa] font-medium shadow-sm',
+      'bg-white dark:bg-[#1c1c1c] text-[#171717] dark:text-white border border-[#dfdfdf] dark:border-[#333] hover:border-[#c7c7c7] dark:hover:border-[#444] hover:bg-[#fafafa] dark:hover:bg-[#252525] font-medium shadow-sm',
     dark:
       'bg-[#1c1c1c] text-white hover:bg-[#242424] border border-[#2b2b2b] font-medium shadow-sm',
     ghost:
-      'bg-transparent hover:bg-[#fafafa] text-[#171717] border border-transparent font-medium',
+      'bg-transparent hover:bg-[#fafafa] dark:hover:bg-[#252525] text-[#171717] dark:text-white border border-transparent font-medium',
     gradient:
       'bg-gradient-to-r from-[#171717] via-[#262626] to-[#171717] text-white border border-[#3ecf8e]/40 hover:border-[#3ecf8e] font-medium shadow-sm',
     gold:
@@ -92,11 +92,11 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
       ) : (
         /* Connected State Pill (RainbowKit style) */
         <div
-          className={`inline-flex items-center border border-[#dfdfdf] bg-white p-0.5 shadow-sm text-xs ${radiusClasses} ${className}`}
+          className={`inline-flex items-center border border-[#dfdfdf] dark:border-[#333] bg-white dark:bg-[#181818] p-0.5 shadow-sm text-xs ${radiusClasses} ${className}`}
         >
           {/* Network tag */}
           {showNetwork && (
-            <div className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium text-[#707070] border-r border-[#ededed]">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium text-[#707070] dark:text-[#a1a1aa] border-r border-[#ededed] dark:border-[#2b2b2b]">
               <span
                 className={`w-2 h-2 rounded-full ${
                   network === 'mainnet' ? 'bg-[#3ecf8e]' : 'bg-amber-400'
@@ -108,9 +108,9 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
 
           {/* Balance */}
           {showBalance && (
-            <div className="px-2.5 py-1 font-mono font-medium text-[#171717] border-r border-[#ededed]">
+            <div className="px-2.5 py-1 font-mono font-medium text-[#171717] dark:text-white border-r border-[#ededed] dark:border-[#2b2b2b]">
               <span>{balance.zec}</span>{' '}
-              <span className="text-[#707070] font-normal">ZEC</span>
+              <span className="text-[#707070] dark:text-[#a1a1aa] font-normal">ZEC</span>
             </div>
           )}
 
@@ -118,7 +118,7 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
           <button
             type="button"
             onClick={openAccountModal}
-            className={`flex items-center gap-1.5 px-2.5 py-1 hover:bg-[#fafafa] text-[#171717] font-medium transition-colors ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 hover:bg-[#fafafa] dark:hover:bg-[#252525] text-[#171717] dark:text-white font-medium transition-colors ${
               radius === 'full' ? 'rounded-full' : 'rounded-[4px]'
             }`}
           >
@@ -126,7 +126,7 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
             <span className="font-mono text-[11px]">
               {address ? truncateAddress(address, 6, 4) : 'Connected'}
             </span>
-            <ChevronDown className="w-3 h-3 text-[#707070]" />
+            <ChevronDown className="w-3 h-3 text-[#707070] dark:text-[#a1a1aa]" />
           </button>
         </div>
       )}
