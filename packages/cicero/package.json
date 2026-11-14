@@ -1,6 +1,6 @@
 {
   "name": "@cicero-zcash/react",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Universal wallet connection toolkit for shielded Zcash (RainbowKit of Zcash)",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -35,7 +35,8 @@
     "url": "https://github.com/Kaycee276/cicero/issues"
   },
   "scripts": {
-    "build": "tsup",
+    "build:css": "tailwindcss -i src/styles.css -o dist/index.css --minify",
+    "build": "tsup && pnpm build:css",
     "dev": "tsup --watch",
     "lint": "tsc --noEmit"
   },
@@ -68,8 +69,11 @@
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "autoprefixer": "^10.6.2",
+    "postcss": "^8.5.32",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "tailwindcss": "^3.4.19",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3"
   }

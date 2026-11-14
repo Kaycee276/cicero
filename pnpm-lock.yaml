@@ -84,12 +84,21 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.3
         version: 19.3.0(@types/react@19.3.0)
+      autoprefixer:
+        specifier: ^10.6.2
+        version: 10.6.2(postcss@8.5.32)
+      postcss:
+        specifier: ^8.5.32
+        version: 8.5.32
       react:
         specifier: ^19.0.0
         version: 19.3.1
       react-dom:
         specifier: ^19.0.0
         version: 19.3.1(react@19.3.1)
+      tailwindcss:
+        specifier: ^3.4.19
+        version: 3.4.19
       tsup:
         specifier: ^8.3.6
         version: 8.5.1(jiti@1.21.7)(postcss@8.5.32)(typescript@5.9.3)
