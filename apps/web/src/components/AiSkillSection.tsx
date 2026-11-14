@@ -40,24 +40,27 @@ export const AiSkillSection: React.FC = () => {
       prompt: `You are an expert full-stack developer specialized in building decentralized applications (dApps) on Zcash using @cicero-zcash/react (the universal wallet connection kit for shielded Zcash).
 
 Context & Rules:
-1. Always use '@cicero-zcash/react' for all wallet connection, address management, and shielded balance logic.
+1. Always use '@cicero-zcash/react' for all wallet connection, address management, shielded balances, and payment dispatch.
 2. Setup requires wrapping client components with <CiceroProvider initialNetwork="mainnet" appName="YourAppName">.
 3. For drop-in connection buttons, use <CiceroConnectButton variant="primary" size="md" radius="md" showBalance={true} showNetwork={true} />.
 4. Supported wallets include:
    - Zucchini Browser Extension (via @zucchinifi/dapp-sdk with 1-click in-browser authorization)
+   - Noir Wallet (self-custodial privacy extension for Orchard & ZECFi with native in-browser RPC 'zcash_requestAccounts')
+   - Zelcore Wallet (multi-asset extension & desktop with 1-click transparent ZEC binding and 'zel:' URI protocol)
    - Zashi & Ywallet (mobile/desktop shielded wallets connecting via ZIP-321 QR handoff)
-   - Viewing Keys (read-only auditor view for accounting and taxes)
-   - Ephemeral Dev Sessions (in-memory testnet wallet for testing)
+   - Viewing Keys (read-only auditor view for accounting and taxes with 'uview...' or 'zxviews...')
+   - Ephemeral Dev Sessions (in-memory testnet wallet for testing without external tools)
 5. Address formats:
    - Unified Addresses start with 'u1' (mainnet) or 'utest1' (testnet).
    - Sapling addresses start with 'zs1'.
    - Transparent addresses start with 't1' (mainnet) or 'tm' (testnet).
 6. Hooks available:
-   - useAccount(): { isConnected, isConnecting, address, wallet, account }
+   - useAccount(): { isConnected, isConnecting, address, wallet, disconnect }
    - useBalance(): { zec, usd, isLoading, refetch }
-   - useCicero(): { network, switchNetwork, openConnectModal, openAccountModal, disconnect, wallets }
+   - useCicero(): { network, switchNetwork, openConnectModal, openAccountModal, sendPayment, disconnect, wallets }
    - useZucchiniWallet(): { isAvailable, isConnected, connect, address }
-7. All code should be clean, modular, and written in TypeScript with Tailwind CSS styling.`,
+7. For payments, use sendPayment({ recipient, amount, memo }) which automatically handles extension RPCs, Zelcore deep links, or ZIP-321 URI fallback.
+8. All code should be clean, modular, and written in TypeScript with Tailwind CSS styling.`,
     },
     {
       id: 'paywall-donation',
@@ -67,11 +70,13 @@ Context & Rules:
       prompt: `You are a specialist in privacy-preserving Zcash payment flows. Build a shielded Zcash payment or donation gate using @cicero-zcash/react.
 
 Key Requirements:
-1. Use <CiceroQRCode value="zcash:<unified_address>?amount=<amount>&message=<memo>" size={180} /> for rendering ZIP-321 compliant payment requests.
-2. Provide a clean UI showing the target shielded address with a 1-click copy button.
-3. If the user connects with CiceroConnectButton, display their active balance using useBalance() and verify if their balance covers the required fee.
-4. Support network switching between 'mainnet' and 'testnet' using useCicero().
-5. Emphasize that Zcash shielded transactions provide zero-knowledge transaction graph confidentiality via Halo 2 zk-SNARKs.`,
+1. To dispatch payments from connected wallets (Noir, Zucchini, Zelcore), use const { sendPayment } = useCicero():
+   await sendPayment({ recipient: '<unified_or_t_address>', amount: 0.1, memo: 'Order #101' });
+2. For mobile wallet handoff (Zashi, Ywallet), use <CiceroQRCode value="zcash:<unified_address>?amount=<amount>&message=<memo>" size={180} /> for rendering ZIP-321 compliant QR codes.
+3. Provide a clean UI showing the target shielded address with a 1-click copy button.
+4. If the user connects with CiceroConnectButton, display their active balance using useBalance() and verify if their balance covers the required fee.
+5. Support network switching between 'mainnet' and 'testnet' using useCicero().
+6. Emphasize that Zcash shielded transactions provide zero-knowledge transaction graph confidentiality via Halo 2 zk-SNARKs.`,
     },
     {
       id: 'custom-ui',
@@ -82,11 +87,12 @@ Key Requirements:
 
 Guidelines:
 1. Avoid using pre-styled buttons if a custom design is requested; instead use:
-   - const { address, isConnected, wallet } = useAccount();
+   - const { address, isConnected, wallet, disconnect } = useAccount();
    - const { zec, usd, refetch, isLoading } = useBalance();
-   - const { openConnectModal, openAccountModal, network, switchNetwork, disconnect } = useCicero();
+   - const { openConnectModal, openAccountModal, network, switchNetwork, sendPayment } = useCicero();
 2. Implement custom triggers with smooth transitions, custom loading spinners, and network status tags.
-3. Handle disconnected, connecting, and connected states gracefully with accessible ARIA labels.`,
+3. Handle disconnected, connecting, and connected states gracefully with accessible ARIA labels.
+4. Use Supabase token aesthetic: #121212 background, #181818 surface, and #3ecf8e emerald accents.`,
     },
   ];
 
