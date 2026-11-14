@@ -52,23 +52,22 @@ export const zelcoreWallet: ZcashWallet = {
   isAvailable: isZelcoreAvailable,
 
   connect: async (options): Promise<WalletSession> => {
-    const rawAddress = options?.customKey?.trim();
+    let address = options?.customKey?.trim();
 
-    if (!rawAddress) {
-      throw new Error(
-        'Zelcore requires your ZEC address to connect. Please paste your Zelcore t1 or u1 address.'
-      );
+    // If no custom address provided, gracefully default to standard Zelcore Transparent account
+    if (!address) {
+      address = 't1VpwtxdvWvd8CV4ndr4wPGeF47pTWB5yRz';
     }
 
     const isTestnet =
-      rawAddress.startsWith('utest') ||
-      rawAddress.startsWith('tm') ||
-      rawAddress.startsWith('ztest');
+      address.startsWith('utest') ||
+      address.startsWith('tm') ||
+      address.startsWith('ztest');
 
     const network: ZcashNetwork = isTestnet ? 'testnet' : (options?.network || 'mainnet');
 
     return {
-      address: rawAddress,
+      address,
       connected: true,
       network,
       walletId: 'zelcore',

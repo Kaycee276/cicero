@@ -94,12 +94,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
           throw new Error('Please enter a valid Unified Address or Viewing Key.');
         }
         await connect(selectedWallet.id, customKeyInput.trim());
-      } else if (selectedWallet.id === 'zelcore') {
-        if (!customKeyInput.trim()) {
-          throw new Error('Please enter your Zelcore ZEC address (starts with t1 or u1) to connect.');
-        }
-        await connect(selectedWallet.id, customKeyInput.trim());
-      } else if (selectedWallet.id === 'noir') {
+      } else if (selectedWallet.id === 'zelcore' || selectedWallet.id === 'noir') {
         await connect(selectedWallet.id, customKeyInput.trim() || undefined);
       } else {
         await connect(selectedWallet.id);
@@ -362,7 +357,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                   <div className="space-y-2 text-xs">
                     <div className="flex items-center justify-between">
                       <label className="font-medium text-[#171717] dark:text-white">
-                        Zelcore ZEC Address <span className="text-rose-500">*</span>
+                        Zelcore ZEC Address <span className="text-[11px] font-normal text-[#707070] dark:text-[#a1a1aa]">(Optional)</span>
                       </label>
                       <div className="flex items-center gap-2">
                         <button
@@ -397,12 +392,12 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                         setCustomKeyInput(e.target.value);
                         setError(null);
                       }}
-                      placeholder="Paste your t1... transparent or u1... address from Zelcore"
+                      placeholder="Paste your t1... address (or leave blank to use default)"
                       className="w-full p-2.5 rounded-md bg-white dark:bg-[#141414] border border-[#dfdfdf] dark:border-[#333] font-mono text-xs text-[#171717] dark:text-white focus:outline-none focus:border-[#3ecf8e]"
                     />
 
                     {/* Dynamic address type badge */}
-                    {customKeyInput.trim() && (
+                    {customKeyInput.trim() ? (
                       <div className="text-[11px]">
                         {customKeyInput.trim().startsWith('t1') ? (
                           <span className="text-[#24b47e] font-medium flex items-center gap-1">
@@ -418,15 +413,15 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                           </span>
                         ) : (
                           <span className="text-amber-600 dark:text-amber-400">
-                            ⚠️ Expected address starting with t1 (transparent) or u1 (unified)
+                            ℹ️ Custom address will be bound to this Zelcore session
                           </span>
                         )}
                       </div>
+                    ) : (
+                      <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
+                        Click <strong>Connect</strong> below to connect immediately, or paste your own address from Zelcore (Portfolio → Zcash → Receive).
+                      </p>
                     )}
-
-                    <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
-                      In Zelcore, go to <strong>Portfolio → Zcash (ZEC) → Receive</strong> to copy your transparent address (<code className="font-mono">t1...</code>).
-                    </p>
                   </div>
                 </div>
               )}
