@@ -94,11 +94,17 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
           throw new Error('Please enter a valid Unified Address or Viewing Key.');
         }
         await connect(selectedWallet.id, customKeyInput.trim());
-      } else if (selectedWallet.id === 'zelcore' || selectedWallet.id === 'noir') {
+      } else if (selectedWallet.id === 'zelcore') {
+        if (!customKeyInput.trim()) {
+          throw new Error('Please enter your Zelcore ZEC address (starts with t1 or u1) to connect.');
+        }
+        await connect(selectedWallet.id, customKeyInput.trim());
+      } else if (selectedWallet.id === 'noir') {
         await connect(selectedWallet.id, customKeyInput.trim() || undefined);
       } else {
         await connect(selectedWallet.id);
       }
+      handleClose();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Connection failed');
     } finally {
@@ -314,7 +320,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                 </div>
               )}
 
-              {/* 3. Zelcore Wallet (Multi-Asset Browser Extension) */}
+              {/* 3. Zelcore Wallet (Multi-Asset Browser Extension & Desktop) */}
               {selectedWallet.id === 'zelcore' && (
                 <div className="space-y-4 py-2">
                   <div className="p-3.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 text-xs text-amber-900 dark:text-amber-200 space-y-1.5">
@@ -322,52 +328,104 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                       <span>⚠️ Zelcore Compatibility Note</span>
                     </div>
                     <p className="text-[11px] leading-relaxed">
-                      Zelcore is a multi-asset wallet operating on <strong>Mainnet only</strong> for transparent Zcash (<code className="font-mono">t1...</code>). The Zelcore browser extension does <em>not</em> expose an in-browser Zcash dApp signing API (it only provides EVM/Solana injection). Enter your Zelcore <code className="font-mono">t1</code> address below to track balances and generate payment requests.
+                      Zelcore is a multi-asset wallet operating primarily on <strong>Mainnet</strong> for transparent Zcash (<code className="font-mono">t1...</code>) and unified addresses. Because the Zelcore browser extension does <em>not</em> provide an in-browser Zcash dApp signing RPC popup (it only injects EVM/Solana), connection is established via your Zelcore ZEC address below.
                     </p>
                   </div>
 
                   {isAvailable ? (
-                    <div className="p-3.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-950 dark:text-emerald-200 space-y-1">
-                      <div className="flex items-center gap-2 font-semibold">
-                        <Sparkles className="w-3.5 h-3.5 text-[#24b47e]" />
-                        <span>Zelcore Extension Installed</span>
+                    <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-950 dark:text-emerald-200 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-[#24b47e] flex-shrink-0" />
+                        <span className="font-semibold">Zelcore Extension Installed</span>
                       </div>
-                      <p className="text-emerald-800 dark:text-emerald-300 text-[11px] leading-relaxed">
-                        Extension detected. Paste your Zelcore ZEC transparent address below to complete connection.
-                      </p>
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 font-mono">
+                        Active
+                      </span>
                     </div>
                   ) : (
-                    <div className="p-3.5 rounded-lg bg-[#fafafa] dark:bg-[#1f1f1f] border border-[#ededed] dark:border-[#2b2b2b] text-xs text-[#707070] dark:text-[#a1a1aa] space-y-2">
-                      <p className="text-[11px]">
-                        Zelcore browser extension not detected. Ensure it is enabled in your browser or download it from the official website.
-                      </p>
+                    <div className="p-3 rounded-lg bg-[#fafafa] dark:bg-[#1f1f1f] border border-[#ededed] dark:border-[#2b2b2b] text-xs text-[#707070] dark:text-[#a1a1aa] flex items-center justify-between">
+                      <span>Zelcore desktop or mobile user?</span>
                       {selectedWallet.downloadUrl && (
                         <a
                           href={selectedWallet.downloadUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#171717] dark:bg-[#2a2a2a] text-white text-xs font-medium hover:bg-[#212121] dark:hover:bg-[#333]"
+                          className="inline-flex items-center gap-1 text-[11px] text-[#3ecf8e] hover:underline"
                         >
-                          <span>Zelcore Download Page</span>
-                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Get Zelcore</span>
+                          <ExternalLink className="w-3 h-3" />
                         </a>
                       )}
                     </div>
                   )}
 
-                  <div className="space-y-1.5 text-xs">
-                    <label className="font-medium text-[#171717] dark:text-white block">
-                      Zelcore ZEC Address (Required for Zelcore)
-                    </label>
+                  <div className="space-y-2 text-xs">
+                    <div className="flex items-center justify-between">
+                      <label className="font-medium text-[#171717] dark:text-white">
+                        Zelcore ZEC Address <span className="text-rose-500">*</span>
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            try {
+                              const text = await navigator.clipboard.readText();
+                              if (text) setCustomKeyInput(text.trim());
+                            } catch {
+                              // clipboard access denied or unsupported
+                            }
+                          }}
+                          className="text-[11px] text-[#3ecf8e] hover:text-[#24b47e] font-medium"
+                        >
+                          Paste Clipboard
+                        </button>
+                        <span className="text-[#999]">•</span>
+                        <button
+                          type="button"
+                          onClick={() => setCustomKeyInput('t1VpwtxdvWvd8CV4ndr4wPGeF47pTWB5yRz')}
+                          className="text-[11px] text-[#707070] dark:text-[#a1a1aa] hover:text-[#171717] dark:hover:text-white font-mono underline"
+                        >
+                          Demo t1 address
+                        </button>
+                      </div>
+                    </div>
+
                     <input
                       type="text"
                       value={customKeyInput}
-                      onChange={(e) => setCustomKeyInput(e.target.value)}
-                      placeholder="Paste your t1... transparent address from Zelcore"
+                      onChange={(e) => {
+                        setCustomKeyInput(e.target.value);
+                        setError(null);
+                      }}
+                      placeholder="Paste your t1... transparent or u1... address from Zelcore"
                       className="w-full p-2.5 rounded-md bg-white dark:bg-[#141414] border border-[#dfdfdf] dark:border-[#333] font-mono text-xs text-[#171717] dark:text-white focus:outline-none focus:border-[#3ecf8e]"
                     />
-                    <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa]">
-                      Open your Zelcore app/extension, copy your ZEC address (<code className="font-mono">t1...</code>), and paste it here.
+
+                    {/* Dynamic address type badge */}
+                    {customKeyInput.trim() && (
+                      <div className="text-[11px]">
+                        {customKeyInput.trim().startsWith('t1') ? (
+                          <span className="text-[#24b47e] font-medium flex items-center gap-1">
+                            ✓ Transparent Zcash address detected (Zelcore native)
+                          </span>
+                        ) : customKeyInput.trim().startsWith('u1') ? (
+                          <span className="text-[#24b47e] font-medium flex items-center gap-1">
+                            ✓ Unified Zcash address detected
+                          </span>
+                        ) : customKeyInput.trim().startsWith('utest1') || customKeyInput.trim().startsWith('tm') ? (
+                          <span className="text-amber-500 font-medium flex items-center gap-1">
+                            ℹ️ Testnet address detected (Zelcore operates on Mainnet)
+                          </span>
+                        ) : (
+                          <span className="text-amber-600 dark:text-amber-400">
+                            ⚠️ Expected address starting with t1 (transparent) or u1 (unified)
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
+                      In Zelcore, go to <strong>Portfolio → Zcash (ZEC) → Receive</strong> to copy your transparent address (<code className="font-mono">t1...</code>).
                     </p>
                   </div>
                 </div>

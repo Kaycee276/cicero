@@ -1,5 +1,6 @@
 import { ZcashWallet, WalletSession, SendPaymentParams, SendPaymentResult } from './types';
 import { generateZip321Uri } from '../utils/zip321';
+import { ZcashNetwork } from '../types';
 
 let zelcoreDetected = false;
 
@@ -51,41 +52,37 @@ export const zelcoreWallet: ZcashWallet = {
   isAvailable: isZelcoreAvailable,
 
   connect: async (options): Promise<WalletSession> => {
-    let address = options?.customKey?.trim();
+    const rawAddress = options?.customKey?.trim();
 
-    if (!address) {
-      // If extension injected
-      if (typeof window !== 'undefined') {
-        const win = window as any;
-        const provider = win.zelcore || (win.ethereum?.isZelcore ? win.ethereum : null);
-        if (provider?.request) {
-          try {
-            const accounts = await provider.request({ method: 'eth_requestAccounts' });
-            if (accounts && accounts[0]) {
-              // Note: Zelcore extension uses EVM accounts for Web3 injection, while native ZEC uses transparent t-addresses
-              address = `t1${accounts[0].replace(/^0x/, '').slice(0, 33)}`;
-            }
-          } catch {
-            // User cancelled or fallback
-          }
-        }
-      }
+    if (!rawAddress) {
+      throw new Error(
+        'Zelcore requires your ZEC address to connect. Please paste your Zelcore t1 or u1 address.'
+      );
     }
 
-    if (!address) {
-      address = 't1ZelcoreUserTransparentZecAddress1234';
-    }
+    const isTestnet =
+      rawAddress.startsWith('utest') ||
+      rawAddress.startsWith('tm') ||
+      rawAddress.startsWith('ztest');
+
+    const network: ZcashNetwork = isTestnet ? 'testnet' : (options?.network || 'mainnet');
 
     return {
-      address,
+      address: rawAddress,
       connected: true,
-      network: options?.network || 'mainnet',
+      network,
       walletId: 'zelcore',
       balance: 0,
     };
   },
 
   sendPayment: async (params: SendPaymentParams): Promise<SendPaymentResult> => {
+    const memoOrMsg = params.memo || params.message || '';
+    // Zelcore custom URI scheme: zel:?action=pay&coin=ZEC&address=...&amount=...
+    const zelUri = `zel:?action=pay&coin=ZEC&address=${params.recipient}&amount=${params.amount}${
+      memoOrMsg ? `&message=${encodeURIComponent(memoOrMsg)}` : ''
+    }`;
+
     const rawUri = generateZip321Uri({
       address: params.recipient,
       amount: params.amount,
@@ -94,7 +91,11 @@ export const zelcoreWallet: ZcashWallet = {
     });
 
     if (typeof window !== 'undefined') {
-      window.location.href = rawUri;
+      try {
+        window.location.href = zelUri;
+      } catch {
+        window.location.href = rawUri;
+      }
     }
 
     return {
@@ -104,3 +105,4 @@ export const zelcoreWallet: ZcashWallet = {
     };
   },
 };
+
