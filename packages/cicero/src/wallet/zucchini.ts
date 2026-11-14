@@ -1,4 +1,5 @@
 import { generateZip321Uri } from '../utils/zip321';
+import { ZcashNetwork } from '../types';
 
 export type WalletConnectionStatus =
   | 'disconnected'
@@ -15,6 +16,7 @@ export type WalletPaymentStatus =
 export interface WalletSession {
   address?: string;
   connected: boolean;
+  network?: ZcashNetwork;
   balance?: number;
 }
 
@@ -199,8 +201,9 @@ export class ZucchiniWalletAdapter {
 
     this._lastAccounts = connection?.accounts || [];
 
-    // Query live balance via view_balance grant
-    const balance = await this.getBalance({ address });
+    // Query active wallet network and live balance
+    const network = await this.getNetwork();
+    const balance = await this.getBalance({ address, network });
 
     this._connected = true;
     this._address = address || null;
@@ -208,8 +211,131 @@ export class ZucchiniWalletAdapter {
     return {
       address,
       connected: true,
+      network,
       balance: balance ?? undefined,
     };
+  }
+
+  /**
+   * Queries the active network of the Zucchini Wallet ('mainnet' | 'testnet').
+   */
+  async getNetwork(): Promise<ZcashNetwork> {
+    try {
+      const client = await this.getClient();
+      if (typeof client.network === 'function') {
+        const net = await client.network();
+        if (net === 'mainnet' || net === 'testnet') {
+          return net;
+        }
+      }
+    } catch {
+      // fallback to provider RPC
+    }
+
+    const raw =
+      this.provider ||
+      (typeof window !== 'undefined'
+        ? (window as any).zucchini || (window as any).zcash
+        : null);
+
+    if (raw && typeof raw.request === 'function') {
+      try {
+        const res: any = await raw.request({ method: 'getNetwork' });
+        if (res?.network === 'main' || res === 'main' || res === 'mainnet') return 'mainnet';
+        if (res?.network === 'test' || res === 'test' || res === 'testnet') return 'testnet';
+      } catch {
+        // ignore
+      }
+    }
+
+    // Inspect active address prefix if available:
+    // Mainnet unified: u1..., testnet unified: utest1...
+    // Mainnet sapling: zs1..., testnet sapling: ztestsapling1...
+    // Mainnet transparent: t1..., testnet transparent: tm...
+    if (this._address) {
+      if (
+        this._address.startsWith('utest1') ||
+        this._address.startsWith('ztestsapling') ||
+        this._address.startsWith('tm')
+      ) {
+        return 'testnet';
+      }
+      if (
+        this._address.startsWith('u1') ||
+        this._address.startsWith('zs1') ||
+        this._address.startsWith('t1')
+      ) {
+        return 'mainnet';
+      }
+    }
+
+    return 'mainnet';
+  }
+
+  /**
+   * Requests a network change. If the extension does not support programmatic
+   * switching, informs the application that manual user toggle is needed.
+   */
+  async switchNetwork(
+    targetNetwork: ZcashNetwork
+  ): Promise<{ success: boolean; requiresManualSwitch?: boolean; currentNetwork: ZcashNetwork }> {
+    const current = await this.getNetwork();
+    if (current === targetNetwork) {
+      return { success: true, currentNetwork: current };
+    }
+
+    const raw =
+      this.provider ||
+      (typeof window !== 'undefined'
+        ? (window as any).zucchini || (window as any).zcash
+        : null);
+
+    if (raw && typeof raw.request === 'function') {
+      try {
+        await raw.request({
+          method: 'switchNetwork',
+          params: { network: targetNetwork === 'mainnet' ? 'main' : 'test' },
+        });
+        const updated = await this.getNetwork();
+        return { success: updated === targetNetwork, currentNetwork: updated };
+      } catch {
+        // Extension requires manual toggle in settings
+      }
+    }
+
+    return {
+      success: false,
+      requiresManualSwitch: true,
+      currentNetwork: current,
+    };
+  }
+
+  /**
+   * Subscribes to network change events from the wallet extension.
+   */
+  onNetworkChanged(listener: (network: ZcashNetwork) => void): () => void {
+    const raw =
+      this.provider ||
+      (typeof window !== 'undefined'
+        ? (window as any).zucchini || (window as any).zcash
+        : null);
+
+    const handler = async () => {
+      const net = await this.getNetwork();
+      listener(net);
+    };
+
+    if (raw?.on) {
+      raw.on('networkChanged', handler);
+      raw.on('chainChanged', handler);
+      raw.on('accountsChanged', handler);
+      return () => {
+        raw.off?.('networkChanged', handler);
+        raw.off?.('chainChanged', handler);
+        raw.off?.('accountsChanged', handler);
+      };
+    }
+    return () => {};
   }
 
   /**

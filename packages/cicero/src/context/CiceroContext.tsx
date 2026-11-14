@@ -46,7 +46,7 @@ export interface CiceroContextType {
 
   // Network
   network: ZcashNetwork;
-  switchNetwork: (net: ZcashNetwork) => void;
+  switchNetwork: (net: ZcashNetwork) => Promise<{ success: boolean; requiresManualSwitch?: boolean; currentNetwork?: ZcashNetwork }>;
 
   // Balance
   balance: BalanceState;
@@ -213,6 +213,41 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
     };
   }, [autoConnect]);
 
+  // Live network change listener: auto-syncs when user toggles Mainnet/Testnet in Zucchini
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const adapter = new ZucchiniWalletAdapter();
+    const cleanup = adapter.onNetworkChanged(async (detectedNet) => {
+      setNetwork(detectedNet);
+      localStorage.setItem('cicero_network', detectedNet);
+
+      // Re-sync balance immediately when network changes in the extension
+      if (account.wallet?.id === 'zucchini') {
+        setBalance((prev) => ({ ...prev, isLoading: true }));
+        try {
+          const freshBal = await adapter.getBalance({
+            address: account.address || undefined,
+            network: detectedNet,
+          });
+          const activeZec = freshBal !== null && !isNaN(freshBal) ? freshBal : 0;
+          setBalance({
+            zec: activeZec,
+            usd: convertZecToUsdRef.current(activeZec),
+            isLoading: false,
+          });
+          localStorage.setItem('cicero_balance', activeZec.toString());
+          localStorage.setItem(`cicero_balance_${detectedNet}`, activeZec.toString());
+        } catch {
+          setBalance((prev) => ({ ...prev, isLoading: false }));
+        }
+      }
+    });
+
+    return () => {
+      cleanup();
+    };
+  }, [account.wallet?.id, account.address]);
+
   // Update USD balance when ZEC price updates
   useEffect(() => {
     if (account.isConnected) {
@@ -227,12 +262,62 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
     }
   }, [account.isConnected, balance.zec, convertZecToUsd]);
 
-  const switchNetwork = useCallback((newNet: ZcashNetwork) => {
-    setNetwork(newNet);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('cicero_network', newNet);
-    }
-  }, []);
+  const switchNetwork = useCallback(
+    async (newNet: ZcashNetwork): Promise<{ success: boolean; requiresManualSwitch?: boolean; currentNetwork?: ZcashNetwork }> => {
+      // If a wallet is connected, consult the wallet first so Cicero doesn't get out of sync
+      if (account.wallet?.switchNetwork) {
+        try {
+          const switchRes = await account.wallet.switchNetwork(newNet);
+          if (switchRes && switchRes.requiresManualSwitch) {
+            // Extension security model requires manual switch in wallet settings
+            const currentNet = switchRes.currentNetwork || (account.wallet.getNetwork ? await account.wallet.getNetwork() : network);
+            setNetwork(currentNet);
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('cicero_network', currentNet);
+            }
+            return {
+              success: false,
+              requiresManualSwitch: true,
+              currentNetwork: currentNet,
+            };
+          }
+        } catch {
+          // fallback
+        }
+      }
+
+      setNetwork(newNet);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('cicero_network', newNet);
+      }
+
+      // Re-query balance for the new network
+      if (account.wallet?.getBalance) {
+        setBalance((prev) => ({ ...prev, isLoading: true }));
+        try {
+          const freshBal = await account.wallet.getBalance({
+            address: account.address || undefined,
+            network: newNet,
+          });
+          const activeZec = freshBal !== null && !isNaN(freshBal) ? freshBal : 0;
+          setBalance({
+            zec: activeZec,
+            usd: convertZecToUsdRef.current(activeZec),
+            isLoading: false,
+          });
+          if (typeof window !== 'undefined' && freshBal !== null) {
+            localStorage.setItem(`cicero_balance_${newNet}`, freshBal.toString());
+            localStorage.setItem('cicero_balance', freshBal.toString());
+          }
+        } catch {
+          setBalance((prev) => ({ ...prev, isLoading: false }));
+        }
+      }
+
+      return { success: true, currentNetwork: newNet };
+    },
+    [account.wallet, account.address, network]
+  );
 
   const connect = useCallback(
     async (walletId: string, customAddressOrKey?: string) => {
@@ -266,6 +351,18 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
         }
 
         const resolvedAddress = session.address || customAddressOrKey || null;
+
+        // Synchronize Cicero network with the connected wallet's actual network
+        const walletNetwork =
+          session.network ||
+          (targetWallet.getNetwork ? await targetWallet.getNetwork() : network);
+
+        if (walletNetwork && walletNetwork !== network) {
+          setNetwork(walletNetwork);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('cicero_network', walletNetwork);
+          }
+        }
 
         setAccount({
           address: resolvedAddress,

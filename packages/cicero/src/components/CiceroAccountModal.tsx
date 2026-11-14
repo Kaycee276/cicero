@@ -42,10 +42,30 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [manualNotice, setManualNotice] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    setManualNotice(null);
+  }, [network, isOpen]);
+
+  const handleNetworkChange = async (targetNet: 'mainnet' | 'testnet') => {
+    if (targetNet === network) {
+      setManualNotice(null);
+      return;
+    }
+    const res = await switchNetwork(targetNet);
+    if (res?.requiresManualSwitch) {
+      setManualNotice(
+        `Wallet is currently active on ${network === 'mainnet' ? 'Mainnet' : 'Testnet'}. Switch network inside your extension settings (Settings → Network) and Cicero will automatically update your balance.`
+      );
+    } else {
+      setManualNotice(null);
+    }
+  };
 
   // Escape key handler
   useEffect(() => {
@@ -196,33 +216,43 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
           </div>
 
           {/* Network Switcher Row */}
-          <div className="flex items-center justify-between p-3 rounded-lg border border-[#ededed] bg-white text-xs">
-            <div className="flex items-center gap-2">
-              <ArrowRightLeft className="w-4 h-4 text-[#707070]" />
-              <span className="text-[#171717] font-medium">Network</span>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between p-3 rounded-lg border border-[#ededed] bg-white text-xs">
+              <div className="flex items-center gap-2">
+                <ArrowRightLeft className="w-4 h-4 text-[#707070]" />
+                <span className="text-[#171717] font-medium">Active Network</span>
+              </div>
+              <div className="flex items-center gap-1 p-0.5 rounded bg-[#fafafa] border border-[#dfdfdf]">
+                <button
+                  type="button"
+                  onClick={() => handleNetworkChange('mainnet')}
+                  className={`px-2 py-1 rounded text-[11px] font-medium transition-colors ${
+                    network === 'mainnet'
+                      ? 'bg-white shadow-sm text-[#24b47e] font-semibold'
+                      : 'text-[#707070] hover:text-[#171717]'
+                  }`}
+                >
+                  Mainnet
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleNetworkChange('testnet')}
+                  className={`px-2 py-1 rounded text-[11px] font-medium transition-colors ${
+                    network === 'testnet'
+                      ? 'bg-white shadow-sm text-amber-700 font-semibold'
+                      : 'text-[#707070] hover:text-[#171717]'
+                  }`}
+                >
+                  Testnet
+                </button>
+              </div>
             </div>
-            <div className="flex items-center gap-1 p-0.5 rounded bg-[#fafafa] border border-[#dfdfdf]">
-              <button
-                onClick={() => switchNetwork('mainnet')}
-                className={`px-2 py-1 rounded text-[11px] font-medium transition-colors ${
-                  network === 'mainnet'
-                    ? 'bg-white shadow-sm text-[#24b47e] font-semibold'
-                    : 'text-[#707070]'
-                }`}
-              >
-                Mainnet
-              </button>
-              <button
-                onClick={() => switchNetwork('testnet')}
-                className={`px-2 py-1 rounded text-[11px] font-medium transition-colors ${
-                  network === 'testnet'
-                    ? 'bg-white shadow-sm text-amber-700 font-semibold'
-                    : 'text-[#707070]'
-                }`}
-              >
-                Testnet
-              </button>
-            </div>
+
+            {manualNotice && (
+              <div className="p-2.5 rounded-md bg-amber-50 border border-amber-200 text-amber-800 text-[11px] leading-relaxed animate-in fade-in">
+                <span>{manualNotice}</span>
+              </div>
+            )}
           </div>
         </div>
 

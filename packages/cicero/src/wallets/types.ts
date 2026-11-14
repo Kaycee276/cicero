@@ -35,5 +35,7 @@ export interface ZcashWallet {
   connect: (options?: { network?: ZcashNetwork }) => Promise<WalletSession>;
   disconnect?: () => Promise<void>;
   getBalance?: (options?: { address?: string; network?: ZcashNetwork }) => Promise<number | null>;
+  getNetwork?: () => Promise<ZcashNetwork>;
+  switchNetwork?: (network: ZcashNetwork) => Promise<{ success: boolean; requiresManualSwitch?: boolean; currentNetwork?: ZcashNetwork }>;
   sendPayment?: (params: SendPaymentParams) => Promise<SendPaymentResult>;
 }
