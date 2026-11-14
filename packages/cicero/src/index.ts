@@ -14,21 +14,16 @@ export type {
   BalanceState,
 } from './context/CiceroContext';
 
-// Components
+// Components — Wallet Connection
 export { CiceroConnectButton } from './components/CiceroConnectButton';
 export type { CiceroConnectButtonProps } from './components/CiceroConnectButton';
 export { CiceroConnectModal } from './components/CiceroConnectModal';
 export type { CiceroConnectModalProps } from './components/CiceroConnectModal';
 export { CiceroAccountModal } from './components/CiceroAccountModal';
 export type { CiceroAccountModalProps } from './components/CiceroAccountModal';
-export { CiceroPayButton } from './components/CiceroPayButton';
-export { CiceroModal } from './components/CiceroModal';
 export { CiceroQRCode } from './components/CiceroQRCode';
-export { CiceroInvoice } from './components/CiceroInvoice';
 
 // Hooks
-export { useCiceroPayment } from './hooks/useCiceroPayment';
-export type { UseCiceroPaymentOptions } from './hooks/useCiceroPayment';
 export { useZcashPrice } from './hooks/useZcashPrice';
 export { useZucchiniWallet } from './hooks/useZucchiniWallet';
 export type { UseZucchiniWalletOptions } from './hooks/useZucchiniWallet';
@@ -58,11 +53,7 @@ export type { BuildZip321Params } from './utils/zip321';
 
 // Types
 export type {
-  CiceroPayProps,
-  PaymentStatus,
   ZcashNetwork,
   ZcashAddressType,
   CiceroTheme,
-  PaymentDetails,
-  Zip321PaymentRequest,
 } from './types';

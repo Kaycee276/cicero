@@ -1,7 +1,7 @@
 {
   "name": "@cicero-zcash/react",
-  "version": "0.1.0",
-  "description": "Drop-in React payment button and checkout modal for shielded Zcash (ZIP-321 compliant)",
+  "version": "0.2.0",
+  "description": "Universal wallet connection toolkit for shielded Zcash (RainbowKit of Zcash)",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -36,13 +36,15 @@
   },
   "keywords": [
     "zcash",
-    "shielded-payments",
+    "wallet-adapter",
     "react",
-    "checkout",
-    "zip-321",
+    "rainbowkit",
+    "connect-wallet",
     "unified-addresses",
+    "zucchini",
     "zashi",
-    "ywallet"
+    "ywallet",
+    "shielded-zcash"
   ],
   "author": "Kaycee276",
   "license": "MIT",

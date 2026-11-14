@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Shield, ArrowRight, Copy, Check, Terminal, Lock, Sparkles } from 'lucide-react';
-import { CiceroPayButton } from '@cicero-zcash/react';
+import { Shield, ArrowRight, Copy, Check, Terminal, Wallet, Sparkles } from 'lucide-react';
+import { CiceroConnectButton } from '@cicero-zcash/react';
 
 export const HeroSection: React.FC = () => {
   const [copiedInstall, setCopiedInstall] = useState(false);
@@ -28,14 +28,14 @@ export const HeroSection: React.FC = () => {
             <span>The RainbowKit of Shielded Zcash • Cicero v0.2.0</span>
           </div>
 
-          {/* Display Headline per DESIGN.md: weight 500, tight negative tracking */}
+          {/* Display Headline */}
           <h1 className="display-xxl text-[#171717] tracking-tight">
-            Universal wallet connection & checkout for <span className="underline decoration-[#3ecf8e] decoration-4 underline-offset-4">Shielded Zcash</span>.
+            Universal wallet connection for <span className="underline decoration-[#3ecf8e] decoration-4 underline-offset-4">Shielded Zcash</span>.
           </h1>
 
           {/* Body Lead */}
           <p className="mt-6 text-lg sm:text-xl text-[#707070] leading-relaxed font-normal">
-            The developer toolkit for Zcash: connect to any wallet (Zucchini extension, Zashi, Ywallet, Viewing Keys) with a single hook, plus drop-in zero-knowledge checkout modals and 512-byte encrypted memos.
+            The developer toolkit for Zcash: connect to any wallet (Zucchini browser extension, Zashi, Ywallet, Viewing Keys) with a single component. Auto-detects network, syncs balances, and renders a RainbowKit-style account drawer — all zero-knowledge native.
           </p>
 
           {/* Action Row */}
@@ -75,7 +75,7 @@ export const HeroSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Composited UI Mockup: Hero Live Demonstration */}
+        {/* Hero Live Demonstration — Wallet Connect */}
         <div className="mt-14 p-6 sm:p-8 rounded-[12px] bg-[#fafafa] border border-[#ededed] shadow-sm">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="space-y-3 max-w-lg">
@@ -86,36 +86,32 @@ export const HeroSection: React.FC = () => {
                 <span className="text-xs text-[#707070]">• Zero Setup</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-semibold text-[#171717] tracking-tight">
-                One component. Complete zero-knowledge checkout.
+                One component. Full wallet integration.
               </h3>
               <p className="text-sm text-[#707070] leading-relaxed">
-                Click the button below to test the live modal. It builds an RFC ZIP-321 URI with an encrypted memo, renders a dynamic QR code for mobile wallets, and polls for on-chain settlement.
+                Click the button below to connect your Zcash wallet. Cicero auto-detects the active network (Mainnet or Testnet), queries your shielded balance, and renders a RainbowKit-style account pill with network indicator, balance display, and account drawer.
               </p>
               <div className="pt-2 flex items-center gap-4 text-xs text-[#707070]">
                 <div className="flex items-center gap-1.5">
-                  <Lock className="w-3.5 h-3.5 text-[#3ecf8e]" />
-                  <span>512-byte Encrypted Memo</span>
+                  <Wallet className="w-3.5 h-3.5 text-[#3ecf8e]" />
+                  <span>Multi-Wallet Support</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Shield className="w-3.5 h-3.5 text-[#3ecf8e]" />
-                  <span>Unified Address (ZIP-316)</span>
+                  <span>Auto Network Sync</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#3ecf8e]" />
+                  <span>Live Balance</span>
                 </div>
               </div>
             </div>
 
             {/* Live interactive trigger */}
             <div className="flex-shrink-0 p-6 bg-white rounded-[12px] border border-[#ededed] shadow-md flex flex-col items-center gap-3 w-full sm:w-auto min-w-[280px]">
-              <span className="text-xs font-mono text-[#707070]">Try the modal trigger:</span>
-              <CiceroPayButton
-                recipient="u1qwe829xkps9482mzsll049281kz8471hzkas093847zkd09472619as8361048293710293847102938471029384710"
-                amount={0.05}
-                memo="Cicero Demo Order #1042"
-                message="Sample checkout transaction"
-                size="lg"
-                variant="primary"
-                label="Pay 0.05 ZEC with Cicero"
-              />
-              <span className="text-[11px] text-[#9a9a9a]">Clicking opens the live shielded payment modal</span>
+              <span className="text-xs font-mono text-[#707070]">Try the wallet connect button:</span>
+              <CiceroConnectButton size="lg" variant="primary" />
+              <span className="text-[11px] text-[#9a9a9a]">Opens wallet selector or account drawer</span>
             </div>
           </div>
         </div>

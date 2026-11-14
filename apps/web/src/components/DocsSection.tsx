@@ -41,75 +41,47 @@ export function App() {
 }`,
     },
     {
-      title: 'Quickstart Checkout Button',
-      code: `import { CiceroPayButton } from '@cicero-zcash/react';
+      title: 'Account & Balance Hooks',
+      code: `import { useAccount, useBalance, useCicero } from '@cicero-zcash/react';
 
-export function Checkout() {
+function Dashboard() {
+  const { address, isConnected, wallet } = useAccount();
+  const { zec, usd, refetch } = useBalance();
+  const { network, switchNetwork } = useCicero();
+
+  if (!isConnected) return <p>Not connected</p>;
+
   return (
-    <CiceroPayButton
-      recipient="u1qwe829xkps9482mzsll049281kz8471..."
-      amount={0.15}
-      memo="Order #8921 - Digital Pass"
-      variant="primary"
-      size="md"
-      onSuccess={({ txId, amount }) => {
-        alert(\`Settled on-chain! Tx: \${txId}\`);
-      }}
-    />
+    <div>
+      <p>{wallet?.name} on {network}</p>
+      <p>{address}</p>
+      <p>{zec} ZEC (~\${usd})</p>
+      <button onClick={refetch}>Refresh</button>
+    </div>
   );
 }`,
     },
     {
-      title: 'Direct Zucchini Browser Wallet Hook',
+      title: 'Direct Zucchini Wallet Hook',
       code: `import { useZucchiniWallet } from '@cicero-zcash/react';
 
-export function ZucchiniPay() {
-  const { isAvailable, connect, requestPayment } = useZucchiniWallet();
-
-  const handlePay = async () => {
-    await connect();
-    const { txId } = await requestPayment({
-      recipient: 'u1...',
-      amount: 0.25,
-      memo: 'Order #1042',
-    });
-    alert(\`Submitted in Zucchini! Tx: \${txId}\`);
-  };
+export function ZucchiniConnect() {
+  const { isAvailable, isConnected, connect, address } = useZucchiniWallet();
 
   return (
-    <button onClick={handlePay} disabled={!isAvailable}>
-      {isAvailable ? 'Pay with Zucchini' : 'Install Zucchini'}
-    </button>
+    <div>
+      {!isAvailable && <p>Install Zucchini extension</p>}
+      {isAvailable && !isConnected && (
+        <button onClick={() => connect()}>Connect Zucchini</button>
+      )}
+      {isConnected && <p>Connected: {address}</p>}
+    </div>
   );
 }`,
     },
   ];
 
   const propsTable = [
-    {
-      prop: 'recipient',
-      type: 'string',
-      required: true,
-      desc: 'Recipient Zcash address (Unified u1, Sapling zs1, or Transparent t1)',
-    },
-    {
-      prop: 'amount',
-      type: 'number | string',
-      required: true,
-      desc: 'Amount to be paid in ZEC (e.g. 0.05)',
-    },
-    {
-      prop: 'memo',
-      type: 'string',
-      required: false,
-      desc: 'Zero-knowledge encrypted memo (up to 512 bytes on shielded addresses)',
-    },
-    {
-      prop: 'message',
-      type: 'string',
-      required: false,
-      desc: 'Human-readable order note per ZIP-321 specification',
-    },
     {
       prop: 'variant',
       type: "'primary' | 'outline' | 'dark'",
@@ -123,17 +95,39 @@ export function ZucchiniPay() {
       desc: 'Button dimension and padding tier (defaults to md)',
     },
     {
-      prop: 'network',
-      type: "'mainnet' | 'testnet'",
+      prop: 'label',
+      type: 'string',
       required: false,
-      desc: 'Target Zcash network (defaults to mainnet)',
+      desc: 'Custom button label text (defaults to "Connect Zcash Wallet")',
     },
     {
-      prop: 'onSuccess',
-      type: '(tx: { txId: string; amount: number; memo?: string }) => void',
+      prop: 'showBalance',
+      type: 'boolean',
       required: false,
-      desc: 'Callback triggered upon verified on-chain confirmation',
+      desc: 'Show shielded balance in the connected pill (defaults to true)',
     },
+    {
+      prop: 'showNetwork',
+      type: 'boolean',
+      required: false,
+      desc: 'Show network indicator badge in connected pill (defaults to true)',
+    },
+    {
+      prop: 'className',
+      type: 'string',
+      required: false,
+      desc: 'Custom CSS classes for the connect button',
+    },
+  ];
+
+  const hooksTable = [
+    { hook: 'useCicero()', desc: 'Full context: account, network, balance, connect, disconnect, switchNetwork, modal controls' },
+    { hook: 'useAccount()', desc: 'Account state: address, isConnected, isConnecting, wallet, disconnect' },
+    { hook: 'useBalance()', desc: 'Balance state: zec, usd, isLoading, refetch' },
+    { hook: 'useConnectModal()', desc: 'Modal controls: isOpen, openConnectModal, closeConnectModal' },
+    { hook: 'useAccountModal()', desc: 'Modal controls: isOpen, openAccountModal, closeAccountModal' },
+    { hook: 'useZcashPrice()', desc: 'Live ZEC/USD price with convertZecToUsd() helper' },
+    { hook: 'useZucchiniWallet()', desc: 'Direct Zucchini adapter: isAvailable, connect, address, getBalance' },
   ];
 
   return (
@@ -147,12 +141,12 @@ export function ZucchiniPay() {
             Developer Reference
           </h2>
           <p className="mt-3 text-base text-[#707070] leading-relaxed">
-            Everything you need to integrate zero-knowledge Zcash checkout flows into your Next.js, React, or mobile web applications.
+            Everything you need to integrate Zcash wallet connection into your React applications.
           </p>
         </div>
 
         {/* Code Snippets Grid */}
-        <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
           {codeSnippets.map((snippet, idx) => (
             <div
               key={idx}
@@ -185,7 +179,7 @@ export function ZucchiniPay() {
         {/* Component Props Table */}
         <div className="mt-14">
           <h3 className="text-lg font-semibold text-[#171717] mb-4">
-            Component Props: <code className="font-mono text-sm bg-[#fafafa] px-2 py-0.5 rounded border border-[#dfdfdf]">&lt;CiceroPayButton /&gt;</code> & <code className="font-mono text-sm bg-[#fafafa] px-2 py-0.5 rounded border border-[#dfdfdf]">&lt;CiceroInvoice /&gt;</code>
+            Component Props: <code className="font-mono text-sm bg-[#fafafa] px-2 py-0.5 rounded border border-[#dfdfdf]">&lt;CiceroConnectButton /&gt;</code>
           </h3>
 
           <div className="overflow-x-auto border border-[#ededed] rounded-[12px] shadow-sm">
@@ -215,6 +209,34 @@ export function ZucchiniPay() {
                           Optional
                         </span>
                       )}
+                    </td>
+                    <td className="p-4 text-[#171717]">{row.desc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Hooks Reference Table */}
+        <div className="mt-10">
+          <h3 className="text-lg font-semibold text-[#171717] mb-4">
+            React Hooks
+          </h3>
+
+          <div className="overflow-x-auto border border-[#ededed] rounded-[12px] shadow-sm">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#fafafa] border-b border-[#ededed] text-[#707070] font-mono">
+                <tr>
+                  <th className="p-4">Hook</th>
+                  <th className="p-4">Returns</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#ededed] bg-white">
+                {hooksTable.map((row, idx) => (
+                  <tr key={idx} className="hover:bg-[#fafafa]/80 transition-colors">
+                    <td className="p-4 font-mono font-semibold text-[#24b47e]">
+                      {row.hook}
                     </td>
                     <td className="p-4 text-[#171717]">{row.desc}</td>
                   </tr>

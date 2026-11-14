@@ -1,49 +1,49 @@
 import React from 'react';
-import { Shield, Lock, Smartphone, Terminal, Cpu, CheckCircle2 } from 'lucide-react';
+import { Shield, Wallet, Smartphone, RefreshCw, Cpu, CheckCircle2 } from 'lucide-react';
 
 export const FeaturesSection: React.FC = () => {
   const features = [
     {
-      icon: <Terminal className="w-5 h-5 text-[#3ecf8e]" />,
-      title: 'ZIP-321 Payment Request Protocol',
-      badge: 'RFC Standard',
+      icon: <Wallet className="w-5 h-5 text-[#3ecf8e]" />,
+      title: 'RainbowKit-Style Connect Button',
+      badge: 'Core',
       description:
-        'Generates fully compliant Zcash payment request URIs adhering to the official ZIP-321 specification. Handles decimal amount sanitization and RFC-4648 Base64URL memo encoding without padding.',
+        'A single <CiceroConnectButton /> renders a multi-state wallet pill: connect trigger → wallet selector modal → connected account drawer with balance, network badge, QR code, and disconnect.',
     },
     {
-      icon: <Lock className="w-5 h-5 text-[#3ecf8e]" />,
-      title: '512-Byte Shielded Encrypted Memos',
-      badge: 'Zero-Knowledge',
+      icon: <Smartphone className="w-5 h-5 text-[#3ecf8e]" />,
+      title: 'Zucchini, Zashi & Ywallet Support',
+      badge: 'Multi-Wallet',
       description:
-        'Attach encrypted order IDs, license keys, or confidential notes. Memos are encrypted on-chain using zk-SNARKs and can only be decrypted by the recipient holding the viewing or spending key.',
+        'Connect directly to Zucchini browser extension with 1-click, or use Zashi and Ywallet on mobile. Viewing-key and burner wallet modes also supported for read-only dashboards.',
+    },
+    {
+      icon: <RefreshCw className="w-5 h-5 text-[#3ecf8e]" />,
+      title: 'Bi-Directional Network Sync',
+      badge: 'Live Sync',
+      description:
+        'Cicero auto-detects the wallet\'s active network on connect and listens for live network/account change events. When you toggle Mainnet ↔ Testnet in the extension, Cicero updates instantly.',
     },
     {
       icon: <Shield className="w-5 h-5 text-[#3ecf8e]" />,
       title: 'Unified Address (ZIP-316) Parsing',
       badge: 'Multi-Pool',
       description:
-        'Intelligently validates and parses Unified Addresses (`u1`), Sapling shielded pools (`zs1`), and legacy transparent addresses (`t1`). Provides real-time warnings if an unshielded address attempts to use memos.',
-    },
-    {
-      icon: <Smartphone className="w-5 h-5 text-[#3ecf8e]" />,
-      title: 'Zucchini, Zashi & Ywallet Handoff',
-      badge: 'Browser + Mobile',
-      description:
-        'Direct 1-click in-browser approval with the Zucchini Wallet Chrome extension, plus dynamic QR codes and deep links for mobile shielded wallets like Zashi (Electric Coin Co.) and Ywallet.',
+        'Validates and classifies Unified Addresses (u1), Sapling shielded pools (zs1), and transparent addresses (t1). Network is inferred from address prefix — no guessing needed.',
     },
     {
       icon: <Cpu className="w-5 h-5 text-[#3ecf8e]" />,
-      title: 'Client-Side Real-Time Watcher',
+      title: 'Per-Network Balance Queries',
       badge: 'State Machine',
       description:
-        'A comprehensive payment lifecycle engine tracking idle, pending, mempool-detected, confirmed, and expired invoice states with automatic 15-minute countdowns and status callbacks.',
+        'Balances are queried and cached per-network. Switching from Mainnet to Testnet instantly fetches the correct shielded balance with loading states and automatic USD conversion.',
     },
     {
       icon: <CheckCircle2 className="w-5 h-5 text-[#3ecf8e]" />,
       title: 'Dynamic Fiat Rate Feeds',
       badge: 'Price Oracle',
       description:
-        'Automatic caching hook `useZcashPrice()` converts live ZEC amounts into estimated USD equivalents using decentralized API fallbacks, preventing stale rates and API rate-limiting.',
+        'The useZcashPrice() hook provides live ZEC → USD conversion with decentralized API fallbacks, automatic caching, and configurable refresh intervals.',
     },
   ];
 
@@ -58,7 +58,7 @@ export const FeaturesSection: React.FC = () => {
             Built on Zcash Cryptographic Standards
           </h2>
           <p className="mt-3 text-base text-[#707070] leading-relaxed">
-            Cicero replaces fragmented Zcash payment scripts with a cohesive, battle-tested component suite engineered for consumer web applications.
+            Cicero replaces fragmented Zcash wallet integration scripts with a cohesive, production-ready component suite for React applications.
           </p>
         </div>
 

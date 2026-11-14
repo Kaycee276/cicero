@@ -2,16 +2,16 @@
 
 # 🛡️ Cicero
 
-### The Developer Payment Kit for Shielded Zcash
+### The RainbowKit for Shielded Zcash
 
-**Drop-in React components for zero-knowledge payments, RFC-compliant ZIP-321 request URIs, and 512-byte encrypted memos.**
+**Universal wallet connection, bi-directional network synchronization, and multi-wallet state management for React and Next.js applications.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-3ecf8e.svg)](https://opensource.org/licenses/MIT)
+[![NPM Version](https://img.shields.io/npm/v/@cicero-zcash/react?color=3ecf8e)](https://www.npmjs.com/package/@cicero-zcash/react)
 [![Zcash](https://img.shields.io/badge/Zcash-Shielded-171717?logo=zcash&logoColor=3ecf8e)](https://z.cash)
-[![ZIP-321](https://img.shields.io/badge/Standard-ZIP--321-24b47e)](https://zips.z.cash/zip-0321)
 [![Design](https://img.shields.io/badge/Design-Supabase%20Tokens-3ecf8e)](./DESIGN.md)
 
-[Live Interactive Studio](#live-studio) • [Quickstart](#quickstart) • [Component Props](#component-props) • [Use Cases](#why-cicero)
+[Live Demo](https://cicero-zcash.vercel.app) • [Quickstart](#-quickstart) • [React Hooks](#-react-hooks) • [Supported Wallets](#-supported-wallets)
 
 ---
 
@@ -19,45 +19,60 @@
 
 ## 📖 What is Cicero?
 
-**Cicero** (named after *Marcus Tullius Cicero*, Roman defender of liberty and confidential correspondence) is the **"RainbowKit / Stripe Elements of Zcash"**.
+**Cicero** is the **"RainbowKit of Zcash"**. It provides a drop-in, zero-knowledge native wallet connection suite:
 
-It provides two interconnected primitives:
-1. **Universal Wallet Connection (`<CiceroConnectButton />` & `<CiceroProvider>`):** Connect any Zcash wallet (Zucchini Chrome Extension, Zashi Mobile, Ywallet, Viewing Keys, or Dev Sessions) with custom modal UI and React hooks (`useAccount()`, `useBalance()`, `useCicero()`).
-2. **Drop-in Shielded Checkout (`<CiceroPayButton />` & `<CiceroInvoice />`):** Accept zero-knowledge Zcash payments with automatic ZIP-321 request URIs, 512-byte encrypted memos, and live settlement detection.
+- 🥒 **Zucchini Chrome Extension:** 1-click in-browser connection and shielded account detection.
+- 📱 **Mobile & Desktop Wallets:** Zashi (Electric Coin Co.) and Ywallet QR handoff.
+- 🔑 **Viewing Key Mode:** Audit and read-only treasury dashboard connection.
+- 🔄 **Bi-Directional Network Sync:** Automatically detects Mainnet vs Testnet from wallet address prefixes and listens to extension network change events.
+- 💰 **Per-Network Balance Segregation:** Independent balance caching for Mainnet and Testnet with live USD conversion.
 
 ```tsx
-import { CiceroProvider, CiceroConnectButton } from '@cicero-zcash/react';
+import { CiceroProvider, CiceroConnectButton, useAccount, useBalance } from '@cicero-zcash/react';
 
 export default function App() {
   return (
     <CiceroProvider initialNetwork="mainnet">
-      <nav>
-        <CiceroConnectButton />
+      <nav className="flex justify-between p-4 border-b">
+        <span>My Zcash dApp</span>
+        <CiceroConnectButton variant="primary" size="md" />
       </nav>
-      <MainApp />
+      <Dashboard />
     </CiceroProvider>
+  );
+}
+
+function Dashboard() {
+  const { address, isConnected, wallet } = useAccount();
+  const { zec, usd } = useBalance();
+
+  if (!isConnected) return <p>Please connect your Zcash wallet.</p>;
+
+  return (
+    <div>
+      <p>Connected to {wallet?.name}</p>
+      <p>Address: {address}</p>
+      <p>Balance: {zec} ZEC (~${usd} USD)</p>
+    </div>
   );
 }
 ```
 
 ---
 
-## ⚡ Core Features
+## ⚡ Features
 
-- **🛡️ Native Zero-Knowledge Checkout:** Full support for Orchard and Sapling shielded pools with mathematical sender/recipient confidentiality.
-- **🥒 1-Click Zucchini Browser Wallet:** Directly prompts the **Zucchini Wallet** Chrome extension side-panel for instant in-browser signing without needing a second device.
-- **✉️ 512-Byte Shielded Encrypted Memos:** Safely attach order numbers, licensing tokens, or private notes directly into the transaction without leaking plaintext to the public ledger.
-- **📜 RFC ZIP-321 URI Standard:** Compliant with official Zcash Payment Request URIs, featuring padding-free Base64URL memo encoding.
-- **🌐 Unified Address Intelligence (ZIP-316):** Auto-detects receiver types (`u1`, `zs1`, `t1`) and provides warnings if users attempt unshielded transactions.
-- **📱 Mobile & Desktop Handoff:** Pre-configured deep links and dynamic QR codes compatible with **Zashi** (Electric Coin Co.) and **Ywallet**.
-- **🎨 Supabase Design Language:** Clean, technical aesthetic styled strictly with Supabase tokens (emerald `#3ecf8e` primary CTAs, `#171717` ink typography, 6px button radii, and `#1c1c1c` code blocks).
-- **⏱️ Lifecycle State Watcher:** Manages countdowns (15-min invoices), mempool transaction detection, confirmed states, and developer simulation controls for rapid hackathon testing.
+- **🛡️ Shielded-First Architecture:** Built specifically for Zcash's Unified Address standard (ZIP-316), Sapling (`zs1`), and Transparent (`t1`) pools.
+- **🔄 Live Network & Chain Synchronization:** Listens to wallet extension events (`networkChanged`, `accountsChanged`). Switching between Mainnet and Testnet inside Zucchini immediately updates Cicero and queries the new balance.
+- **💼 RainbowKit-Style Connected Pill:** Displays active network indicator (green/amber dot), current ZEC balance, and truncated address. Clicking opens an account drawer with address copying, QR code receive view, and network switch assistance.
+- **🎨 Supabase Design Language:** Styled with Supabase tokens (`#3ecf8e` emerald accents, `#171717` ink typography, 6px button radii, clean border tokens).
+- **🪙 Live Fiat Conversions:** `useZcashPrice()` hook provides cached, rate-limited ZEC/USD pricing with automatic fallback.
 
 ---
 
 ## 🚀 Quickstart
 
-### 1. Install the package
+### 1. Install
 
 ```bash
 pnpm add @cicero-zcash/react
@@ -67,176 +82,111 @@ npm install @cicero-zcash/react
 yarn add @cicero-zcash/react
 ```
 
-### 2. Drop into your React or Next.js app
+### 2. Wrap your app in `<CiceroProvider>`
 
 ```tsx
-import { CiceroPayButton } from '@cicero-zcash/react';
+import { CiceroProvider } from '@cicero-zcash/react';
 
-export default function StoreItem() {
+export function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="card">
-      <h3>Premium Research Paper</h3>
-      <p>Instant unlock via zero-knowledge settlement</p>
-      
-      <CiceroPayButton
-        recipient="u1qwe829xkps9482mzsll049281kz8471..."
-        amount={0.05}
-        memo="Unlock Paper #42"
-        variant="primary"
-        size="md"
-        onSuccess={({ txId, amount }) => {
-          alert(`Settled on-chain! Tx: ${txId}`);
-        }}
-      />
-    </div>
+    <CiceroProvider initialNetwork="mainnet" appName="My Zcash dApp">
+      {children}
+    </CiceroProvider>
+  );
+}
+```
+
+### 3. Add the `<CiceroConnectButton />`
+
+```tsx
+import { CiceroConnectButton } from '@cicero-zcash/react';
+
+export function Header() {
+  return (
+    <header className="flex justify-between items-center p-4">
+      <h1>Zcash Portal</h1>
+      <CiceroConnectButton variant="primary" size="md" />
+    </header>
   );
 }
 ```
 
 ---
 
-## 🧩 Component Options
+## 🪝 React Hooks
 
-### Modal Button: `<CiceroPayButton />`
-A button that triggers the modal dialog containing the ZIP-321 QR code, deep links, address copy tools, and live settlement watcher.
+Cicero exports familiar, ergonomic hooks modeled after RainbowKit and wagmi:
 
-### Inline Card: `<CiceroInvoice />`
-An embeddable payment card that renders directly on page—ideal for checkout flows, POS tablets, or invoice dashboards.
-
-### Headless Hook: `useCiceroPayment()`
-Full programmatic control over the Zcash payment state machine:
-
+### `useAccount()`
 ```tsx
-import { useCiceroPayment, CiceroQRCode } from '@cicero-zcash/react';
-
-function CustomPaymentUI() {
-  const {
-    status,
-    zip321Uri,
-    secondsRemaining,
-    addressType,
-    isShielded,
-    simulateDetection,
-  } = useCiceroPayment({
-    recipient: 'u1...',
-    amount: 0.25,
-    memo: 'Invoice #1092',
-  });
-
-  return (
-    <div>
-      <CiceroQRCode value={zip321Uri} size={160} />
-      <p>Status: {status}</p>
-      <p>Address: {addressType} ({isShielded ? 'Shielded' : 'Transparent'})</p>
-      <p>Remaining: {secondsRemaining}s</p>
-    </div>
-  );
-}
+const {
+  address,        // string | null - Active shielded or transparent address
+  isConnected,    // boolean - Whether a wallet is connected
+  isConnecting,   // boolean - True during connection handshake
+  wallet,         // ZcashWallet | null - Active wallet adapter metadata
+  disconnect,     // () => Promise<void> - Disconnect handler
+} = useAccount();
 ```
 
-### Direct Browser Wallet Hook: `useZucchiniWallet()`
-Directly prompt the **Zucchini Wallet** Chrome extension side-panel for in-browser payments:
-
+### `useBalance()`
 ```tsx
-import { useZucchiniWallet } from '@cicero-zcash/react';
+const {
+  zec,            // number - Shielded balance in ZEC
+  usd,            // string | null - Estimated USD equivalent
+  isLoading,      // boolean - True when querying balance
+  refetch,        // () => Promise<void> - Re-queries balance from wallet/RPC
+} = useBalance();
+```
 
-function ZucchiniCheckout() {
-  const { isAvailable, connect, requestPayment } = useZucchiniWallet();
-
-  const handlePay = async () => {
-    await connect();
-    const { txId } = await requestPayment({
-      recipient: 'u1qwe829...',
-      amount: 0.1,
-      memo: 'Order #9821',
-    });
-    console.log('Payment submitted via Zucchini!', txId);
-  };
-
-  return (
-    <button onClick={handlePay} disabled={!isAvailable}>
-      {isAvailable ? 'Pay with Zucchini Wallet' : 'Install Zucchini'}
-    </button>
-  );
-}
+### `useCicero()`
+Full context access including network state, modal controls, and raw wallet methods:
+```tsx
+const {
+  account,
+  network,        // 'mainnet' | 'testnet'
+  switchNetwork,  // (net: 'mainnet' | 'testnet') => Promise<SwitchResult>
+  openConnectModal,
+  closeConnectModal,
+  openAccountModal,
+  closeAccountModal,
+} = useCicero();
 ```
 
 ---
 
-## ⚙️ Component Props Reference
+## 🔌 Supported Wallets
 
-| Prop | Type | Required | Description |
-| :--- | :--- | :---: | :--- |
-| `recipient` | `string` | **Yes** | Zcash recipient address (Unified `u1`, Sapling `zs1`, or Transparent `t1`) |
-| `amount` | `number \| string` | **Yes** | Amount in ZEC (e.g. `0.05`) |
-| `memo` | `string` | No | Zero-knowledge encrypted memo (up to 512 bytes on shielded addresses) |
-| `message` | `string` | No | Human-readable order note per ZIP-321 |
-| `label` | `string` | No | Button label text (defaults to `"Pay with Zcash"`) |
-| `variant` | `'primary' \| 'outline' \| 'dark'` | No | Visual style token (defaults to signature emerald primary) |
-| `size` | `'sm' \| 'md' \| 'lg'` | No | Button dimension and padding tier |
-| `network` | `'mainnet' \| 'testnet'` | No | Target Zcash network (defaults to `'mainnet'`) |
-| `showUsd` | `boolean` | No | Displays live estimated USD conversion (defaults to `true`) |
-| `invoiceId` | `string` | No | Custom merchant invoice identifier |
-| `onSuccess` | `(tx) => void` | No | Callback fired upon on-chain payment confirmation |
-| `onStatusChange` | `(status) => void` | No | Callback fired on status transitions (`pending`, `detected`, `confirmed`, `expired`) |
+| Wallet | Type | Support | Features |
+|---|---|---|---|
+| **Zucchini** | Chrome Extension | Direct in-browser | 1-click connect, live network sync, shielded balance |
+| **Zashi** | Mobile (iOS/Android) | QR Handoff | Electric Coin Co. official wallet |
+| **Ywallet** | Desktop & Mobile | QR Handoff | Multi-platform shielded wallet |
+| **Viewing Key** | Read-Only | Manual Input | Auditor compliance, treasury dashboards |
+| **Burner Wallet**| Dev / Sandbox | Ephemeral | Instant testing in development |
 
 ---
 
-## 💡 Real-World Use Cases
-
-1. **Confidential Remote Payroll & Freelance:**  
-   Public wallets on Ethereum or Solana leak salary and savings to coworkers and competitors. Cicero allows businesses to pay contractors in shielded ZEC with private invoice IDs in the encrypted memo.
-2. **Sub-Cent Creator & Research Micro-Paywalls:**  
-   Credit card processing ($0.30 fixed fee) makes $0.10 articles economically impossible. Cicero enables pay-per-read micro-payments with near-zero transaction fees.
-3. **Anonymous Whistleblower & Investigative Bounties:**  
-   Informants submit encrypted leak verification hashes directly inside the 512-byte memo and receive shielded bounties without leaving an IP or public wallet trail.
-
----
-
-## 🏗️ Monorepo Structure
+## 🏗️ Repository Architecture
 
 ```text
 cicero/
-├── packages/
-│   └── cicero/                  # @cicero-zcash/react component library
-│       ├── src/
-│       │   ├── components/      # CiceroPayButton, CiceroModal, CiceroQRCode, CiceroInvoice
-│       │   ├── hooks/           # useCiceroPayment, useZcashPrice
-│       │   ├── utils/           # ZIP-321 builder, address validator, deep links
-│       │   └── index.ts
-│       └── tsup.config.ts
 ├── apps/
-│   └── web/                     # Next.js 15 interactive studio & docs
+│   └── web/                     # Interactive Next.js documentation & studio
+├── packages/
+│   └── cicero/                  # Core @cicero-zcash/react npm package
 │       ├── src/
-│       │   ├── app/             # App router pages
-│       │   └── components/      # PlaygroundStudio, HeroSection, Navbar, DocsSection
-│       └── tailwind.config.ts
-├── DESIGN.md                    # Supabase design system token specification
-├── pnpm-workspace.yaml
-└── README.md
+│       │   ├── components/      # CiceroConnectButton, CiceroConnectModal, CiceroAccountModal
+│       │   ├── context/         # CiceroContext, useAccount, useBalance
+│       │   ├── hooks/           # useZcashPrice, useZucchiniWallet
+│       │   ├── wallet/          # ZucchiniWalletAdapter
+│       │   ├── wallets/         # Zucchini, Zashi, Ywallet, ViewingKey, Burner connectors
+│       │   └── utils/           # ZIP-316 unified address validation, ZIP-321
+│       └── tsup.config.ts       # ESM/CJS dual-build & DTS bundle
+└── pnpm-workspace.yaml
 ```
 
 ---
 
-## 🛠️ Development
+## 📄 License
 
-```bash
-# Clone the repository
-git clone git@github.com:Kaycee276/cicero.git
-cd cicero
-
-# Install dependencies across all packages
-pnpm install
-
-# Run the live studio and docs
-pnpm dev
-
-# Build both package and web app
-pnpm build
-```
-
----
-
-## 📜 License
-
-MIT License © 2026 [Kaycee276](https://github.com/Kaycee276)
+MIT © [Kaycee276](https://github.com/Kaycee276)

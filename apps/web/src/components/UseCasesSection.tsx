@@ -1,57 +1,47 @@
 'use client';
 
 import React from 'react';
-import { Briefcase, BookOpen, ShieldAlert, Check } from 'lucide-react';
-import { CiceroPayButton } from '@cicero-zcash/react';
+import { Briefcase, Globe, ShieldAlert, Wallet, Check } from 'lucide-react';
 
 export const UseCasesSection: React.FC = () => {
   const useCases = [
     {
-      icon: <Briefcase className="w-5 h-5 text-[#3ecf8e]" />,
-      title: 'Confidential Payroll & Contractor Invoicing',
+      icon: <Globe className="w-5 h-5 text-[#3ecf8e]" />,
+      title: 'Privacy-First dApp Onboarding',
       problem:
-        'Paying remote contractors via Ethereum or Solana publishes their salaries, net worth, and financial history on public block explorers.',
+        'Ethereum dApps expose full wallet history the moment a user connects, compromising financial privacy before a single transaction occurs.',
       solution:
-        'Cicero generates shielded invoices with encrypted milestone identifiers. Only the contractor and employer can audit the transaction.',
-      amount: 1.25,
-      memo: 'Salary: Contractor #84 - Sprint 14 Milestone Settlement',
-      label: 'Disburse Salary (1.25 ZEC)',
+        'Cicero connects users via Zcash shielded wallets where addresses are unlinkable and balances are hidden by zero-knowledge proofs — privacy by default, from the first click.',
       highlights: [
-        'Total financial confidentiality',
-        'Viewing key auditor compliance',
-        'Zero wealth exposure or doxxing risk',
+        'Shielded balance display (no public ledger)',
+        'Auto network detection (Mainnet / Testnet)',
+        'Multi-wallet support (Zucchini, Zashi, Ywallet)',
       ],
     },
     {
-      icon: <BookOpen className="w-5 h-5 text-[#3ecf8e]" />,
-      title: 'Sub-Cent Creator & Research Micro-Paywalls',
+      icon: <Briefcase className="w-5 h-5 text-[#3ecf8e]" />,
+      title: 'Confidential Treasury Dashboards',
       problem:
-        'Credit cards charge $0.30 + 2.9% per swipe, making $0.05 to $0.50 pay-per-article business models economically impossible.',
+        'DAOs and companies using transparent chains inadvertently publish their entire treasury balance, payroll runway, and vendor relationships.',
       solution:
-        'Readers unlock individual articles, AI model weights, or research PDFs by paying micro-ZEC fees with negligible network costs.',
-      amount: 0.015,
-      memo: 'Unlock License: Paper #441 (Deep Learning In Zero-Knowledge)',
-      label: 'Unlock Article (0.015 ZEC)',
+        'Connect a Zcash viewing key through Cicero to build internal dashboards that show balances only to authorized stakeholders — invisible to the public.',
       highlights: [
-        'Sub-cent transaction economics',
-        'Instant digital license delivery',
-        'No monthly recurring subscription lock-in',
+        'Viewing key read-only mode',
+        'Real-time ZEC/USD price feeds',
+        'One-click account drawer with QR receive',
       ],
     },
     {
       icon: <ShieldAlert className="w-5 h-5 text-[#3ecf8e]" />,
-      title: 'Whistleblower & Investigative Bounties',
+      title: 'Journalist & Whistleblower Portals',
       problem:
-        'Informants exposing corruption or fraud risk physical retaliation when Web2 forms or public crypto wallets reveal their identities.',
+        'Informants risk exposure when connecting wallets on public chains — their identity can be inferred from transaction graphs and address clustering.',
       solution:
-        'News organizations and bounty sponsors receive encrypted verification keys in the 512-byte memo and disburse shielded rewards.',
-      amount: 2.0,
-      memo: 'Anonymous Reward: Document Leak Hash #88219-VERIFIED',
-      label: 'Claim Shielded Bounty (2.0 ZEC)',
+        'Cicero + Zcash shielded addresses ensure that connecting a wallet reveals zero metadata. Even the wallet address shown in the dApp is mathematically unlinkable to any on-chain history.',
       highlights: [
         'Zero metadata or IP address leakage',
-        'Encrypted on-chain submission receipts',
-        'Mathematically un-linkable recipient addresses',
+        'Mathematically unlinkable addresses',
+        'Unified Address (ZIP-316) native',
       ],
     },
   ];
@@ -64,10 +54,10 @@ export const UseCasesSection: React.FC = () => {
             Real-World Impact
           </span>
           <h2 className="display-lg text-[#171717] tracking-tight mt-2">
-            Where Zero-Knowledge Payments Matter Most
+            Where Zero-Knowledge Wallet Connection Matters
           </h2>
           <p className="mt-3 text-base text-[#707070] leading-relaxed">
-            Privacy isn’t just a luxury—it is fundamental security for remote work, digital commerce, and freedom of information.
+            Privacy isn't just a luxury — it is fundamental security for decentralized applications, treasury management, and freedom of information.
           </p>
         </div>
 
@@ -104,17 +94,6 @@ export const UseCasesSection: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </div>
-
-              <div className="pt-6 mt-6 border-t border-[#ededed]">
-                <CiceroPayButton
-                  recipient="u1qwe829xkps9482mzsll049281kz8471hzkas093847zkd09472619as8361048293710293847102938471029384710"
-                  amount={uc.amount}
-                  memo={uc.memo}
-                  label={uc.label}
-                  size="sm"
-                  className="w-full"
-                />
               </div>
             </div>
           ))}
