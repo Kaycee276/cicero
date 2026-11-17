@@ -119,7 +119,7 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
   const [showNetwork, setShowNetwork] = useState<boolean>(true);
   const [showIcon, setShowIcon] = useState<boolean>(true);
   const [activePreset, setActivePreset] = useState<string | null>('supabase');
-  const [theme, setThemeState] = useState<ThemeMode>('light');
+  const [theme, setThemeState] = useState<ThemeMode>('dark');
 
   // Synchronize theme with DOM & localStorage
   useEffect(() => {
@@ -129,16 +129,15 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
       setThemeState(saved);
       if (saved === 'dark') {
         document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
       } else {
         document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
       }
     } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const initial = prefersDark ? 'dark' : 'light';
-      setThemeState(initial);
-      if (initial === 'dark') {
-        document.documentElement.classList.add('dark');
-      }
+      setThemeState('dark');
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
     }
   }, []);
 

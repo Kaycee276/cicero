@@ -1,38 +1,53 @@
+'use client';
+
 import React from 'react';
-import { Shield, Github, Heart } from 'lucide-react';
+import { Shield, Github, Heart, ExternalLink, Award } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-white dark:bg-[#121212] border-t border-[#ededed] dark:border-[#262626] py-16 px-4 sm:px-6 lg:px-8 text-xs text-[#707070] dark:text-[#a1a1aa] transition-colors duration-200">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-[#09090b] border-t border-[#1a1a1e] py-16 px-4 sm:px-6 lg:px-8 text-xs text-zinc-400">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Brand Col */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-[4px] bg-[#171717] dark:bg-[#262626] flex items-center justify-center text-[#3ecf8e]">
-              <Shield className="w-3.5 h-3.5 fill-[#3ecf8e]" />
+        <div className="space-y-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-emerald-400">
+              <Shield className="w-4 h-4 fill-emerald-400/20" />
             </div>
-            <span className="font-semibold text-sm text-[#171717] dark:text-white">Cicero</span>
+            <span className="font-bold text-base text-white tracking-tight">Cicero</span>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+              v0.2.10
+            </span>
           </div>
-          <p className="text-xs text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
-            The universal wallet connection kit for shielded Zcash apps. Connect Zashi, Ywallet, Zingo, Keystones, and Orchard addresses in one click.
+
+          <p className="text-xs text-zinc-400 leading-relaxed">
+            The universal wallet connection kit for shielded Zcash apps. Connect Noir, Zelcore, Zucchini, Zashi, and Ywallet with cryptographic privacy by default.
           </p>
-          <p className="text-[11px] text-[#9a9a9a] dark:text-[#71717a]">
+
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/25 text-amber-300 text-[11px] font-medium">
+            <Award className="w-3.5 h-3.5 text-amber-400" />
+            <span>Winner: Zcash Global Hackathon 2024</span>
+          </div>
+
+          <p className="text-[11px] text-zinc-500">
             Named after Marcus Tullius Cicero, champion of confidential correspondence.
           </p>
         </div>
 
         {/* Resources Col */}
-        <div>
-          <h4 className="font-semibold text-[#171717] dark:text-white mb-3">Protocol Standards</h4>
+        <div className="space-y-3">
+          <h4 className="font-semibold text-white tracking-wider uppercase font-mono text-[11px]">
+            Protocol Standards
+          </h4>
           <ul className="space-y-2">
             <li>
               <a
                 href="https://zips.z.cash/zip-0321"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#171717] dark:hover:text-white transition-colors"
+                className="hover:text-emerald-400 transition-colors flex items-center gap-1"
               >
-                ZIP-321 (Payment Request URIs)
+                <span>ZIP-321 (Payment Request URIs)</span>
+                <ExternalLink className="w-3 h-3 text-zinc-600" />
               </a>
             </li>
             <li>
@@ -40,9 +55,10 @@ export const Footer: React.FC = () => {
                 href="https://zips.z.cash/zip-0316"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#171717] dark:hover:text-white transition-colors"
+                className="hover:text-emerald-400 transition-colors flex items-center gap-1"
               >
-                ZIP-316 (Unified Addresses)
+                <span>ZIP-316 (Unified Addresses)</span>
+                <ExternalLink className="w-3 h-3 text-zinc-600" />
               </a>
             </li>
             <li>
@@ -50,26 +66,41 @@ export const Footer: React.FC = () => {
                 href="https://z.cash/technology/zksnarks/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#171717] dark:hover:text-white transition-colors"
+                className="hover:text-emerald-400 transition-colors flex items-center gap-1"
               >
-                Halo 2 & zk-SNARKs
+                <span>Halo 2 & Recursive SNARKs</span>
+                <ExternalLink className="w-3 h-3 text-zinc-600" />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://eips.ethereum.org/EIPS/eip-6963"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-400 transition-colors flex items-center gap-1"
+              >
+                <span>EIP-6963 Multi-Provider Standard</span>
+                <ExternalLink className="w-3 h-3 text-zinc-600" />
               </a>
             </li>
           </ul>
         </div>
 
         {/* Ecosystem Col */}
-        <div>
-          <h4 className="font-semibold text-[#171717] dark:text-white mb-3">Zcash Ecosystem</h4>
+        <div className="space-y-3">
+          <h4 className="font-semibold text-white tracking-wider uppercase font-mono text-[11px]">
+            Zcash Ecosystem
+          </h4>
           <ul className="space-y-2">
             <li>
               <a
                 href="https://zechub.wiki"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#171717] dark:hover:text-white transition-colors"
+                className="hover:text-emerald-400 transition-colors flex items-center gap-1"
               >
-                ZecHub Open Source Wiki
+                <span>ZecHub Open Source Wiki</span>
+                <ExternalLink className="w-3 h-3 text-zinc-600" />
               </a>
             </li>
             <li>
@@ -77,9 +108,10 @@ export const Footer: React.FC = () => {
                 href="https://electriccoin.co"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#171717] dark:hover:text-white transition-colors"
+                className="hover:text-emerald-400 transition-colors flex items-center gap-1"
               >
-                Electric Coin Co. (Zashi Wallet)
+                <span>Electric Coin Co. (ECC)</span>
+                <ExternalLink className="w-3 h-3 text-zinc-600" />
               </a>
             </li>
             <li>
@@ -87,9 +119,10 @@ export const Footer: React.FC = () => {
                 href="https://ywallet.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#171717] dark:hover:text-white transition-colors"
+                className="hover:text-emerald-400 transition-colors flex items-center gap-1"
               >
-                Ywallet
+                <span>Ywallet Shielded Mobile</span>
+                <ExternalLink className="w-3 h-3 text-zinc-600" />
               </a>
             </li>
             <li>
@@ -97,44 +130,77 @@ export const Footer: React.FC = () => {
                 href="https://zcashcommunitygrants.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#171717] dark:hover:text-white transition-colors"
+                className="hover:text-emerald-400 transition-colors flex items-center gap-1"
               >
-                Zcash Community Grants
+                <span>Zcash Community Grants (ZCG)</span>
+                <ExternalLink className="w-3 h-3 text-zinc-600" />
               </a>
             </li>
           </ul>
         </div>
 
-        {/* GitHub & Open Source */}
-        <div>
-          <h4 className="font-semibold text-[#171717] dark:text-white mb-3">Open Source</h4>
+        {/* Developer Col */}
+        <div className="space-y-3">
+          <h4 className="font-semibold text-white tracking-wider uppercase font-mono text-[11px]">
+            Developer Resources
+          </h4>
           <ul className="space-y-2">
             <li>
               <a
                 href="https://github.com/Kaycee276/cicero"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#171717] dark:hover:text-white flex items-center gap-1.5 transition-colors"
+                className="hover:text-emerald-400 transition-colors flex items-center gap-1.5"
               >
-                <Github className="w-3.5 h-3.5" />
-                <span>Kaycee276/cicero</span>
+                <Github className="w-3.5 h-3.5 text-zinc-400" />
+                <span>GitHub Repository</span>
               </a>
             </li>
             <li>
-              <span className="text-[#9a9a9a] dark:text-[#71717a]">MIT Licensed</span>
+              <a
+                href="https://www.npmjs.com/package/@cicero-zcash/react"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-400 transition-colors flex items-center gap-1"
+              >
+                <span>NPM Package (@cicero-zcash/react)</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#playground"
+                className="hover:text-emerald-400 transition-colors"
+              >
+                Interactive Design Studio
+              </a>
+            </li>
+            <li>
+              <a
+                href="#paywall-demo"
+                className="hover:text-emerald-400 transition-colors"
+              >
+                zk-Shielded Paywall Demo
+              </a>
+            </li>
+            <li>
+              <a
+                href="#ai-agent"
+                className="hover:text-emerald-400 transition-colors"
+              >
+                AI Agent Skills (Cursor & Claude)
+              </a>
             </li>
           </ul>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto pt-8 mt-8 border-t border-[#ededed] dark:border-[#262626] flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-[11px] text-[#9a9a9a] dark:text-[#71717a]">
-          © {new Date().getFullYear()} Cicero. Built for the privacy-first Web3 economy.
-        </p>
-        <div className="flex items-center gap-1 text-[11px] text-[#9a9a9a] dark:text-[#71717a]">
-          <span>Crafted with</span>
-          <Heart className="w-3 h-3 text-[#3ecf8e] fill-[#3ecf8e]" />
-          <span>for the Zcash Hackathon</span>
+      {/* Sub-footer Bottom Bar */}
+      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
+        <div>
+          &copy; {new Date().getFullYear()} Cicero. Released under MIT License for the Zcash builder community.
+        </div>
+        <div className="flex items-center gap-1">
+          <span>Crafted with zero-knowledge pride for financial privacy</span>
         </div>
       </div>
     </footer>

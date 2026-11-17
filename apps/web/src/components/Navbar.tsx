@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Shield, Github, Menu, X, ArrowUpRight, Sun, Moon, Bot } from 'lucide-react';
+import { Shield, Github, Menu, X, ArrowUpRight, Sun, Moon, Bot, Sparkles, Terminal } from 'lucide-react';
 import { CiceroConnectButton } from '@cicero-zcash/react';
 import { useStudioSettings } from '@/context/StudioSettingsContext';
 
@@ -25,23 +25,31 @@ export const Navbar: React.FC = () => {
   } = useStudioSettings();
 
   const studioHref = isDocs ? '/#playground' : '#playground';
+  const walletsHref = isDocs ? '/#wallets' : '#wallets';
+  const paywallHref = isDocs ? '/#paywall-demo' : '#paywall-demo';
   const featuresHref = isDocs ? '/#features' : '#features';
-  const useCasesHref = isDocs ? '/#use-cases' : '#use-cases';
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-[#ededed] dark:border-[#262626] bg-white/95 dark:bg-[#121212]/95 backdrop-blur-sm transition-colors duration-200">
+    <header className="sticky top-0 z-40 w-full border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur-xl transition-colors duration-200">
       <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand / Logo */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-[6px] bg-[#171717] dark:bg-white flex items-center justify-center text-[#3ecf8e] dark:text-[#171717] transition-transform group-hover:scale-105">
-              <Shield className="w-4 h-4 fill-[#3ecf8e] dark:fill-[#171717]" />
+            <div className="relative">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-zinc-800 flex items-center justify-center text-[#3ecf8e] shadow-lg shadow-emerald-500/10 group-hover:scale-105 group-hover:border-emerald-500/50 transition-all">
+                <Shield className="w-4 h-4 fill-[#3ecf8e]" />
+              </div>
+              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-semibold text-lg tracking-tight text-[#171717] dark:text-white">
+
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-lg tracking-tight text-white group-hover:text-emerald-400 transition-colors">
                 Cicero
               </span>
-              <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-[#3ecf8e]/15 text-[#24b47e] dark:text-[#3ecf8e] border border-[#3ecf8e]/30">
+              <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-[#3ecf8e] border border-emerald-500/20">
                 Zcash
               </span>
             </div>
@@ -49,38 +57,47 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-[#707070] dark:text-[#a1a1aa]">
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
           <a
             href={studioHref}
-            className="hover:text-[#171717] dark:hover:text-white transition-colors"
+            className="hover:text-white transition-colors"
           >
             Studio
           </a>
           <a
-            href={featuresHref}
-            className="hover:text-[#171717] dark:hover:text-white transition-colors"
+            href={walletsHref}
+            className="hover:text-white transition-colors flex items-center gap-1.5"
           >
-            Protocol Features
+            <span>7 Wallets</span>
+            <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-zinc-800 text-emerald-400 border border-zinc-700">
+              New
+            </span>
           </a>
           <a
-            href={useCasesHref}
-            className="hover:text-[#171717] dark:hover:text-white transition-colors"
+            href={paywallHref}
+            className="hover:text-white transition-colors"
           >
-            Use Cases
+            Paywall Demo
+          </a>
+          <a
+            href={featuresHref}
+            className="hover:text-white transition-colors"
+          >
+            Standards
           </a>
           <Link
             href="/docs"
-            className={`transition-colors flex items-center gap-1 ${
+            className={`transition-colors ${
               isDocs
                 ? 'text-[#3ecf8e] font-semibold'
-                : 'hover:text-[#171717] dark:hover:text-white'
+                : 'hover:text-white'
             }`}
           >
-            <span>Documentation</span>
+            Docs
           </Link>
           <Link
             href="/docs#ai-agent"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#3ecf8e]/10 border border-[#3ecf8e]/30 text-xs font-mono text-[#24b47e] dark:text-[#3ecf8e] hover:bg-[#3ecf8e]/20 transition-all"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-[#3ecf8e] hover:bg-emerald-500/20 transition-all"
           >
             <Bot className="w-3.5 h-3.5" />
             <span>AI Skill</span>
@@ -88,35 +105,36 @@ export const Navbar: React.FC = () => {
         </nav>
 
         {/* Right CTA Actions */}
-        <div className="hidden sm:flex items-center gap-2.5">
+        <div className="hidden sm:flex items-center gap-3">
+          {/* GitHub Stars Link */}
+          <a
+            href="https://github.com/Kaycee276/cicero"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 hover:text-white transition-all text-xs font-medium shadow-sm"
+          >
+            <Github className="w-3.5 h-3.5" />
+            <span>Star</span>
+            <span className="text-zinc-500">|</span>
+            <span className="text-emerald-400 font-mono">v0.2.10</span>
+          </a>
+
           {/* Theme Toggle Button */}
           <button
             type="button"
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            className="p-2 rounded-[6px] border border-[#dfdfdf] dark:border-[#333] hover:border-[#c7c7c7] dark:hover:border-[#444] bg-white dark:bg-[#1a1a1a] text-[#707070] dark:text-[#a1a1aa] hover:text-[#171717] dark:hover:text-white transition-all shadow-sm"
+            className="p-2 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-900/60 text-zinc-400 hover:text-white transition-all shadow-sm"
             title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {theme === 'dark' ? (
               <Sun className="w-4 h-4 text-amber-400" />
             ) : (
-              <Moon className="w-4 h-4 text-[#707070]" />
+              <Moon className="w-4 h-4 text-zinc-300" />
             )}
           </button>
 
-          {/* GitHub link */}
-          <a
-            href="https://github.com/Kaycee276/cicero"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-[6px] border border-[#dfdfdf] dark:border-[#333] hover:border-[#c7c7c7] dark:hover:border-[#444] hover:bg-[#fafafa] dark:hover:bg-[#1f1f1f] text-[#171717] dark:text-[#ededed] transition-all"
-          >
-            <Github className="w-3.5 h-3.5" />
-            <span className="hidden lg:inline">GitHub</span>
-            <ArrowUpRight className="w-3 h-3 text-[#707070] dark:text-[#a1a1aa]" />
-          </a>
-
-          {/* Connect Button */}
+          {/* Cicero Live Connect Button */}
           <CiceroConnectButton
             variant={variant}
             size={size}
@@ -128,25 +146,19 @@ export const Navbar: React.FC = () => {
           />
         </div>
 
-        {/* Mobile Hamburger & Theme Toggle */}
+        {/* Mobile Hamburger Toggle */}
         <div className="flex sm:hidden items-center gap-2">
           <button
             type="button"
             onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="p-2 rounded-[6px] border border-[#dfdfdf] dark:border-[#333] text-[#707070] dark:text-[#a1a1aa]"
+            className="p-2 rounded-lg border border-zinc-800 bg-zinc-900 text-zinc-400"
           >
-            {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
-            ) : (
-              <Moon className="w-4 h-4" />
-            )}
+            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
           </button>
-
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-[6px] text-[#707070] dark:text-[#a1a1aa] hover:text-[#171717] dark:hover:text-white hover:bg-[#fafafa] dark:hover:bg-[#1f1f1f]"
-            aria-label="Toggle menu"
+            className="p-2 rounded-lg border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -155,68 +167,63 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="sm:hidden border-b border-[#ededed] dark:border-[#262626] bg-white dark:bg-[#121212] px-4 pt-3 pb-5 space-y-3 animate-in slide-in-from-top-2 duration-150">
-          <a
-            href={studioHref}
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-[#171717] dark:text-[#ededed] py-2"
-          >
-            Design Studio
-          </a>
-          <a
-            href={featuresHref}
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-[#171717] dark:text-[#ededed] py-2"
-          >
-            Protocol Features
-          </a>
-          <a
-            href={useCasesHref}
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-[#171717] dark:text-[#ededed] py-2"
-          >
-            Use Cases
-          </a>
-          <Link
-            href="/docs"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-medium text-[#171717] dark:text-[#ededed] py-2"
-          >
-            Documentation
-          </Link>
-          <Link
-            href="/docs#ai-agent"
-            onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-2 text-sm font-medium text-[#24b47e] dark:text-[#3ecf8e] py-2"
-          >
-            <Bot className="w-4 h-4" />
-            <span>AI Skill & Prompts</span>
-          </Link>
-
-          <div className="pt-2 border-t border-[#ededed] dark:border-[#262626] flex flex-col gap-2.5">
+        <div className="sm:hidden border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-xl px-4 py-5 space-y-4 animate-in fade-in slide-in-from-top-2 duration-150">
+          <nav className="flex flex-col space-y-3 text-sm font-medium">
             <a
-              href="https://github.com/Kaycee276/cicero"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-[6px] border border-[#dfdfdf] dark:border-[#333] text-[#171717] dark:text-[#ededed] hover:bg-[#fafafa] dark:hover:bg-[#1f1f1f]"
+              href={studioHref}
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg hover:bg-zinc-900 text-zinc-300"
             >
-              <Github className="w-3.5 h-3.5" />
-              <span>GitHub Repository</span>
-              <ArrowUpRight className="w-3 h-3 text-[#707070]" />
+              Studio
             </a>
+            <a
+              href={walletsHref}
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg hover:bg-zinc-900 text-zinc-300"
+            >
+              7 Wallets Matrix
+            </a>
+            <a
+              href={paywallHref}
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg hover:bg-zinc-900 text-zinc-300"
+            >
+              Paywall Demo
+            </a>
+            <a
+              href={featuresHref}
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg hover:bg-zinc-900 text-zinc-300"
+            >
+              Protocol Features
+            </a>
+            <Link
+              href="/docs"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg hover:bg-zinc-900 text-zinc-300"
+            >
+              Documentation
+            </Link>
+            <Link
+              href="/docs#ai-agent"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+            >
+              AI Skill Installer
+            </Link>
+          </nav>
 
-            <div className="pt-1">
-              <CiceroConnectButton
-                variant={variant}
-                size={size}
-                radius={radius}
-                label={label}
-                showBalance={showBalance}
-                showNetwork={showNetwork}
-                showIcon={showIcon}
-                className="w-full"
-              />
-            </div>
+          <div className="pt-3 border-t border-zinc-800 flex flex-col gap-3">
+            <CiceroConnectButton
+              variant={variant}
+              size="md"
+              radius={radius}
+              label={label}
+              showBalance={showBalance}
+              showNetwork={showNetwork}
+              showIcon={showIcon}
+              className="w-full justify-center"
+            />
           </div>
         </div>
       )}

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { BookOpen, Copy, Check, Terminal, ExternalLink, Bot, ArrowRight, Sparkles } from 'lucide-react';
+import { BookOpen, Copy, Check, Terminal, ExternalLink, Bot, ArrowRight, Sparkles, Code2 } from 'lucide-react';
 
 export const DocsSection: React.FC = () => {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
@@ -33,7 +33,7 @@ yarn add @cicero-zcash/react`,
 export function App() {
   return (
     <CiceroProvider initialNetwork="mainnet" appName="My Zcash dApp">
-      <header>
+      <header className="flex justify-between items-center p-4 border-b border-zinc-800">
         <CiceroConnectButton variant="primary" size="md" radius="md" />
       </header>
       <MainApp />
@@ -56,29 +56,23 @@ function Dashboard() {
     <div>
       <p>{wallet?.name} on {network}</p>
       <p>{address}</p>
-      <p>{zec} ZEC (~\${usd})</p>
+      <p>{zec} ZEC (~$\${usd})</p>
       <button onClick={refetch}>Refresh</button>
     </div>
   );
 }`,
     },
     {
-      title: 'Direct Zucchini Wallet Hook',
-      code: `import { useZucchiniWallet } from '@cicero-zcash/react';
+      title: 'ZIP-321 Payment Dispatching',
+      code: `import { generateZip321Uri, getWalletDeepLinks } from '@cicero-zcash/react';
 
-export function ZucchiniConnect() {
-  const { isAvailable, isConnected, connect, address } = useZucchiniWallet();
+const uri = generateZip321Uri({
+  address: 'u1q0v6wvg9u04vj945r20s9x2kqu4r73cstfqdfm8e8m57u3...',
+  amount: 0.05,
+  memo: 'Order #9042 verification'
+});
 
-  return (
-    <div>
-      {!isAvailable && <p>Install Zucchini extension</p>}
-      {isAvailable && !isConnected && (
-        <button onClick={() => connect()}>Connect Zucchini</button>
-      )}
-      {isConnected && <p>Connected: {address}</p>}
-    </div>
-  );
-}`,
+const { zashi, ywallet } = getWalletDeepLinks(uri);`,
     },
   ];
 
@@ -144,63 +138,65 @@ export function ZucchiniConnect() {
   ];
 
   return (
-    <section id="docs" className="py-16 sm:py-20 bg-white dark:bg-[#121212] border-b border-[#ededed] dark:border-[#262626] transition-colors duration-200">
+    <section id="docs" className="py-20 bg-[#09090b] border-t border-[#1a1a1e] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
           <div className="max-w-2xl">
-            <span className="text-xs font-mono text-[#24b47e] dark:text-[#3ecf8e] uppercase tracking-wider">
-              API & Documentation
-            </span>
-            <h2 className="display-lg text-[#171717] dark:text-white tracking-tight mt-2">
+            <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 uppercase tracking-wider mb-2">
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>API & Documentation</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
               Developer Reference
             </h2>
-            <p className="mt-3 text-sm sm:text-base text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
-              Everything you need to integrate Zcash wallet connection into your React applications.
+            <p className="mt-3 text-sm sm:text-base text-zinc-400 leading-relaxed">
+              Everything you need to integrate zero-knowledge Zcash wallet connection and ZIP-321 checkout into your React applications.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/docs"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[6px] bg-[#3ecf8e] text-[#171717] font-semibold text-xs hover:bg-[#24b47e] transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-400 text-zinc-950 font-semibold text-xs hover:bg-emerald-300 transition-colors shadow-sm"
             >
-              <span>Explore Dedicated Docs Page</span>
+              <span>Full Interactive Docs</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link
-              href="/docs#ai-agent"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[6px] bg-[#1c1c1c] dark:bg-[#202020] border border-[#2b2b2b] dark:border-[#333] text-white font-medium text-xs hover:border-[#3ecf8e] transition-colors shadow-sm"
+            <a
+              href="#ai-agent"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#141418] border border-zinc-800 text-white font-medium text-xs hover:border-emerald-500/50 transition-colors shadow-sm"
             >
-              <Bot className="w-3.5 h-3.5 text-[#3ecf8e]" />
-              <span>Install AI Skill</span>
-            </Link>
+              <Bot className="w-3.5 h-3.5 text-emerald-400" />
+              <span>AI Agent Skill</span>
+            </a>
           </div>
         </div>
 
         {/* Code Snippets Grid */}
-        <div className="mt-10 sm:mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
           {codeSnippets.map((snippet, idx) => (
             <div
               key={idx}
-              className="p-5 sm:p-6 rounded-[12px] bg-[#1c1c1c] dark:bg-[#181818] text-white border border-[#2b2b2b] dark:border-[#333] shadow-sm flex flex-col justify-between"
+              className="p-6 rounded-2xl bg-[#0e0e12] text-white border border-zinc-800/80 shadow-xl flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#2b2b2b] dark:border-[#333]">
-                  <span className="text-xs font-mono font-medium text-[#3ecf8e]">
-                    {snippet.title}
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-zinc-800/80">
+                  <span className="text-xs font-mono font-medium text-emerald-400 flex items-center gap-2">
+                    <Terminal className="w-3.5 h-3.5" />
+                    <span>{snippet.title}</span>
                   </span>
                   <button
                     onClick={() => copySnippet(snippet.code, idx)}
-                    className="p-1 rounded hover:bg-[#2b2b2b] dark:hover:bg-[#252525] text-[#9a9a9a] hover:text-white transition-colors"
+                    className="p-1.5 rounded-md hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
                   >
                     {copiedIndex === idx ? (
-                      <Check className="w-3.5 h-3.5 text-[#3ecf8e]" />
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
                     ) : (
                       <Copy className="w-3.5 h-3.5" />
                     )}
                   </button>
                 </div>
-                <pre className="text-xs font-mono text-[#ededed] overflow-x-auto leading-relaxed">
+                <pre className="text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed p-2 bg-[#09090b] rounded-lg border border-zinc-800/60">
                   <code>{snippet.code}</code>
                 </pre>
               </div>
@@ -209,14 +205,15 @@ export function ZucchiniConnect() {
         </div>
 
         {/* Component Props Table */}
-        <div className="mt-12 sm:mt-14">
-          <h3 className="text-lg font-semibold text-[#171717] dark:text-white mb-4">
-            Component Props: <code className="font-mono text-sm bg-[#fafafa] dark:bg-[#1c1c1c] px-2 py-0.5 rounded border border-[#dfdfdf] dark:border-[#333] text-[#171717] dark:text-[#ededed]">&lt;CiceroConnectButton /&gt;</code>
+        <div className="mt-14">
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <span>Component Props:</span>
+            <code className="font-mono text-sm bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 text-emerald-400">&lt;CiceroConnectButton /&gt;</code>
           </h3>
 
-          <div className="overflow-x-auto border border-[#ededed] dark:border-[#262626] rounded-[12px] shadow-sm">
+          <div className="overflow-x-auto border border-zinc-800/80 rounded-2xl shadow-xl bg-[#0e0e12]">
             <table className="w-full text-left text-xs min-w-[600px]">
-              <thead className="bg-[#fafafa] dark:bg-[#181818] border-b border-[#ededed] dark:border-[#262626] text-[#707070] dark:text-[#a1a1aa] font-mono">
+              <thead className="bg-[#141418] border-b border-zinc-800/80 text-zinc-400 font-mono">
                 <tr>
                   <th className="p-4">Prop</th>
                   <th className="p-4">Type</th>
@@ -224,25 +221,25 @@ export function ZucchiniConnect() {
                   <th className="p-4">Description</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#ededed] dark:divide-[#262626] bg-white dark:bg-[#121212]">
+              <tbody className="divide-y divide-zinc-800/60 text-zinc-300">
                 {propsTable.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-[#fafafa]/80 dark:hover:bg-[#181818] transition-colors">
-                    <td className="p-4 font-mono font-semibold text-[#171717] dark:text-[#ededed]">
+                  <tr key={idx} className="hover:bg-zinc-800/30 transition-colors">
+                    <td className="p-4 font-mono font-semibold text-white">
                       {row.prop}
                     </td>
-                    <td className="p-4 font-mono text-[#707070] dark:text-[#a1a1aa]">{row.type}</td>
+                    <td className="p-4 font-mono text-zinc-400">{row.type}</td>
                     <td className="p-4">
                       {row.required ? (
-                        <span className="px-2 py-0.5 text-[10px] font-semibold uppercase rounded bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900">
+                        <span className="px-2 py-0.5 text-[10px] font-semibold uppercase rounded bg-rose-950/60 text-rose-300 border border-rose-900 font-mono">
                           Required
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 text-[10px] font-semibold uppercase rounded bg-[#fafafa] dark:bg-[#202020] text-[#707070] dark:text-[#a1a1aa] border border-[#ededed] dark:border-[#333]">
+                        <span className="px-2 py-0.5 text-[10px] font-semibold uppercase rounded bg-zinc-800/80 text-zinc-400 border border-zinc-700 font-mono">
                           Optional
                         </span>
                       )}
                     </td>
-                    <td className="p-4 text-[#171717] dark:text-[#ededed]">{row.desc}</td>
+                    <td className="p-4 text-zinc-400">{row.desc}</td>
                   </tr>
                 ))}
               </tbody>
@@ -251,55 +248,30 @@ export function ZucchiniConnect() {
         </div>
 
         {/* Hooks Reference Table */}
-        <div className="mt-10 sm:mt-12">
-          <h3 className="text-lg font-semibold text-[#171717] dark:text-white mb-4">
-            React Hooks
+        <div className="mt-12">
+          <h3 className="text-lg font-semibold text-white mb-4">
+            React Hooks Suite
           </h3>
 
-          <div className="overflow-x-auto border border-[#ededed] dark:border-[#262626] rounded-[12px] shadow-sm">
+          <div className="overflow-x-auto border border-zinc-800/80 rounded-2xl shadow-xl bg-[#0e0e12]">
             <table className="w-full text-left text-xs min-w-[500px]">
-              <thead className="bg-[#fafafa] dark:bg-[#181818] border-b border-[#ededed] dark:border-[#262626] text-[#707070] dark:text-[#a1a1aa] font-mono">
+              <thead className="bg-[#141418] border-b border-zinc-800/80 text-zinc-400 font-mono">
                 <tr>
                   <th className="p-4">Hook</th>
-                  <th className="p-4">Returns</th>
+                  <th className="p-4">Returns / Capabilities</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#ededed] dark:divide-[#262626] bg-white dark:bg-[#121212]">
+              <tbody className="divide-y divide-zinc-800/60 text-zinc-300">
                 {hooksTable.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-[#fafafa]/80 dark:hover:bg-[#181818] transition-colors">
-                    <td className="p-4 font-mono font-semibold text-[#24b47e] dark:text-[#3ecf8e]">
+                  <tr key={idx} className="hover:bg-zinc-800/30 transition-colors">
+                    <td className="p-4 font-mono font-semibold text-emerald-400">
                       {row.hook}
                     </td>
-                    <td className="p-4 text-[#171717] dark:text-[#ededed]">{row.desc}</td>
+                    <td className="p-4 text-zinc-400">{row.desc}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
-
-          {/* AI Skill & Prompts Callout Banner */}
-          <div className="mt-8 p-6 rounded-[12px] bg-gradient-to-r from-[#171717] via-[#212121] to-[#171717] border border-[#2b2b2b] dark:border-[#333] text-white flex flex-col sm:flex-row items-center justify-between gap-5 shadow-lg">
-            <div className="flex items-center gap-4 text-center sm:text-left">
-              <div className="w-10 h-10 rounded-lg bg-[#3ecf8e]/20 border border-[#3ecf8e]/40 flex items-center justify-center flex-shrink-0 text-[#3ecf8e]">
-                <Bot className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold text-white">
-                  Using Cursor, Claude Code, Windsurf, or Antigravity?
-                </h4>
-                <p className="text-xs text-[#a1a1aa] mt-0.5">
-                  Install the official Cicero Agent Skill or copy battle-tested prompts to supercharge your AI coding speed.
-                </p>
-              </div>
-            </div>
-
-            <Link
-              href="/docs#ai-agent"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-[6px] bg-[#3ecf8e] text-[#171717] text-xs font-semibold hover:bg-[#24b47e] transition-colors flex-shrink-0 shadow-sm"
-            >
-              <span>Get Agent Skill & Prompts</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
           </div>
         </div>
       </div>

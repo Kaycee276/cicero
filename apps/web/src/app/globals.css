@@ -3,17 +3,29 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #09090b;
+  --foreground: #f4f4f5;
   --primary: #3ecf8e;
   --primary-deep: #24b47e;
-  --canvas-night: #1c1c1c;
+  --canvas-night: #121215;
+  --surface: #18181b;
+  --surface-border: #27272a;
 }
 
 html.dark {
-  --background: #121212;
-  --foreground: #ededed;
-  --canvas-night: #181818;
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --canvas-night: #121215;
+  --surface: #18181b;
+  --surface-border: #27272a;
+}
+
+html.light {
+  --background: #fafafa;
+  --foreground: #18181b;
+  --canvas-night: #ffffff;
+  --surface: #ffffff;
+  --surface-border: #e4e4e7;
 }
 
 body {
@@ -23,57 +35,96 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
+  overflow-x: hidden;
+}
+
+/* Background Grids & Ambient Glows */
+.bg-grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+.bg-radial-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(62, 207, 142, 0.15) 0%, rgba(62, 207, 142, 0.02) 50%, transparent 80%);
+}
+
+.bg-radial-glow-cyan {
+  background: radial-gradient(circle at 80% 20%, rgba(20, 184, 166, 0.12) 0%, transparent 60%);
+}
+
+.glow-card {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glow-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.glow-card:hover::before {
+  background: linear-gradient(135deg, rgba(62, 207, 142, 0.4), rgba(20, 184, 166, 0.2), rgba(255, 255, 255, 0.05));
 }
 
 /* Supabase Engineered Typography with Negative Letter-Spacing */
 .display-xxl {
-  font-size: 2.25rem;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  font-weight: 500;
+  font-size: 2.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  font-weight: 700;
 }
 
 @media (min-width: 640px) {
   .display-xxl {
-    font-size: 3rem;
-    letter-spacing: -0.04em;
+    font-size: 3.5rem;
+    letter-spacing: -0.045em;
   }
 }
 
 @media (min-width: 768px) {
   .display-xxl {
-    font-size: 3.75rem;
-    letter-spacing: -1.92px;
+    font-size: 4.5rem;
+    letter-spacing: -0.05em;
   }
 }
 
 .display-xl {
-  font-size: 1.875rem;
-  line-height: 1.2;
+  font-size: 2rem;
+  line-height: 1.15;
   letter-spacing: -0.03em;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 @media (min-width: 640px) {
   .display-xl {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
     line-height: 1.15;
-    letter-spacing: -1.44px;
+    letter-spacing: -0.04em;
   }
 }
 
 .display-lg {
-  font-size: 1.5rem;
+  font-size: 1.625rem;
   line-height: 1.25;
-  letter-spacing: -0.02em;
-  font-weight: 500;
+  letter-spacing: -0.025em;
+  font-weight: 600;
 }
 
 @media (min-width: 640px) {
   .display-lg {
-    font-size: 2rem;
+    font-size: 2.25rem;
     line-height: 1.2;
-    letter-spacing: -0.72px;
+    letter-spacing: -0.03em;
   }
 }
 
@@ -86,7 +137,7 @@ div::-webkit-scrollbar {
 
 pre::-webkit-scrollbar-thumb,
 div::-webkit-scrollbar-thumb {
-  background-color: #383838;
+  background-color: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
 }
 
