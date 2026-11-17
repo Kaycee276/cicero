@@ -42,6 +42,12 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
     lg: 'text-base px-5 py-2.5 gap-2.5',
   }[size];
 
+  const connectedSizeClasses = {
+    sm: 'text-[10px]',
+    md: 'text-xs',
+    lg: 'text-sm',
+  }[size];
+
   const radiusClasses = {
     none: 'rounded-none',
     sm: 'rounded-[4px]',
@@ -65,6 +71,30 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
       'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold shadow-sm border border-amber-600/30',
   };
 
+  const connectedVariantClasses: Record<CiceroButtonVariant, string> = {
+    primary:
+      'border-[#3ecf8e]/40 bg-[#3ecf8e]/10 text-white shadow-sm',
+    outline:
+      'border-[#3f3f46] bg-transparent text-white',
+    dark:
+      'border-[#3f3f46] bg-[#18181b] text-white shadow-sm',
+    ghost:
+      'border-transparent bg-transparent text-white',
+    gradient:
+      'border-[#3ecf8e]/40 bg-gradient-to-r from-zinc-950 to-zinc-900 text-white shadow-sm',
+    gold:
+      'border-amber-400/40 bg-amber-400/10 text-amber-100 shadow-sm',
+  };
+
+  const accentTextClasses: Record<CiceroButtonVariant, string> = {
+    primary: 'text-[#3ecf8e]',
+    outline: 'text-zinc-300',
+    dark: 'text-zinc-300',
+    ghost: 'text-[#3ecf8e]',
+    gradient: 'text-[#3ecf8e]',
+    gold: 'text-amber-300',
+  };
+
   return (
     <>
       {!isConnected ? (
@@ -72,7 +102,8 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
           type="button"
           onClick={openConnectModal}
           disabled={isConnecting}
-          className={`inline-flex items-center justify-center transition-all select-none ${sizeClasses} ${radiusClasses} ${variantClasses[variant] || variantClasses.primary} ${className}`}
+          aria-busy={isConnecting}
+          className={`inline-flex items-center justify-center transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent disabled:cursor-wait disabled:opacity-60 ${sizeClasses} ${radiusClasses} ${variantClasses[variant] || variantClasses.primary} ${className}`}
         >
           {showIcon && (
             <Shield
@@ -87,17 +118,18 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
               }`}
             />
           )}
-          <span>{isConnecting ? 'Connecting...' : label}</span>
+          <span>{isConnecting ? 'Connecting…' : label.trim() || 'Connect Zcash Wallet'}</span>
         </button>
       ) : (
         /* Connected State Pill (RainbowKit style) */
         <div
-          className={`inline-flex items-center border border-[#dfdfdf] dark:border-[#333] bg-white dark:bg-[#181818] p-0.5 shadow-sm text-xs ${radiusClasses} ${className}`}
+          className={`inline-flex max-w-full items-center border p-0.5 ${connectedSizeClasses} ${radiusClasses} ${connectedVariantClasses[variant]} ${className}`}
         >
           {/* Network tag */}
           {showNetwork && (
-            <div className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium text-[#707070] dark:text-[#a1a1aa] border-r border-[#ededed] dark:border-[#2b2b2b]">
+            <div className="flex items-center gap-1.5 border-r border-current/20 px-2.5 py-1 font-medium opacity-90">
               <span
+                aria-hidden="true"
                 className={`w-2 h-2 rounded-full ${
                   network === 'mainnet' ? 'bg-[#3ecf8e]' : 'bg-amber-400'
                 }`}
@@ -108,9 +140,9 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
 
           {/* Balance */}
           {showBalance && (
-            <div className="px-2.5 py-1 font-mono font-medium text-[#171717] dark:text-white border-r border-[#ededed] dark:border-[#2b2b2b]">
+            <div className="border-r border-current/20 px-2.5 py-1 font-mono font-medium tabular-nums">
               <span>{balance.zec}</span>{' '}
-              <span className="text-[#707070] dark:text-[#a1a1aa] font-normal">ZEC</span>
+              <span className="font-normal opacity-70">ZEC</span>
             </div>
           )}
 
@@ -118,15 +150,14 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
           <button
             type="button"
             onClick={openAccountModal}
-            className={`flex items-center gap-1.5 px-2.5 py-1 hover:bg-[#fafafa] dark:hover:bg-[#252525] text-[#171717] dark:text-white font-medium transition-colors ${
-              radius === 'full' ? 'rounded-full' : 'rounded-[4px]'
-            }`}
+            aria-label={`Open ${account.wallet?.name || 'Zcash wallet'} account, ${network}${address ? `, ${truncateAddress(address, 6, 4)}` : ''}`}
+            className={`flex min-w-0 items-center gap-1.5 px-2.5 py-1 font-medium transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current ${radiusClasses}`}
           >
-            <span className="text-sm">{account.wallet?.icon || '🛡️'}</span>
-            <span className="font-mono text-[11px]">
+            {showIcon && <span aria-hidden="true" className="shrink-0 text-sm">{account.wallet?.icon || '🛡️'}</span>}
+            <span className={`truncate font-mono ${accentTextClasses[variant]}`}>
               {address ? truncateAddress(address, 6, 4) : 'Connected'}
             </span>
-            <ChevronDown className="w-3 h-3 text-[#707070] dark:text-[#a1a1aa]" />
+            <ChevronDown aria-hidden="true" className="h-3 w-3 shrink-0 opacity-70" />
           </button>
         </div>
       )}
