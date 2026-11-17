@@ -9,11 +9,11 @@ export const UseCasesSection: React.FC = () => {
       icon: <Globe className="w-5 h-5 text-emerald-400" />,
       title: 'Privacy-First dApp Onboarding',
       problem:
-        'Ethereum & Solana dApps expose full wallet transaction histories the moment a user connects, compromising financial privacy before a transaction even starts.',
+        'Public wallet addresses can make transaction history easy to inspect and link across applications.',
       solution:
-        'Cicero connects users via shielded Zcash addresses where history is unlinkable and balances are shielded by zero-knowledge proofs — privacy by default from the first click.',
+        'Cicero supports shielded Zcash address flows. The privacy properties depend on the address pool, wallet behavior, and how the application handles user data.',
       highlights: [
-        'Shielded balance verification (no public ledger surveillance)',
+        'Shielded address support (pool dependent)',
         'Auto network detection (Mainnet / Testnet)',
         'Multi-wallet support (Noir, Zelcore, Zucchini, Zashi, Ywallet)',
       ],
@@ -22,12 +22,12 @@ export const UseCasesSection: React.FC = () => {
       icon: <Briefcase className="w-5 h-5 text-emerald-400" />,
       title: 'Confidential Treasury Dashboards',
       problem:
-        'DAOs and companies using public transparent chains inadvertently publish their entire treasury balance, runway, and private vendor settlements.',
+        'Teams may need to share selected balance data with auditors without granting transaction signing authority.',
       solution:
-        'Connect a Zcash viewing key through Cicero to build internal dashboards that show shielded balances only to authorized compliance teams — completely invisible to the public.',
+        'Use a read-only viewing key in an internal dashboard. Viewing keys can expose transaction details, so limit access and handle them like sensitive credentials.',
       highlights: [
         'Viewing key read-only auditor mode (uview/zxviews)',
-        'Real-time ZEC/USD price feeds with automated caching',
+        'Cached ZEC/USD price data',
         'One-click account drawer with instant QR receive',
       ],
     },
@@ -35,12 +35,12 @@ export const UseCasesSection: React.FC = () => {
       icon: <ShieldAlert className="w-5 h-5 text-emerald-400" />,
       title: 'Whistleblower & Investigative Portals',
       problem:
-        'Informants and contributors risk severe physical or legal exposure when connecting wallets on transparent blockchains where clusters trace back to their identity.',
+        'Public transaction histories can reveal relationships between addresses and make sensitive activity easier to trace.',
       solution:
-        'Cicero + Zcash Orchard addresses ensure connecting a wallet reveals zero identity metadata. Addresses are mathematically unlinkable across multiple interactions.',
+        'Cicero supports shielded Zcash wallet flows, which can reduce public transaction visibility. Wallets and apps may still expose network or account metadata; operational privacy needs separate care.',
       highlights: [
-        'Zero metadata or IP address leakage',
-        'Unified Address (ZIP-316) native Orchard pool',
+        'Shielded pool support where available',
+        'Unified Address (ZIP-316) support',
         'Ephemeral Dev Sessions for air-gapped test workflows',
       ],
     },
@@ -55,7 +55,7 @@ export const UseCasesSection: React.FC = () => {
             <span>Real-World Impact</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Where Zero-Knowledge Connection Matters
+            Where shielded wallet support helps
           </h2>
           <p className="mt-3 text-sm sm:text-base text-zinc-400 leading-relaxed">
             Privacy isn't just an optional feature — it is foundational security for decentralized commerce, confidential corporate treasuries, and free speech.

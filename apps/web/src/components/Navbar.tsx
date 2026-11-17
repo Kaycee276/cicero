@@ -4,16 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Shield,
   Github,
   Menu,
   X,
-  ArrowUpRight,
   Sun,
   Moon,
-  Bot,
-  Sparkles,
-  Terminal,
 } from "lucide-react";
 import { CiceroConnectButton } from "@cicero-zcash/react";
 import { useStudioSettings } from "@/context/StudioSettingsContext";
@@ -42,7 +37,7 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand / Logo */}
         <div className="flex items-center gap-4">
-          <Link href="/" className="flex items-center gap-2.5 group">
+          <Link href="/" aria-label="Cicero home" className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] focus-visible:ring-offset-4 focus-visible:ring-offset-zinc-950">
             <div className="flex items-center gap-2">
               <span className="font-science-gothic uppercase font-[850] text-lg tracking-wider text-white group-hover:text-emerald-400 transition-colors">
                 CICERO
@@ -53,12 +48,12 @@ export const Navbar: React.FC = () => {
 
         {/* Desktop Nav Links */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
-          <a href={studioHref} className="hover:text-white transition-colors">
+          <a href={studioHref} className="rounded-sm hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e]">
             Studio
           </a>
           <Link
             href="/docs"
-            className={`transition-colors ${
+            className={`rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] ${
               isDocs ? "text-[#3ecf8e] font-semibold" : "hover:text-white"
             }`}
           >
@@ -113,6 +108,7 @@ export const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
             className="p-2 rounded-lg border border-zinc-800 bg-zinc-900 text-zinc-400"
           >
             {theme === "dark" ? (
@@ -124,7 +120,10 @@ export const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            className="p-2 rounded-lg border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e]"
           >
             {mobileMenuOpen ? (
               <X className="w-5 h-5" />
@@ -137,7 +136,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="sm:hidden border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-xl px-4 py-5 space-y-4 animate-in fade-in slide-in-from-top-2 duration-150">
+        <div id="mobile-navigation" className="sm:hidden border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-xl px-4 py-5 space-y-4 animate-in fade-in slide-in-from-top-2 duration-150">
           <nav className="flex flex-col space-y-3 text-sm font-medium">
             <a
               href={studioHref}

@@ -71,7 +71,7 @@ export const FeaturesSection: React.FC = () => {
             Built on Zcash Cryptographic Standards
           </h2>
           <p className="mt-3 text-sm sm:text-base text-zinc-400 leading-relaxed">
-            Cicero replaces fragmented, fragile wallet scripts with a cohesive, audited, production-ready developer kit for modern web applications.
+            Cicero provides a shared React interface for wallet connection, account state, balances, and Zcash payment requests.
           </p>
         </div>
 

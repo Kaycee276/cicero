@@ -3,9 +3,9 @@ import './globals.css';
 import { ClientProviders } from '@/components/ClientProviders';
 
 export const metadata: Metadata = {
-  title: 'Cicero — The Developer Payment Kit for Shielded Zcash',
+  title: 'Cicero — Zcash Wallets & Payments for React',
   description:
-    'Drop-in React components for zero-knowledge Zcash payments, ZIP-321 request URIs, and 512-byte encrypted memos.',
+    'Connect Zcash wallets in React and create ZIP-321 payment requests with Cicero’s wallet toolkit.',
   keywords: [
     'Zcash',
     'Shielded Payments',
@@ -16,6 +16,12 @@ export const metadata: Metadata = {
     'Cicero',
   ],
   authors: [{ name: 'Kaycee276' }],
+  openGraph: {
+    title: 'Cicero — Zcash Wallets & Payments for React',
+    description:
+      'A React toolkit for Zcash wallet connections, shielded account state, and ZIP-321 payment requests.',
+    type: 'website',
+  },
   icons: {
     icon: '/favicon.ico',
   },

@@ -100,6 +100,9 @@ export default function DocsPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#09090b] text-[#f4f4f5] selection:bg-[#3ecf8e]/30 selection:text-white">
+      <a href="#docs-content" className="skip-link">
+        Skip to documentation
+      </a>
       <Navbar />
 
       {/* Docs Header Banner */}
@@ -174,7 +177,7 @@ export default function DocsPage() {
           </aside>
 
           {/* Right Main Content (9 cols) */}
-          <main className="lg:col-span-9 space-y-16 max-w-4xl">
+          <main id="docs-content" className="lg:col-span-9 space-y-16 max-w-4xl" tabIndex={-1}>
             
             {/* 1. Overview */}
             <section id="overview" className="space-y-4 scroll-mt-24">

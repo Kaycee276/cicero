@@ -14,13 +14,19 @@ import { Footer } from '@/components/Footer';
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-[#09090b] text-[#f4f4f5] selection:bg-[#3ecf8e]/30 selection:text-white">
+      <a
+        href="#main-content"
+        className="skip-link"
+      >
+        Skip to content
+      </a>
       <TopBanner />
       <Navbar />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         <HeroSection />
+        <PlaygroundStudio />
         <WalletsMatrixSection />
         <LivePaywallDemo />
-        <PlaygroundStudio />
         <FeaturesSection />
         <UseCasesSection />
         <DocsSection />

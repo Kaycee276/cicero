@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from 'react';
 import {
-  ShieldCheck,
   Lock,
   Unlock,
   QrCode,
@@ -11,7 +10,6 @@ import {
   Check,
   Sparkles,
   Zap,
-  ArrowRight,
   RefreshCw,
   Coins,
   FileText,
@@ -22,11 +20,9 @@ import {
 import {
   useAccount,
   useBalance,
-  useCicero,
   useZcashPrice,
   generateZip321Uri,
   getWalletDeepLinks,
-  truncateAddress,
   CiceroQRCode,
 } from '@cicero-zcash/react';
 
@@ -159,17 +155,21 @@ export const LivePaywallDemo: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono font-medium tracking-wide">
+          <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-mono font-medium tracking-wide">
             <Zap className="w-3.5 h-3.5" />
-            <span>Interactive Protocol Showcase</span>
+            <span>Interactive payment demo</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-            zk-Shielded Paywall & ZIP-321 Checkout
+            Build a ZIP-321 payment request
           </h2>
           <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Eliminate KYC and credit card middle-men. Enable confidential, instantaneous payments for micro-services, APIs, and subscriptions with automated ZIP-321 URI synthesis.
+            Configure a recipient, amount, and memo. Cicero builds the payment URI and QR code for compatible wallets. This page demonstrates the request flow; it does not submit a transaction or generate a proof.
           </p>
         </div>
+
+        <p className="mt-8 border-l-2 border-[#3ecf8e] bg-[#101013] px-4 py-3 text-sm leading-6 text-zinc-300" role="note">
+          Demo only: no ZEC is transferred. The final unlock is simulated so you can preview a paywall experience.
+        </p>
 
         {/* Studio Grid */}
         <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -182,6 +182,8 @@ export const LivePaywallDemo: React.FC = () => {
                 return (
                   <button
                     key={p.id}
+                    type="button"
+                    aria-pressed={isSelected}
                     onClick={() => handleSelectPreset(p)}
                     className={`p-4 rounded-xl text-left border transition-all relative ${
                       isSelected
@@ -225,13 +227,16 @@ export const LivePaywallDemo: React.FC = () => {
 
               {/* Recipient Address */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-zinc-400 flex items-center justify-between">
+                <label htmlFor="payment-recipient" className="text-xs font-medium text-zinc-400 flex items-center justify-between">
                   <span>Merchant Shielded Unified Address (u1)</span>
-                  <span className="text-[10px] text-emerald-400 font-mono">Verified Orchard Pool</span>
+                  <span className="text-[10px] text-zinc-500 font-mono">Demo address</span>
                 </label>
                 <div className="relative">
                   <input
+                    id="payment-recipient"
+                    name="recipient"
                     type="text"
+                    autoComplete="off"
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
                     className="w-full bg-[#141418] border border-zinc-800 rounded-lg px-3.5 py-2.5 text-xs text-zinc-200 font-mono focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
@@ -242,13 +247,16 @@ export const LivePaywallDemo: React.FC = () => {
               {/* Amount & Memo Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-zinc-400 flex items-center justify-between">
+                  <label htmlFor="payment-amount" className="text-xs font-medium text-zinc-400 flex items-center justify-between">
                     <span>Payment Amount (ZEC)</span>
                     <span className="text-[10px] text-zinc-400 font-mono">≈ ${fiatEstimate} USD</span>
                   </label>
                   <div className="relative">
                     <input
+                      id="payment-amount"
+                      name="amount"
                       type="number"
+                      inputMode="decimal"
                       step="0.001"
                       min="0.0001"
                       value={amount}
@@ -265,11 +273,13 @@ export const LivePaywallDemo: React.FC = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-zinc-400 flex items-center justify-between">
+                  <label htmlFor="payment-memo" className="text-xs font-medium text-zinc-400 flex items-center justify-between">
                     <span>Encrypted Memo (ZIP-321)</span>
                     <span className="text-[10px] text-zinc-400 font-mono">{memo.length}/512 B</span>
                   </label>
                   <input
+                    id="payment-memo"
+                    name="memo"
                     type="text"
                     value={memo}
                     onChange={(e) => {
@@ -288,6 +298,8 @@ export const LivePaywallDemo: React.FC = () => {
                   <span className="text-[11px] font-mono text-zinc-400">Constructed ZIP-321 Payment URI:</span>
                   <button
                     onClick={copyUri}
+                    type="button"
+                    aria-label={copiedUri ? "Payment URI copied" : "Copy payment URI"}
                     className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
                   >
                     {copiedUri ? (
@@ -352,14 +364,14 @@ export const LivePaywallDemo: React.FC = () => {
                         : 'bg-zinc-500'
                     }`}
                   />
-                  <span className="text-xs font-mono uppercase font-semibold text-white tracking-wider">
+                  <span className="text-xs font-mono uppercase font-semibold text-white tracking-wider" aria-live="polite">
                     {paymentStatus === 'settled'
-                      ? 'Zero-Knowledge Verified'
+                      ? 'Demo flow complete'
                       : paymentStatus === 'proving'
-                      ? 'Generating SNARK Proof...'
+                      ? 'Simulating verification…'
                       : paymentStatus === 'authorizing'
-                      ? 'Signing In Wallet...'
-                      : 'Paywall Locked'}
+                      ? 'Simulating authorization…'
+                      : 'Payment request preview'}
                   </span>
                 </div>
                 {paymentStatus === 'settled' ? (
@@ -370,7 +382,7 @@ export const LivePaywallDemo: React.FC = () => {
                 ) : (
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700 flex items-center gap-1">
                     <Lock className="w-3 h-3 text-amber-400" />
-                    <span>Shielded</span>
+                    <span>Request ready</span>
                   </span>
                 )}
               </div>
@@ -389,7 +401,7 @@ export const LivePaywallDemo: React.FC = () => {
                         />
                       </div>
                       <p className="text-[11px] font-mono text-zinc-400 text-center">
-                        Scan with Zashi, Ywallet, or Noir to settle {amount} ZEC
+                        Scan to review a {amount} ZEC payment request in a compatible wallet
                       </p>
                     </div>
                   )}
@@ -427,22 +439,22 @@ export const LivePaywallDemo: React.FC = () => {
                       {paymentStatus === 'authorizing' ? (
                         <>
                           <RefreshCw className="w-4 h-4 animate-spin text-zinc-950" />
-                          <span>Waiting for Wallet Authorization...</span>
+                          <span>Simulating authorization…</span>
                         </>
                       ) : paymentStatus === 'proving' ? (
                         <>
                           <RefreshCw className="w-4 h-4 animate-spin text-zinc-950" />
-                          <span>Computing Halo 2 SNARK Proof...</span>
+                          <span>Simulating verification…</span>
                         </>
                       ) : (
                         <>
                           <Zap className="w-4 h-4 text-zinc-950" />
-                          <span>Instant Dispatch & Unlock ({amount} ZEC)</span>
+                          <span>Run payment simulation ({amount} ZEC)</span>
                         </>
                       )}
                     </button>
                     <p className="text-[11px] text-zinc-400 text-center">
-                      Simulates instant zero-knowledge settlement without on-chain leaks.
+                      Simulates authorization and an access grant. No wallet prompt or transaction is created.
                     </p>
                   </div>
                 </div>
@@ -454,13 +466,13 @@ export const LivePaywallDemo: React.FC = () => {
                   <div className="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30 space-y-2">
                     <div className="flex items-center gap-2 text-emerald-400 text-xs font-mono font-semibold">
                       <Unlock className="w-4 h-4" />
-                      <span>zk-Proof Accepted: Access Granted</span>
+                      <span>Simulated access granted</span>
                     </div>
                     <p className="text-xs text-zinc-300 leading-relaxed">
-                      Zero-knowledge commitment confirmed on block #2691044. Recipient verified 0.02 ZEC settlement via shielded memo hash.
+                      Preview state only. No transaction, block confirmation, or zero-knowledge proof was generated.
                     </p>
                     <div className="pt-2 border-t border-emerald-500/20 text-[11px] font-mono text-zinc-400 flex items-center justify-between">
-                      <span>Tx Proof ID:</span>
+                      <span>Demo reference:</span>
                       <span className="text-emerald-400">{txHash}</span>
                     </div>
                   </div>
@@ -470,16 +482,16 @@ export const LivePaywallDemo: React.FC = () => {
                     <div className="flex items-center justify-between text-xs font-medium text-white">
                       <span className="flex items-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>Decrypted Intelligence Alpha #42</span>
+                        <span>Sample protected content</span>
                       </span>
                       <span className="text-[10px] font-mono text-zinc-400">Confidential</span>
                     </div>
                     <p className="text-xs text-zinc-300 font-serif leading-relaxed italic bg-zinc-950/60 p-3 rounded-lg border border-zinc-800/80">
-                      "By utilizing Orchard circuit recursive aggregation, Cicero reduces client-side proof verification from 4.2s to sub-380ms on modern web threads..."
+                      “This sample content represents material a merchant could show after verifying a real payment.”
                     </p>
                     <div className="text-[11px] font-mono text-emerald-400/90 flex items-center gap-1">
                       <Check className="w-3 h-3 text-emerald-400" />
-                      <span>Decrypted in memory. Zero plain-text traces on disk.</span>
+                      <span>Example content shown after the simulated unlock.</span>
                     </div>
                   </div>
 
