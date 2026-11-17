@@ -1,6 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Science+Gothic:wght@100..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-science-gothic {
+  font-family: "Science Gothic", sans-serif;
+}
 
 :root {
   --background: #09090b;
@@ -31,27 +37,40 @@ html.light {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    "Science Gothic",
+    s sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
   overflow-x: hidden;
 }
 
 /* Background Grids & Ambient Glows */
 .bg-grid-pattern {
   background-size: 32px 32px;
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
 }
 
 .bg-radial-glow {
-  background: radial-gradient(circle at 50% 0%, rgba(62, 207, 142, 0.15) 0%, rgba(62, 207, 142, 0.02) 50%, transparent 80%);
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(62, 207, 142, 0.15) 0%,
+    rgba(62, 207, 142, 0.02) 50%,
+    transparent 80%
+  );
 }
 
 .bg-radial-glow-cyan {
-  background: radial-gradient(circle at 80% 20%, rgba(20, 184, 166, 0.12) 0%, transparent 60%);
+  background: radial-gradient(
+    circle at 80% 20%,
+    rgba(20, 184, 166, 0.12) 0%,
+    transparent 60%
+  );
 }
 
 .glow-card {
@@ -60,20 +79,31 @@ body {
 }
 
 .glow-card::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.02)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
 }
 
 .glow-card:hover::before {
-  background: linear-gradient(135deg, rgba(62, 207, 142, 0.4), rgba(20, 184, 166, 0.2), rgba(255, 255, 255, 0.05));
+  background: linear-gradient(
+    135deg,
+    rgba(62, 207, 142, 0.4),
+    rgba(20, 184, 166, 0.2),
+    rgba(255, 255, 255, 0.05)
+  );
 }
 
 /* Supabase Engineered Typography with Negative Letter-Spacing */
