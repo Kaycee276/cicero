@@ -14,6 +14,18 @@ export type CiceroButtonVariant =
 
 export type CiceroButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 
+export type CiceroButtonSize = 'sm' | 'md' | 'lg';
+
+export interface CiceroButtonAppearance {
+  variant: CiceroButtonVariant;
+  size: CiceroButtonSize;
+  radius: CiceroButtonRadius;
+  showBalance: boolean;
+  showNetwork: boolean;
+  showIcon: boolean;
+  accentColor: string;
+}
+
 export interface Zip321PaymentRequest {
   address: string;
   amount?: string;

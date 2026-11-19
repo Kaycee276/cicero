@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import {
   X,
@@ -11,6 +11,7 @@ import {
 import { useCicero } from '../context/CiceroContext';
 import { CiceroQRCode } from './CiceroQRCode';
 import { ZucchiniWalletAdapter } from '../wallet/zucchini';
+import { getContrastTextColor, normalizeHexColor } from '../utils/color';
 
 export interface CiceroConnectModalProps {
   isOpen?: boolean;
@@ -28,10 +29,27 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
     connect,
     network,
     appName,
+    modalAppearance,
   } = useCicero();
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : isConnectModalOpen;
   const handleClose = propOnClose || closeConnectModal;
+  const accentColor = normalizeHexColor(
+    modalAppearance.accentColor,
+    modalAppearance.variant === 'gold' ? '#f59e0b' : '#3ecf8e'
+  );
+  const modalWidth = {
+    sm: 'max-w-xl',
+    md: 'max-w-2xl',
+    lg: 'max-w-3xl',
+  }[modalAppearance.size];
+  const modalRadius = {
+    none: 'rounded-none',
+    sm: 'rounded',
+    md: 'rounded-lg',
+    lg: 'rounded-xl',
+    full: 'rounded-2xl',
+  }[modalAppearance.radius];
 
   const [selectedWalletId, setSelectedWalletId] = useState<string>('zucchini');
   const [customKeyInput, setCustomKeyInput] = useState<string>('');
@@ -39,6 +57,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
   const [, setAvailabilityTick] = useState<number>(0);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -62,16 +81,44 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
     };
   }, [isOpen]);
 
-  // Escape key handler
+  // Keep keyboard focus inside the dialog and restore it to its trigger on close.
   useEffect(() => {
+    if (!isOpen || !mounted) return;
+    const previousFocus = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    const getFocusable = () => Array.from(
+      dialogRef.current?.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      ) ?? []
+    );
+    getFocusable()[0]?.focus();
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
         handleClose();
+        return;
+      }
+      if (e.key === 'Tab') {
+        const focusable = getFocusable();
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (!first || !last) return;
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, handleClose]);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      previousFocus?.focus();
+    };
+  }, [isOpen, mounted, handleClose]);
 
   if (!isOpen || !mounted) return null;
 
@@ -108,36 +155,52 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans">
+    <div
+      className="dark fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto p-4 font-sans sm:p-6"
+      style={{ '--cicero-accent': accentColor } as React.CSSProperties}
+    >
       {/* Backdrop */}
-      <div
+              <button
+                type="button"
+        aria-label="Close wallet connection dialog"
         className="fixed inset-0 bg-[#171717]/60 backdrop-blur-sm transition-opacity z-[99999]"
         onClick={handleClose}
       />
 
-      {/* Modal Surface - Supabase design */}
-      <div className="relative w-full max-w-2xl bg-white dark:bg-[#181818] rounded-xl border border-[#ededed] dark:border-[#262626] shadow-2xl overflow-hidden z-[100000] text-[#171717] dark:text-white animate-in fade-in zoom-in-95 duration-150">
+      {/* Modal Surface */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cicero-connect-title"
+        aria-describedby="cicero-connect-description"
+        ref={dialogRef}
+        tabIndex={-1}
+        className={`relative z-[100000] w-full ${modalWidth} ${modalRadius} overflow-hidden border border-zinc-800 bg-[#111114] text-zinc-100 shadow-2xl animate-in fade-in zoom-in-95 duration-150`}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#ededed] dark:border-[#262626] bg-[#fafafa] dark:bg-[#141414]">
+        <div className="flex items-center justify-between border-b border-zinc-800 bg-[#0d0d10] px-5 py-4 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-md bg-[#171717] dark:bg-[#262626] flex items-center justify-center text-[#3ecf8e]">
-              <Shield className="w-4 h-4 fill-[#3ecf8e]" />
-            </div>
+            {modalAppearance.showIcon && (
+              <div className="flex h-9 w-9 items-center justify-center rounded-md border border-zinc-700 bg-zinc-900" style={{ color: accentColor }}>
+                <Shield aria-hidden="true" className="h-4 w-4 fill-current" />
+              </div>
+            )}
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-sm text-[#171717] dark:text-white">Connect Zcash Wallet</span>
-                <span className="text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full bg-[#3ecf8e]/15 text-[#24b47e] border border-[#3ecf8e]/30">
+                <span id="cicero-connect-title" className="text-sm font-semibold text-white">Connect Zcash Wallet</span>
+                <span className="rounded border border-zinc-700 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-zinc-300">
                   {network}
                 </span>
               </div>
-              <p className="text-xs text-[#707070] dark:text-[#a1a1aa] mt-0.5">
-                Connect to <strong className="text-[#171717] dark:text-white">{appName}</strong> with your preferred zero-knowledge wallet.
+              <p id="cicero-connect-description" className="mt-1 text-xs text-zinc-400">
+                Connect to <strong className="font-medium text-zinc-200">{appName}</strong> with your preferred wallet.
               </p>
             </div>
           </div>
           <button
             onClick={handleClose}
-            className="p-1 rounded-md text-[#707070] dark:text-[#a1a1aa] hover:text-[#171717] dark:hover:text-white hover:bg-[#ededed] dark:hover:bg-[#262626] transition-colors"
+            type="button"
+            className="rounded-md p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cicero-accent)]"
             aria-label="Close modal"
           >
             <X className="w-4 h-4" />
@@ -145,9 +208,9 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
         </div>
 
         {/* 2-Column RainbowKit Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 min-h-[380px]">
+        <div className="grid min-h-[380px] grid-cols-1 md:grid-cols-12">
           {/* Left Column: Wallet Selector List (5 cols) */}
-          <div className="md:col-span-5 p-3 bg-[#fafafa] dark:bg-[#141414] border-r border-[#ededed] dark:border-[#262626] space-y-1">
+          <div className="space-y-1 border-r border-zinc-800 bg-[#0c0c0e] p-3 md:col-span-5">
             <div className="px-3 py-2 flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-[#707070] dark:text-[#a1a1aa]">
               <span>Wallets</span>
               {wallets.some((w) => w.isAvailable()) ? (
@@ -169,18 +232,21 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
               return (
                 <button
                   key={w.id}
+                  type="button"
+                  aria-pressed={active}
                   onClick={() => handleWalletSelect(w.id)}
-                  className={`w-full flex items-center justify-between p-3 rounded-lg text-left text-xs transition-all ${
+                  style={active ? { borderColor: accentColor } : undefined}
+                  className={`w-full flex items-center justify-between rounded-md border p-3 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cicero-accent)] ${
                     active
-                      ? 'bg-white dark:bg-[#202020] shadow-sm border border-[#dfdfdf] dark:border-[#333] text-[#171717] dark:text-white font-medium'
-                      : 'hover:bg-white/60 dark:hover:bg-[#202020]/60 text-[#707070] dark:text-[#a1a1aa] hover:text-[#171717] dark:hover:text-white border border-transparent'
+                      ? 'bg-[#18181b] text-white font-medium'
+                      : 'border-transparent text-zinc-400 hover:bg-zinc-900 hover:text-white'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
                     <span className="text-base">{w.icon}</span>
                     <div>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-sm text-[#171717] dark:text-white font-medium">{w.name}</span>
+                        <span className="text-sm font-medium text-zinc-100">{w.name}</span>
                         {w.category === 'extension' && available && (
                           <span className="text-[9px] uppercase font-mono px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold">
                             Detected
@@ -204,17 +270,17 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
           </div>
 
           {/* Right Column: Wallet Connection Screen (7 cols) */}
-          <div className="md:col-span-7 p-6 flex flex-col justify-between bg-white dark:bg-[#181818]">
+          <div className="flex flex-col justify-between bg-[#111114] p-5 sm:p-6 md:col-span-7">
             <div className="space-y-4">
               {/* Wallet Header */}
-              <div className="flex items-start justify-between pb-4 border-b border-[#ededed] dark:border-[#262626]">
+              <div className="flex items-start justify-between border-b border-zinc-800 pb-4">
                 <div className="flex items-center gap-2.5">
                   <span className="text-2xl">{selectedWallet.icon}</span>
                   <div>
-                    <h4 className="text-base font-semibold text-[#171717] dark:text-white">
+                    <h4 className="text-base font-semibold text-white">
                       {selectedWallet.name}
                     </h4>
-                    <p className="text-xs text-[#707070] dark:text-[#a1a1aa] mt-0.5">
+                    <p className="mt-1 text-xs text-zinc-400">
                       {selectedWallet.description}
                     </p>
                   </div>
@@ -223,7 +289,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
 
               {/* Error message */}
               {error && (
-                <div className="p-3 rounded-md bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-200 text-xs flex items-start gap-2">
+                <div role="alert" className="flex items-start gap-2 rounded-md border border-rose-900 bg-rose-950/40 p-3 text-xs text-rose-200">
                   <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 flex-shrink-0 mt-0.5" />
                   <span>{error}</span>
                 </div>
@@ -485,14 +551,16 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
 
             {/* Bottom Connect Action Button */}
             <div className="pt-4 border-t border-[#ededed] dark:border-[#262626] mt-4 flex items-center justify-between">
-              <span className="text-[11px] text-[#9a9a9a] dark:text-[#71717a]">
-                End-to-End Encrypted
+              <span className="text-[11px] text-zinc-500">
+                Wallet approval stays with your selected wallet
               </span>
 
-              <button
+                <button
+                  type="button"
                 onClick={handleConnectAction}
                 disabled={isSubmitting}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-[#3ecf8e] text-[#171717] font-semibold text-xs hover:bg-[#24b47e] transition-colors disabled:opacity-50 shadow-sm"
+                style={{ backgroundColor: accentColor, color: getContrastTextColor(accentColor) }}
+                className="inline-flex min-h-10 items-center gap-2 rounded-md px-5 py-2.5 text-xs font-semibold text-zinc-950 shadow-sm transition-colors hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#111114] disabled:cursor-wait disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>

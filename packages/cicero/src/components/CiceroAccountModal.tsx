@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import {
   X,
@@ -14,6 +14,7 @@ import {
 import { useCicero } from '../context/CiceroContext';
 import { truncateAddress } from '../utils/address';
 import { CiceroQRCode } from './CiceroQRCode';
+import { getContrastTextColor, normalizeHexColor } from '../utils/color';
 
 export interface CiceroAccountModalProps {
   isOpen?: boolean;
@@ -34,15 +35,23 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
     balance,
     refetchBalance,
     disconnect,
+    modalAppearance,
   } = useCicero();
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : isAccountModalOpen;
   const handleClose = propOnClose || closeAccountModal;
+  const accentColor = normalizeHexColor(
+    modalAppearance.accentColor,
+    modalAppearance.variant === 'gold' ? '#f59e0b' : '#3ecf8e'
+  );
+  const modalWidth = { sm: 'max-w-md', md: 'max-w-lg', lg: 'max-w-xl' }[modalAppearance.size];
+  const modalRadius = { none: 'rounded-none', sm: 'rounded', md: 'rounded-lg', lg: 'rounded-xl', full: 'rounded-2xl' }[modalAppearance.radius];
 
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [manualNotice, setManualNotice] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -67,16 +76,44 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
     }
   };
 
-  // Escape key handler
+  // Keep keyboard focus inside the dialog and restore it to its trigger on close.
   useEffect(() => {
+    if (!isOpen || !mounted) return;
+    const previousFocus = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    const getFocusable = () => Array.from(
+      dialogRef.current?.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      ) ?? []
+    );
+    getFocusable()[0]?.focus();
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
         handleClose();
+        return;
+      }
+      if (e.key === 'Tab') {
+        const focusable = getFocusable();
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (!first || !last) return;
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, handleClose]);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      previousFocus?.focus();
+    };
+  }, [isOpen, mounted, handleClose]);
 
   if (!isOpen || !mounted) return null;
 
@@ -92,21 +129,33 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans">
+    <div
+      className="dark fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto p-4 font-sans sm:p-6"
+      style={{ '--cicero-accent': accentColor } as React.CSSProperties}
+    >
       {/* Backdrop */}
-      <div
+      <button
+        type="button"
+        aria-label="Close wallet account dialog"
         className="fixed inset-0 bg-[#171717]/60 backdrop-blur-sm transition-opacity z-[99999]"
         onClick={handleClose}
       />
 
       {/* Modal Surface */}
-      <div className="relative w-full max-w-md bg-white dark:bg-[#181818] rounded-xl border border-[#ededed] dark:border-[#262626] shadow-2xl overflow-hidden z-[100000] text-[#171717] dark:text-white animate-in fade-in zoom-in-95 duration-150">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cicero-account-title"
+        ref={dialogRef}
+        tabIndex={-1}
+        className={`relative z-[100000] w-full ${modalWidth} ${modalRadius} overflow-hidden border border-zinc-800 bg-[#111114] text-zinc-100 shadow-2xl animate-in fade-in zoom-in-95 duration-150`}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#ededed] dark:border-[#262626] bg-[#fafafa] dark:bg-[#141414]">
+        <div className="flex items-center justify-between border-b border-zinc-800 bg-[#0d0d10] px-5 py-4 sm:px-6">
           <div className="flex items-center gap-2">
-            <span className="text-xl">{wallet?.icon || '🛡️'}</span>
+            {modalAppearance.showIcon && <span aria-hidden="true" className="text-xl">{wallet?.icon || '🛡️'}</span>}
             <div>
-              <span className="font-semibold text-sm text-[#171717] dark:text-white">
+              <span id="cicero-account-title" className="text-sm font-semibold text-white">
                 {wallet?.name || 'Zcash Wallet'}
               </span>
               <div className="flex items-center gap-1.5 text-[11px] text-[#707070] dark:text-[#a1a1aa]">
@@ -116,8 +165,10 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
             </div>
           </div>
           <button
+            type="button"
             onClick={handleClose}
-            className="p-1 rounded-md text-[#707070] dark:text-[#a1a1aa] hover:text-[#171717] dark:hover:text-white hover:bg-[#ededed] dark:hover:bg-[#262626] transition-colors"
+            aria-label="Close account dialog"
+            className="rounded-md p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cicero-accent)]"
           >
             <X className="w-4 h-4" />
           </button>
@@ -126,11 +177,13 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
         {/* Body */}
         <div className="p-6 space-y-5">
           {/* Balance Display */}
-          <div className="p-4 rounded-lg bg-[#fafafa] dark:bg-[#1f1f1f] border border-[#ededed] dark:border-[#2b2b2b] text-center space-y-1">
+          <div className="p-4 rounded-lg bg-[#0c0c0e] border border-zinc-800 text-center space-y-1">
             <div className="flex items-center justify-center gap-1.5 text-xs text-[#707070] dark:text-[#a1a1aa]">
               <span>Shielded Balance</span>
               <button
+                type="button"
                 onClick={() => refetchBalance()}
+                aria-label="Refresh ZEC balance"
                 className="hover:text-[#171717] dark:hover:text-white p-0.5"
                 title="Refresh balance"
               >
@@ -153,9 +206,11 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
           {/* Connected Address Card */}
           <div className="space-y-2 text-xs">
             <div className="flex items-center justify-between text-[#707070] dark:text-[#a1a1aa]">
-              <span>Your Shielded Address</span>
+              <span>Your address</span>
               <button
+                type="button"
                 onClick={() => setShowQr(!showQr)}
+                aria-expanded={showQr}
                 className="flex items-center gap-1 text-[#24b47e] hover:underline"
               >
                 <QrCode className="w-3.5 h-3.5" />
@@ -167,7 +222,10 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
               <div className="p-3 bg-[#fafafa] dark:bg-[#141414] rounded-md border border-[#ededed] dark:border-[#2b2b2b] font-mono text-xs text-[#171717] dark:text-white break-all select-all flex items-center justify-between gap-2">
                 <span className="truncate">{truncateAddress(address, 16, 12)}</span>
                 <button
+                  type="button"
                   onClick={copyAddress}
+                  aria-label={copied ? 'Address copied' : 'Copy full address'}
+                  aria-live="polite"
                   className="p-1 rounded hover:bg-white dark:hover:bg-[#202020] text-[#707070] dark:text-[#a1a1aa] hover:text-[#171717] dark:hover:text-white transition-colors flex-shrink-0"
                   title="Copy full address"
                 >
@@ -257,8 +315,9 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
         </div>
 
         {/* Footer with Disconnect */}
-        <div className="px-6 py-3.5 bg-[#fafafa] dark:bg-[#141414] border-t border-[#ededed] dark:border-[#262626] flex items-center justify-between">
+        <div className="flex items-center justify-between border-t border-zinc-800 bg-[#0d0d10] px-5 py-3.5 sm:px-6">
           <button
+            type="button"
             onClick={disconnect}
             className="flex items-center gap-1.5 text-xs text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 font-medium transition-colors"
           >
@@ -267,8 +326,10 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
           </button>
 
           <button
+            type="button"
             onClick={handleClose}
-            className="px-3.5 py-1.5 rounded-md border border-[#dfdfdf] dark:border-[#333] bg-white dark:bg-[#202020] hover:bg-[#fafafa] dark:hover:bg-[#282828] text-xs font-medium text-[#171717] dark:text-white transition-colors"
+            style={{ backgroundColor: accentColor, color: getContrastTextColor(accentColor) }}
+            className="min-h-9 rounded-md px-3.5 py-1.5 text-xs font-semibold text-zinc-950 transition-colors hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             Done
           </button>

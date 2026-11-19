@@ -185,12 +185,17 @@ const {
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `variant` | `'primary' \| 'outline' \| 'dark'` | `'primary'` | Visual style token |
+| `variant` | `'primary' \| 'outline' \| 'dark' \| 'ghost' \| 'gradient' \| 'gold'` | `'primary'` | Visual style token |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button dimensions |
-| `showBalance` | `boolean` | `true` | Show balance in connected pill |
-| `showNetwork` | `boolean` | `true` | Show network indicator dot |
-| `label` | `string` | `'Connect Zcash Wallet'` | Custom disconnect trigger text |
+| `radius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` | Button corner radius |
+| `label` | `string` | `'Connect Zcash Wallet'` | Text shown while disconnected |
+| `showBalance` | `boolean` | `true` | Show balance in the connected pill |
+| `showNetwork` | `boolean` | `true` | Show the network indicator in the connected pill |
+| `showIcon` | `boolean` | `true` | Show the wallet icon in the button and dialogs |
+| `accentColor` | `string` | Emerald (`#3ecf8e`) or gold (`#f59e0b`) by variant | CSS hex color for the button and dialogs. The package selects readable text on filled surfaces. |
 | `className` | `string` | `''` | Custom CSS class names |
+
+The connected pill keeps the selected variant, size, radius, icon, balance, network, and accent settings. Opening either wallet dialog from the button carries that appearance into the dialog. `CiceroButtonAppearance` is exported for integrations that need to open a styled dialog through `useCicero()`.
 
 ---
 

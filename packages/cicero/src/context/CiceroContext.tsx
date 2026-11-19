@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import { ZcashNetwork } from '../types';
+import { CiceroButtonAppearance, ZcashNetwork } from '../types';
 import {
   ZcashWallet,
   WalletSession,
@@ -60,10 +60,15 @@ export interface CiceroContextType {
   // Modals
   isConnectModalOpen: boolean;
   openConnectModal: () => void;
+  openConnectModalWithAppearance: (appearance: CiceroButtonAppearance) => void;
   closeConnectModal: () => void;
 
   isAccountModalOpen: boolean;
   openAccountModal: () => void;
+  openAccountModalWithAppearance: (appearance: CiceroButtonAppearance) => void;
+
+  // Appearance forwarded from the button that opened a modal
+  modalAppearance: CiceroButtonAppearance;
   closeAccountModal: () => void;
 
   // Config
@@ -73,6 +78,16 @@ export interface CiceroContextType {
 }
 
 const CiceroContext = createContext<CiceroContextType | null>(null);
+
+const DEFAULT_MODAL_APPEARANCE: CiceroButtonAppearance = {
+  variant: 'primary',
+  size: 'md',
+  radius: 'md',
+  showBalance: true,
+  showNetwork: true,
+  showIcon: true,
+  accentColor: '#3ecf8e',
+};
 
 export interface CiceroProviderProps {
   children: React.ReactNode;
@@ -111,6 +126,7 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
   // Modal states
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
+  const [modalAppearance, setModalAppearance] = useState<CiceroButtonAppearance>(DEFAULT_MODAL_APPEARANCE);
 
   // Price oracle
   const { convertZecToUsd } = useZcashPrice(true);
@@ -513,9 +529,23 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
     }));
   }, [account.wallet, account.address, network, convertZecToUsd]);
 
-  const openConnectModal = useCallback(() => setIsConnectModalOpen(true), []);
+  const openConnectModal = useCallback(() => {
+    setModalAppearance(DEFAULT_MODAL_APPEARANCE);
+    setIsConnectModalOpen(true);
+  }, []);
+  const openConnectModalWithAppearance = useCallback((appearance: CiceroButtonAppearance) => {
+    setModalAppearance(appearance);
+    setIsConnectModalOpen(true);
+  }, []);
   const closeConnectModal = useCallback(() => setIsConnectModalOpen(false), []);
-  const openAccountModal = useCallback(() => setIsAccountModalOpen(true), []);
+  const openAccountModal = useCallback(() => {
+    setModalAppearance(DEFAULT_MODAL_APPEARANCE);
+    setIsAccountModalOpen(true);
+  }, []);
+  const openAccountModalWithAppearance = useCallback((appearance: CiceroButtonAppearance) => {
+    setModalAppearance(appearance);
+    setIsAccountModalOpen(true);
+  }, []);
   const closeAccountModal = useCallback(() => setIsAccountModalOpen(false), []);
 
   const value = useMemo<CiceroContextType>(
@@ -534,10 +564,13 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
       sendPayment,
       isConnectModalOpen,
       openConnectModal,
+      openConnectModalWithAppearance,
       closeConnectModal,
       isAccountModalOpen,
       openAccountModal,
+      openAccountModalWithAppearance,
       closeAccountModal,
+      modalAppearance,
       wallets,
       appName,
       appLogo,
@@ -553,10 +586,13 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
       sendPayment,
       isConnectModalOpen,
       openConnectModal,
+      openConnectModalWithAppearance,
       closeConnectModal,
       isAccountModalOpen,
       openAccountModal,
+      openAccountModalWithAppearance,
       closeAccountModal,
+      modalAppearance,
       wallets,
       appName,
       appLogo,

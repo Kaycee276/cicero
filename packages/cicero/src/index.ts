@@ -58,4 +58,6 @@ export type {
   CiceroTheme,
   CiceroButtonVariant,
   CiceroButtonRadius,
+  CiceroButtonSize,
+  CiceroButtonAppearance,
 } from './types';
