@@ -366,6 +366,7 @@ export function Header() {
         showBalance={true}     // Displays balance pill when connected
         showNetwork={true}     // Displays active network pill (mainnet/testnet)
         showIcon={true}        // Displays shielded icon
+        accentColor="#3ecf8e" // Carries through to the wallet dialogs
       />
     </header>
   );
@@ -420,6 +421,18 @@ export function Header() {
                       <td className="py-2.5 px-3 font-mono text-zinc-400">boolean</td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">true</td>
                       <td className="py-2.5 px-3 text-zinc-400">Renders mainnet/testnet status indicator.</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">showIcon</td>
+                      <td className="py-2.5 px-3 font-mono text-zinc-400">boolean</td>
+                      <td className="py-2.5 px-3 font-mono text-zinc-400">true</td>
+                      <td className="py-2.5 px-3 text-zinc-400">Shows the wallet icon in the button and dialogs.</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">accentColor</td>
+                      <td className="py-2.5 px-3 font-mono text-zinc-400">string</td>
+                      <td className="py-2.5 px-3 font-mono text-zinc-400">Variant default</td>
+                      <td className="py-2.5 px-3 text-zinc-400">Hex color shared by the connected pill and wallet dialogs.</td>
                     </tr>
                   </tbody>
                 </table>

@@ -8,6 +8,7 @@ import {
   useBalance,
   useCicero,
 } from "@cicero-zcash/react";
+import { useStudioSettings } from "@/context/StudioSettingsContext";
 
 type PackageManager = "pnpm" | "npm" | "yarn" | "bun";
 
@@ -19,6 +20,7 @@ export const HeroSection: React.FC = () => {
   const { isConnected, address, wallet } = useAccount();
   const { zec, usd, isLoading: isBalLoading } = useBalance();
   const { network, switchNetwork } = useCicero();
+  const { variant, size, radius, label, showBalance, showNetwork, showIcon, accentColor } = useStudioSettings();
 
   const commands: Record<PackageManager, string> = {
     pnpm: "pnpm add @cicero-zcash/react",
@@ -134,7 +136,16 @@ export const HeroSection: React.FC = () => {
                 <p className="text-sm font-semibold text-white">Wallet connection preview</p>
                 <p className="mt-1 text-xs text-zinc-400">Try the real connect flow</p>
               </div>
-              <CiceroConnectButton variant="primary" size="sm" radius="md" />
+              <CiceroConnectButton
+                variant={variant}
+                size={size}
+                radius={radius}
+                label={label}
+                showBalance={showBalance}
+                showNetwork={showNetwork}
+                showIcon={showIcon}
+                accentColor={accentColor}
+              />
             </div>
 
             <div className="p-5 sm:p-7">

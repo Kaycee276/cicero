@@ -44,6 +44,8 @@ export const PlaygroundStudio: React.FC = () => {
     setShowNetwork,
     showIcon,
     setShowIcon,
+    accentColor,
+    setAccentColor,
     activePreset,
     applyPreset,
   } = useStudioSettings();
@@ -121,10 +123,11 @@ export default function App() {
           variant="${variant}"
           size="${size}"
           radius="${radius}"
-          label="${label}"
+          label={${JSON.stringify(label.trim() || 'Connect Zcash Wallet')}}
           showBalance={${showBalance}}
           showNetwork={${showNetwork}}
           showIcon={${showIcon}}
+          accentColor={${JSON.stringify(accentColor)}}
         />
       </nav>
       <MainDashboard />
@@ -266,7 +269,7 @@ function MainDashboard() {
             {/* Custom Button Label Input */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs">
-                <label className="font-medium text-zinc-300">Button Label</label>
+                <label htmlFor="studio-button-label" className="font-medium text-zinc-300">Button label</label>
                 <button
                   type="button"
                   onClick={() => setLabel('Connect Zcash Wallet')}
@@ -278,11 +281,38 @@ function MainDashboard() {
               </div>
               <input
                 type="text"
+                id="studio-button-label"
+                name="buttonLabel"
+                maxLength={40}
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
                 placeholder="e.g. Connect Shielded Wallet"
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[#141418] border border-zinc-800 hover:border-zinc-700 text-xs text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-mono"
+                aria-describedby="studio-label-help"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#141418] border border-zinc-800 hover:border-zinc-700 text-xs text-white focus-visible:outline-none focus-visible:border-emerald-500 focus-visible:ring-1 focus-visible:ring-emerald-500 transition-colors font-mono"
               />
+              <div id="studio-label-help" className="flex justify-between text-[11px] text-zinc-500">
+                <span>Use 1–40 characters. Blank labels use the default.</span>
+                <span className="font-mono tabular-nums">{label.length}/40</span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between gap-4 border-t border-zinc-800/80 pt-4">
+              <div className="space-y-1">
+                <label htmlFor="studio-accent-color" className="text-xs font-medium text-zinc-200">Accent color</label>
+                <p className="text-[11px] text-zinc-500">Applied to the button and its wallet dialogs.</p>
+              </div>
+              <div className="flex items-center gap-2 rounded-md border border-zinc-700 bg-[#141418] p-1.5">
+                <input
+                  id="studio-accent-color"
+                  name="accentColor"
+                  type="color"
+                  value={accentColor}
+                  onChange={(event) => setAccentColor(event.target.value)}
+                  aria-label="Choose button accent color"
+                  className="h-8 w-10 cursor-pointer rounded border-0 bg-transparent p-0"
+                />
+                <code className="pr-1 font-mono text-[11px] text-zinc-300">{accentColor.toUpperCase()}</code>
+              </div>
             </div>
 
             {/* Custom Feature Switches */}
@@ -376,6 +406,7 @@ function MainDashboard() {
                     showBalance={showBalance}
                     showNetwork={showNetwork}
                     showIcon={showIcon}
+                    accentColor={accentColor}
                   />
                 </div>
 

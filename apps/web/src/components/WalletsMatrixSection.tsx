@@ -7,6 +7,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useCicero } from '@cicero-zcash/react';
+import { useStudioSettings } from '@/context/StudioSettingsContext';
 
 interface WalletCardInfo {
   id: string;
@@ -21,7 +22,17 @@ interface WalletCardInfo {
 }
 
 export const WalletsMatrixSection: React.FC = () => {
-  const { openConnectModal } = useCicero();
+  const { openConnectModalWithAppearance } = useCicero();
+  const { variant, size, radius, showBalance, showNetwork, showIcon, accentColor } = useStudioSettings();
+  const openConnectModal = () => openConnectModalWithAppearance({
+    variant,
+    size,
+    radius,
+    showBalance,
+    showNetwork,
+    showIcon,
+    accentColor,
+  });
 
   const wallets: WalletCardInfo[] = [
     {

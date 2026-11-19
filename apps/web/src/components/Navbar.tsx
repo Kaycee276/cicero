@@ -26,6 +26,7 @@ export const Navbar: React.FC = () => {
     showBalance,
     showNetwork,
     showIcon,
+    accentColor,
     theme,
     toggleTheme,
   } = useStudioSettings();
@@ -100,6 +101,7 @@ export const Navbar: React.FC = () => {
             showBalance={showBalance}
             showNetwork={showNetwork}
             showIcon={showIcon}
+            accentColor={accentColor}
           />
         </div>
 
@@ -170,6 +172,7 @@ export const Navbar: React.FC = () => {
               showBalance={showBalance}
               showNetwork={showNetwork}
               showIcon={showIcon}
+              accentColor={accentColor}
               className="w-full justify-center"
             />
           </div>

@@ -19,7 +19,14 @@ export interface DesignPreset {
   showBalance: boolean;
   showNetwork: boolean;
   showIcon: boolean;
+  accentColor: string;
 }
+
+type StoredStudioSettings = Partial<Omit<DesignPreset, 'id'>> & {
+  id?: string | null;
+};
+
+const STUDIO_SETTINGS_KEY = 'cicero_studio_settings_v1';
 
 export const DESIGN_PRESETS: Record<string, DesignPreset> = {
   supabase: {
@@ -33,6 +40,7 @@ export const DESIGN_PRESETS: Record<string, DesignPreset> = {
     showBalance: true,
     showNetwork: true,
     showIcon: true,
+    accentColor: '#3ecf8e',
   },
   midnight: {
     id: 'midnight',
@@ -45,6 +53,7 @@ export const DESIGN_PRESETS: Record<string, DesignPreset> = {
     showBalance: true,
     showNetwork: true,
     showIcon: true,
+    accentColor: '#3ecf8e',
   },
   gold: {
     id: 'gold',
@@ -57,6 +66,7 @@ export const DESIGN_PRESETS: Record<string, DesignPreset> = {
     showBalance: true,
     showNetwork: true,
     showIcon: true,
+    accentColor: '#f59e0b',
   },
   minimal: {
     id: 'minimal',
@@ -69,6 +79,7 @@ export const DESIGN_PRESETS: Record<string, DesignPreset> = {
     showBalance: true,
     showNetwork: false,
     showIcon: false,
+    accentColor: '#a1a1aa',
   },
   gradient: {
     id: 'gradient',
@@ -81,6 +92,7 @@ export const DESIGN_PRESETS: Record<string, DesignPreset> = {
     showBalance: true,
     showNetwork: true,
     showIcon: true,
+    accentColor: '#3ecf8e',
   },
 };
 
@@ -99,6 +111,8 @@ export interface StudioSettingsContextType {
   setShowNetwork: (n: boolean) => void;
   showIcon: boolean;
   setShowIcon: (i: boolean) => void;
+  accentColor: string;
+  setAccentColor: (color: string) => void;
   activePreset: string | null;
   applyPreset: (presetId: string) => void;
   theme: ThemeMode;
@@ -112,43 +126,99 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
   children,
 }) => {
   const [variant, setVariant] = useState<ButtonVariant>('primary');
-  const [size, setSize] = useState<ButtonSize>('sm');
+  const [size, setSize] = useState<ButtonSize>('md');
   const [radius, setRadius] = useState<ButtonRadius>('md');
   const [label, setLabel] = useState<string>('Connect Zcash Wallet');
   const [showBalance, setShowBalance] = useState<boolean>(true);
   const [showNetwork, setShowNetwork] = useState<boolean>(true);
   const [showIcon, setShowIcon] = useState<boolean>(true);
+  const [accentColor, setAccentColorState] = useState<string>('#3ecf8e');
   const [activePreset, setActivePreset] = useState<string | null>('supabase');
   const [theme, setThemeState] = useState<ThemeMode>('dark');
+  const [settingsLoaded, setSettingsLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STUDIO_SETTINGS_KEY);
+      if (stored) {
+        const settings = JSON.parse(stored) as StoredStudioSettings;
+        if (settings.variant && ['primary', 'outline', 'dark', 'ghost', 'gradient', 'gold'].includes(settings.variant)) setVariant(settings.variant);
+        if (settings.size && ['sm', 'md', 'lg'].includes(settings.size)) setSize(settings.size);
+        if (settings.radius && ['none', 'sm', 'md', 'lg', 'full'].includes(settings.radius)) setRadius(settings.radius);
+        if (typeof settings.label === 'string') setLabel(settings.label.slice(0, 40));
+        if (typeof settings.showBalance === 'boolean') setShowBalance(settings.showBalance);
+        if (typeof settings.showNetwork === 'boolean') setShowNetwork(settings.showNetwork);
+        if (typeof settings.showIcon === 'boolean') setShowIcon(settings.showIcon);
+        if (typeof settings.accentColor === 'string' && /^#[\da-f]{6}$/i.test(settings.accentColor)) setAccentColorState(settings.accentColor);
+        if (settings.id === null) setActivePreset(null);
+        else if (typeof settings.id === 'string' && settings.id in DESIGN_PRESETS) setActivePreset(settings.id);
+        else setActivePreset(null);
+      }
+    } catch {
+      // Ignore invalid or unavailable local settings and keep the defaults.
+    } finally {
+      setSettingsLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!settingsLoaded) return;
+    try {
+      localStorage.setItem(STUDIO_SETTINGS_KEY, JSON.stringify({
+        variant,
+        size,
+        radius,
+        label,
+        showBalance,
+        showNetwork,
+        showIcon,
+        accentColor,
+        id: activePreset,
+      }));
+    } catch {
+      // The Studio still works when storage is unavailable.
+    }
+  }, [settingsLoaded, variant, size, radius, label, showBalance, showNetwork, showIcon, accentColor, activePreset]);
 
   // Synchronize theme with DOM & localStorage
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const saved = localStorage.getItem('cicero_theme') as ThemeMode | null;
+    let saved: ThemeMode | null = null;
+    try {
+      saved = localStorage.getItem('cicero_theme') as ThemeMode | null;
+    } catch {
+      // Keep the default theme when storage is unavailable.
+    }
     if (saved === 'dark' || saved === 'light') {
       setThemeState(saved);
       if (saved === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.documentElement.classList.remove('light');
+        document.documentElement.classList.toggle('dark', true);
+        document.documentElement.classList.toggle('light', false);
       } else {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.classList.add('light');
+        document.documentElement.classList.toggle('dark', false);
+        document.documentElement.classList.toggle('light', true);
       }
     } else {
       setThemeState('dark');
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
+      document.documentElement.classList.toggle('dark', true);
+      document.documentElement.classList.toggle('light', false);
     }
   }, []);
 
   const setTheme = (newTheme: ThemeMode) => {
     setThemeState(newTheme);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('cicero_theme', newTheme);
+      try {
+        localStorage.setItem('cicero_theme', newTheme);
+      } catch {
+        // Theme changes still apply for the current session.
+      }
       if (newTheme === 'dark') {
-        document.documentElement.classList.add('dark');
+        document.documentElement.classList.toggle('dark', true);
+        document.documentElement.classList.toggle('light', false);
       } else {
-        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.toggle('dark', false);
+        document.documentElement.classList.toggle('light', true);
       }
     }
   };
@@ -168,6 +238,7 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
     setShowBalance(p.showBalance);
     setShowNetwork(p.showNetwork);
     setShowIcon(p.showIcon);
+    setAccentColorState(p.accentColor);
   };
 
   const handleSetVariant = (v: ButtonVariant) => {
@@ -186,7 +257,7 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
   };
 
   const handleSetLabel = (l: string) => {
-    setLabel(l);
+    setLabel(l.slice(0, 40));
     setActivePreset(null);
   };
 
@@ -202,6 +273,12 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
 
   const handleSetShowIcon = (i: boolean) => {
     setShowIcon(i);
+    setActivePreset(null);
+  };
+
+  const handleSetAccentColor = (color: string) => {
+    if (!/^#[\da-f]{6}$/i.test(color)) return;
+    setAccentColorState(color);
     setActivePreset(null);
   };
 
@@ -222,6 +299,8 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
         setShowNetwork: handleSetShowNetwork,
         showIcon,
         setShowIcon: handleSetShowIcon,
+        accentColor,
+        setAccentColor: handleSetAccentColor,
         activePreset,
         applyPreset,
         theme,
