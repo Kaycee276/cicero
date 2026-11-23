@@ -39,7 +39,7 @@ const config: Config = {
         xl: '16px',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['var(--font-secondary)', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['ui-monospace', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
     },

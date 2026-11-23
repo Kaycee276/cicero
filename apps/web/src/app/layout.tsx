@@ -1,10 +1,17 @@
 import type { Metadata } from 'next';
-import { Cinzel } from 'next/font/google';
+import { Cinzel, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { ClientProviders } from '@/components/ClientProviders';
 
 const cinzel = Cinzel({
   variable: '--font-inscription',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-secondary',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   display: 'swap',
@@ -41,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark scroll-smooth ${cinzel.variable}`}>
+    <html lang="en" className={`dark scroll-smooth ${cinzel.variable} ${spaceGrotesk.variable}`}>
       <body className="min-h-screen bg-[#09090b] text-[#f4f4f5] selection:bg-[#3ecf8e]/30 selection:text-[#3ecf8e] antialiased">
         <ClientProviders>{children}</ClientProviders>
       </body>
