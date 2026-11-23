@@ -57,7 +57,8 @@ export const UseCasesSection: React.FC = () => {
             Where shielded wallet support helps
           </h2>
           <p className="mt-3 text-sm sm:text-base text-zinc-400 leading-relaxed">
-            Privacy isn't just an optional feature — it is foundational security for decentralized commerce, confidential corporate treasuries, and free speech.
+            Privacy isn't just an optional feature — it is foundational security for decentralized
+            commerce, confidential corporate treasuries, and free speech.
           </p>
         </div>
 

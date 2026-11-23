@@ -13,18 +13,22 @@ export const Footer: React.FC = () => {
             <div className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-emerald-400">
               <Shield className="w-4 h-4 fill-emerald-400/20" />
             </div>
-            <span className="font-inscription text-base font-semibold tracking-wide text-white">Cicero</span>
+            <span className="font-inscription text-base font-semibold tracking-wide text-white">
+              Cicero
+            </span>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
               v0.2.10
             </span>
           </div>
 
           <p className="text-xs text-zinc-400 leading-relaxed">
-            The universal wallet connection kit for shielded Zcash apps. Connect Noir, Zelcore, Zucchini, Zashi, and Ywallet with cryptographic privacy by default.
+            The universal wallet connection kit for shielded Zcash apps. Connect Noir, Zelcore,
+            Zucchini, Zashi, and Ywallet with cryptographic privacy by default.
           </p>
 
           <p className="text-[11px] text-zinc-500">
-            Named for Marcus Tullius Cicero, the Roman orator whose legacy inspires this focus on clear, private communication.
+            Named for Marcus Tullius Cicero, the Roman orator whose legacy inspires this focus on
+            clear, private communication.
           </p>
         </div>
 
@@ -162,26 +166,17 @@ export const Footer: React.FC = () => {
               </a>
             </li>
             <li>
-              <a
-                href="#playground"
-                className="hover:text-emerald-400 transition-colors"
-              >
+              <a href="#playground" className="hover:text-emerald-400 transition-colors">
                 Interactive Design Studio
               </a>
             </li>
             <li>
-              <a
-                href="#paywall-demo"
-                className="hover:text-emerald-400 transition-colors"
-              >
+              <a href="#paywall-demo" className="hover:text-emerald-400 transition-colors">
                 zk-Shielded Paywall Demo
               </a>
             </li>
             <li>
-              <a
-                href="#ai-agent"
-                className="hover:text-emerald-400 transition-colors"
-              >
+              <a href="#ai-agent" className="hover:text-emerald-400 transition-colors">
                 AI Agent Skills (Cursor & Claude)
               </a>
             </li>
@@ -192,7 +187,8 @@ export const Footer: React.FC = () => {
       {/* Sub-footer Bottom Bar */}
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
         <div>
-          &copy; {new Date().getFullYear()} Cicero. Released under MIT License for the Zcash builder community.
+          &copy; {new Date().getFullYear()} Cicero. Released under MIT License for the Zcash builder
+          community.
         </div>
         <div className="flex items-center gap-1">
           <span>Crafted with zero-knowledge pride for financial privacy</span>

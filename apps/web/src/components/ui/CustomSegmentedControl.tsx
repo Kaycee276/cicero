@@ -25,11 +25,7 @@ export const CustomSegmentedControl: React.FC<CustomSegmentedControlProps> = ({
 }) => {
   return (
     <div className={`space-y-1.5 ${className}`}>
-      {label && (
-        <label className="block text-xs font-medium text-zinc-300">
-          {label}
-        </label>
-      )}
+      {label && <label className="block text-xs font-medium text-zinc-300">{label}</label>}
       <div className="flex p-1 rounded-lg bg-[#141418] border border-zinc-800 gap-1">
         {options.map((option) => {
           const isSelected = option.value === value;
@@ -44,9 +40,7 @@ export const CustomSegmentedControl: React.FC<CustomSegmentedControlProps> = ({
                   : 'text-zinc-400 hover:text-white hover:bg-zinc-850'
               }`}
             >
-              {option.icon && (
-                <span className="flex-shrink-0 text-current">{option.icon}</span>
-              )}
+              {option.icon && <span className="flex-shrink-0 text-current">{option.icon}</span>}
               <span className="truncate">{option.label}</span>
             </button>
           );

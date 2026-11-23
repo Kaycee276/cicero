@@ -24,7 +24,10 @@ export abstract class BaseWalletAdapter implements WalletAdapter {
     return this.session?.address ?? null;
   }
 
-  async getBalance(_options?: { address?: string; network?: ZcashNetwork }): Promise<number | null> {
+  async getBalance(_options?: {
+    address?: string;
+    network?: ZcashNetwork;
+  }): Promise<number | null> {
     return this.session?.balance ?? null;
   }
 
@@ -50,10 +53,7 @@ export abstract class BaseWalletAdapter implements WalletAdapter {
     this.emit('disconnect', undefined);
   }
 
-  on<K extends WalletAdapterEvent>(
-    event: K,
-    listener: WalletAdapterEventListener<K>
-  ): () => void {
+  on<K extends WalletAdapterEvent>(event: K, listener: WalletAdapterEventListener<K>): () => void {
     let eventListeners = this.listeners.get(event);
     if (!eventListeners) {
       eventListeners = new Set();
@@ -69,10 +69,7 @@ export abstract class BaseWalletAdapter implements WalletAdapter {
     this.emit('accountChange', session);
   }
 
-  protected emit<K extends WalletAdapterEvent>(
-    event: K,
-    payload: WalletAdapterEventMap[K]
-  ): void {
+  protected emit<K extends WalletAdapterEvent>(event: K, payload: WalletAdapterEventMap[K]): void {
     const eventListeners = this.listeners.get(event);
     if (!eventListeners) return;
     for (const listener of eventListeners) listener(payload as never);

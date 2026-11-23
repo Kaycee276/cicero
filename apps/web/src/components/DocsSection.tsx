@@ -2,7 +2,16 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { BookOpen, Copy, Check, Terminal, ExternalLink, Bot, ArrowRight, Code2 } from 'lucide-react';
+import {
+  BookOpen,
+  Copy,
+  Check,
+  Terminal,
+  ExternalLink,
+  Bot,
+  ArrowRight,
+  Code2,
+} from 'lucide-react';
 
 export const DocsSection: React.FC = () => {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
@@ -134,13 +143,28 @@ const { zashi, ywallet } = getWalletDeepLinks(uri);`,
   ];
 
   const hooksTable = [
-    { hook: 'useCicero()', desc: 'Full context: account, network, balance, connect, disconnect, switchNetwork, modal controls' },
-    { hook: 'useAccount()', desc: 'Account state: address, isConnected, isConnecting, wallet, disconnect' },
+    {
+      hook: 'useCicero()',
+      desc: 'Full context: account, network, balance, connect, disconnect, switchNetwork, modal controls',
+    },
+    {
+      hook: 'useAccount()',
+      desc: 'Account state: address, isConnected, isConnecting, wallet, disconnect',
+    },
     { hook: 'useBalance()', desc: 'Balance state: zec, usd, isLoading, refetch' },
-    { hook: 'useConnectModal()', desc: 'Modal controls: isOpen, openConnectModal, closeConnectModal' },
-    { hook: 'useAccountModal()', desc: 'Modal controls: isOpen, openAccountModal, closeAccountModal' },
+    {
+      hook: 'useConnectModal()',
+      desc: 'Modal controls: isOpen, openConnectModal, closeConnectModal',
+    },
+    {
+      hook: 'useAccountModal()',
+      desc: 'Modal controls: isOpen, openAccountModal, closeAccountModal',
+    },
     { hook: 'useZcashPrice()', desc: 'Live ZEC/USD price with convertZecToUsd() helper' },
-    { hook: 'useZucchiniWallet()', desc: 'Direct Zucchini adapter: isAvailable, connect, address, getBalance' },
+    {
+      hook: 'useZucchiniWallet()',
+      desc: 'Direct Zucchini adapter: isAvailable, connect, address, getBalance',
+    },
   ];
 
   return (
@@ -156,7 +180,8 @@ const { zashi, ywallet } = getWalletDeepLinks(uri);`,
               Developer Reference
             </h2>
             <p className="mt-3 text-sm sm:text-base text-zinc-400 leading-relaxed">
-              Everything you need to integrate zero-knowledge Zcash wallet connection and ZIP-321 checkout into your React applications.
+              Everything you need to integrate zero-knowledge Zcash wallet connection and ZIP-321
+              checkout into your React applications.
             </p>
           </div>
 
@@ -214,7 +239,9 @@ const { zashi, ywallet } = getWalletDeepLinks(uri);`,
         <div className="mt-14">
           <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <span>Component Props:</span>
-            <code className="break-all font-mono text-sm bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 text-emerald-400">&lt;CiceroConnectButton /&gt;</code>
+            <code className="break-all font-mono text-sm bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 text-emerald-400">
+              &lt;CiceroConnectButton /&gt;
+            </code>
           </h3>
 
           <div className="overflow-x-auto border border-zinc-800/80 rounded-2xl shadow-xl bg-[#0e0e12]">
@@ -230,9 +257,7 @@ const { zashi, ywallet } = getWalletDeepLinks(uri);`,
               <tbody className="divide-y divide-zinc-800/60 text-zinc-300">
                 {propsTable.map((row, idx) => (
                   <tr key={idx} className="hover:bg-zinc-800/30 transition-colors">
-                    <td className="p-4 font-mono font-semibold text-white">
-                      {row.prop}
-                    </td>
+                    <td className="p-4 font-mono font-semibold text-white">{row.prop}</td>
                     <td className="p-4 font-mono text-zinc-400">{row.type}</td>
                     <td className="p-4">
                       {row.required ? (
@@ -255,9 +280,7 @@ const { zashi, ywallet } = getWalletDeepLinks(uri);`,
 
         {/* Hooks Reference Table */}
         <div className="mt-12">
-          <h3 className="text-lg font-semibold text-white mb-4">
-            React Hooks Suite
-          </h3>
+          <h3 className="text-lg font-semibold text-white mb-4">React Hooks Suite</h3>
 
           <div className="overflow-x-auto border border-zinc-800/80 rounded-2xl shadow-xl bg-[#0e0e12]">
             <table className="w-full text-left text-xs min-w-[500px]">
@@ -270,9 +293,7 @@ const { zashi, ywallet } = getWalletDeepLinks(uri);`,
               <tbody className="divide-y divide-zinc-800/60 text-zinc-300">
                 {hooksTable.map((row, idx) => (
                   <tr key={idx} className="hover:bg-zinc-800/30 transition-colors">
-                    <td className="p-4 font-mono font-semibold text-emerald-400">
-                      {row.hook}
-                    </td>
+                    <td className="p-4 font-mono font-semibold text-emerald-400">{row.hook}</td>
                     <td className="p-4 text-zinc-400">{row.desc}</td>
                   </tr>
                 ))}

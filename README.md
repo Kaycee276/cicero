@@ -52,7 +52,9 @@ function Dashboard() {
     <div>
       <p>Connected to {wallet?.name}</p>
       <p>Address: {address}</p>
-      <p>Balance: {zec} ZEC (~${usd} USD)</p>
+      <p>
+        Balance: {zec} ZEC (~${usd} USD)
+      </p>
     </div>
   );
 }
@@ -118,33 +120,37 @@ export function Header() {
 Cicero exports familiar, ergonomic hooks modeled after RainbowKit and wagmi:
 
 ### `useAccount()`
+
 ```tsx
 const {
-  address,        // string | null - Active shielded or transparent address
-  isConnected,    // boolean - Whether a wallet is connected
-  isConnecting,   // boolean - True during connection handshake
-  wallet,         // ZcashWallet | null - Active wallet adapter metadata
-  disconnect,     // () => Promise<void> - Disconnect handler
+  address, // string | null - Active shielded or transparent address
+  isConnected, // boolean - Whether a wallet is connected
+  isConnecting, // boolean - True during connection handshake
+  wallet, // ZcashWallet | null - Active wallet adapter metadata
+  disconnect, // () => Promise<void> - Disconnect handler
 } = useAccount();
 ```
 
 ### `useBalance()`
+
 ```tsx
 const {
-  zec,            // number - Shielded balance in ZEC
-  usd,            // string | null - Estimated USD equivalent
-  isLoading,      // boolean - True when querying balance
-  refetch,        // () => Promise<void> - Re-queries balance from wallet/RPC
+  zec, // number - Shielded balance in ZEC
+  usd, // string | null - Estimated USD equivalent
+  isLoading, // boolean - True when querying balance
+  refetch, // () => Promise<void> - Re-queries balance from wallet/RPC
 } = useBalance();
 ```
 
 ### `useCicero()`
+
 Full context access including network state, modal controls, and raw wallet methods:
+
 ```tsx
 const {
   account,
-  network,        // 'mainnet' | 'testnet'
-  switchNetwork,  // (net: 'mainnet' | 'testnet') => Promise<SwitchResult>
+  network, // 'mainnet' | 'testnet'
+  switchNetwork, // (net: 'mainnet' | 'testnet') => Promise<SwitchResult>
   openConnectModal,
   closeConnectModal,
   openAccountModal,
@@ -156,13 +162,13 @@ const {
 
 ## 🔌 Supported Wallets
 
-| Wallet | Type | Support | Features |
-|---|---|---|---|
-| **Zucchini** | Chrome Extension | Direct in-browser | 1-click connect, live network sync, shielded balance |
-| **Zashi** | Mobile (iOS/Android) | QR Handoff | Electric Coin Co. official wallet |
-| **Ywallet** | Desktop & Mobile | QR Handoff | Multi-platform shielded wallet |
-| **Viewing Key** | Read-Only | Manual Input | Auditor compliance, treasury dashboards |
-| **Burner Wallet**| Dev / Sandbox | Ephemeral | Instant testing in development |
+| Wallet            | Type                 | Support           | Features                                             |
+| ----------------- | -------------------- | ----------------- | ---------------------------------------------------- |
+| **Zucchini**      | Chrome Extension     | Direct in-browser | 1-click connect, live network sync, shielded balance |
+| **Zashi**         | Mobile (iOS/Android) | QR Handoff        | Electric Coin Co. official wallet                    |
+| **Ywallet**       | Desktop & Mobile     | QR Handoff        | Multi-platform shielded wallet                       |
+| **Viewing Key**   | Read-Only            | Manual Input      | Auditor compliance, treasury dashboards              |
+| **Burner Wallet** | Dev / Sandbox        | Ephemeral         | Instant testing in development                       |
 
 ---
 

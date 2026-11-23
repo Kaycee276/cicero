@@ -6,69 +6,69 @@
   color-scheme: light;
 }
 
-.cicero-theme-light [class~="bg-[#111114]"],
-.cicero-theme-light [class~="bg-[#101013]"],
-.cicero-theme-light [class~="bg-[#18181b]"],
-.cicero-theme-light [class~="bg-zinc-950"] {
+.cicero-theme-light [class~='bg-[#111114]'],
+.cicero-theme-light [class~='bg-[#101013]'],
+.cicero-theme-light [class~='bg-[#18181b]'],
+.cicero-theme-light [class~='bg-zinc-950'] {
   background-color: #fffdf8 !important;
   background-image: none !important;
 }
 
-.cicero-theme-light [class~="bg-[#0d0d10]"],
-.cicero-theme-light [class~="bg-[#0c0c0e]"],
-.cicero-theme-light [class~="bg-zinc-900"] {
+.cicero-theme-light [class~='bg-[#0d0d10]'],
+.cicero-theme-light [class~='bg-[#0c0c0e]'],
+.cicero-theme-light [class~='bg-zinc-900'] {
   background-color: #f1eee6 !important;
   background-image: none !important;
 }
 
-.cicero-theme-light [class~="hover:bg-zinc-900"]:hover,
-.cicero-theme-light [class~="hover:bg-zinc-800"]:hover {
+.cicero-theme-light [class~='hover:bg-zinc-900']:hover,
+.cicero-theme-light [class~='hover:bg-zinc-800']:hover {
   background-color: #eeeae0 !important;
 }
 
-.cicero-theme-light [class~="text-white"],
-.cicero-theme-light [class~="hover:text-white"]:hover,
-.cicero-theme-light [class~="text-zinc-100"],
-.cicero-theme-light [class~="text-zinc-200"],
-.cicero-theme-light [class~="text-zinc-300"] {
+.cicero-theme-light [class~='text-white'],
+.cicero-theme-light [class~='hover:text-white']:hover,
+.cicero-theme-light [class~='text-zinc-100'],
+.cicero-theme-light [class~='text-zinc-200'],
+.cicero-theme-light [class~='text-zinc-300'] {
   color: #27251f !important;
 }
 
-.cicero-theme-light [class~="text-zinc-400"],
-.cicero-theme-light [class~="text-zinc-500"] {
+.cicero-theme-light [class~='text-zinc-400'],
+.cicero-theme-light [class~='text-zinc-500'] {
   color: #635f55 !important;
 }
 
-.cicero-theme-light [class~="border-zinc-800"],
-.cicero-theme-light [class~="border-zinc-700"] {
+.cicero-theme-light [class~='border-zinc-800'],
+.cicero-theme-light [class~='border-zinc-700'] {
   border-color: #d4cec0 !important;
 }
 
-.cicero-theme-light [class~="bg-emerald-950/30"],
-.cicero-theme-light [class~="bg-emerald-950/40"] {
+.cicero-theme-light [class~='bg-emerald-950/30'],
+.cicero-theme-light [class~='bg-emerald-950/40'] {
   background-color: #e9f2e9 !important;
 }
 
-.cicero-theme-light [class~="bg-rose-950/40"] {
+.cicero-theme-light [class~='bg-rose-950/40'] {
   background-color: #f7e5e3 !important;
 }
 
-.cicero-theme-light [class~="text-emerald-200"],
-.cicero-theme-light [class~="text-emerald-300"],
-.cicero-theme-light [class~="text-emerald-400"],
-.cicero-theme-light [class~="text-[#3ecf8e]"],
-.cicero-theme-light [class~="text-[#24b47e]"] {
+.cicero-theme-light [class~='text-emerald-200'],
+.cicero-theme-light [class~='text-emerald-300'],
+.cicero-theme-light [class~='text-emerald-400'],
+.cicero-theme-light [class~='text-[#3ecf8e]'],
+.cicero-theme-light [class~='text-[#24b47e]'] {
   color: #087451 !important;
 }
 
-.cicero-theme-light [class~="text-amber-200"],
-.cicero-theme-light [class~="text-amber-300"],
-.cicero-theme-light [class~="text-amber-400"] {
+.cicero-theme-light [class~='text-amber-200'],
+.cicero-theme-light [class~='text-amber-300'],
+.cicero-theme-light [class~='text-amber-400'] {
   color: #725311 !important;
 }
 
-.cicero-theme-light [class~="text-rose-200"],
-.cicero-theme-light [class~="text-rose-300"],
-.cicero-theme-light [class~="text-rose-400"] {
+.cicero-theme-light [class~='text-rose-200'],
+.cicero-theme-light [class~='text-rose-300'],
+.cicero-theme-light [class~='text-rose-400'] {
   color: #8e302b !important;
 }

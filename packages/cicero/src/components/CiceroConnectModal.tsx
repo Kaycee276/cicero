@@ -1,12 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import {
-  X,
-  ExternalLink,
-  Shield,
-  AlertCircle,
-  ArrowRight,
-} from 'lucide-react';
+import { X, ExternalLink, Shield, AlertCircle, ArrowRight } from 'lucide-react';
 import { useCicero } from '../context/CiceroContext';
 import { CiceroQRCode } from './CiceroQRCode';
 import { ZucchiniWalletAdapter } from '../wallet/zucchini';
@@ -85,14 +79,14 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
   // Keep keyboard focus inside the dialog and restore it to its trigger on close.
   useEffect(() => {
     if (!isOpen || !mounted) return;
-    const previousFocus = document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : null;
-    const getFocusable = () => Array.from(
-      dialogRef.current?.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      ) ?? []
-    );
+    const previousFocus =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const getFocusable = () =>
+      Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) ?? []
+      );
     getFocusable()[0]?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -161,8 +155,8 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
       style={{ '--cicero-accent': accentColor } as React.CSSProperties}
     >
       {/* Backdrop */}
-              <button
-                type="button"
+      <button
+        type="button"
         aria-label="Close wallet connection dialog"
         className="fixed inset-0 bg-[#171717]/60 backdrop-blur-sm transition-opacity z-[99999]"
         onClick={handleClose}
@@ -182,19 +176,25 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
         <div className="flex items-center justify-between border-b border-zinc-800 bg-[#0d0d10] px-6 py-5 sm:px-8">
           <div className="flex items-center gap-2.5">
             {modalAppearance.showIcon && (
-              <div className="flex h-9 w-9 items-center justify-center rounded-md border border-zinc-700 bg-zinc-900" style={{ color: accentColor }}>
+              <div
+                className="flex h-9 w-9 items-center justify-center rounded-md border border-zinc-700 bg-zinc-900"
+                style={{ color: accentColor }}
+              >
                 <Shield aria-hidden="true" className="h-4 w-4 fill-current" />
               </div>
             )}
             <div>
               <div className="flex items-center gap-2">
-                <span id="cicero-connect-title" className="text-sm font-semibold text-white">Connect Zcash Wallet</span>
+                <span id="cicero-connect-title" className="text-sm font-semibold text-white">
+                  Connect Zcash Wallet
+                </span>
                 <span className="rounded border border-zinc-700 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-zinc-300">
                   {network}
                 </span>
               </div>
               <p id="cicero-connect-description" className="mt-1 text-xs text-zinc-400">
-                Connect to <strong className="font-medium text-zinc-200">{appName}</strong> with your preferred wallet.
+                Connect to <strong className="font-medium text-zinc-200">{appName}</strong> with
+                your preferred wallet.
               </p>
             </div>
           </div>
@@ -243,7 +243,12 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
-                    <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-xs font-semibold text-[#3ecf8e]">{w.icon}</span>
+                    <span
+                      aria-hidden="true"
+                      className="flex h-9 w-9 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-xs font-semibold text-[#3ecf8e]"
+                    >
+                      {w.icon}
+                    </span>
                     <div>
                       <div className="flex items-center gap-1.5">
                         <span className="text-sm font-medium text-zinc-100">{w.name}</span>
@@ -257,10 +262,10 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                         {w.category === 'extension'
                           ? 'Browser Extension'
                           : w.category === 'mobile'
-                          ? 'Mobile / QR'
-                          : w.category === 'read-only'
-                          ? 'Auditor View'
-                          : 'Dev Session'}
+                            ? 'Mobile / QR'
+                            : w.category === 'read-only'
+                              ? 'Auditor View'
+                              : 'Dev Session'}
                       </span>
                     </div>
                   </div>
@@ -275,21 +280,25 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
               {/* Wallet Header */}
               <div className="flex items-start justify-between border-b border-zinc-800 pb-4">
                 <div className="flex items-center gap-2.5">
-                  <span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-sm font-semibold text-[#3ecf8e]">{selectedWallet.icon}</span>
+                  <span
+                    aria-hidden="true"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-sm font-semibold text-[#3ecf8e]"
+                  >
+                    {selectedWallet.icon}
+                  </span>
                   <div>
-                    <h4 className="text-base font-semibold text-white">
-                      {selectedWallet.name}
-                    </h4>
-                    <p className="mt-1 text-xs text-zinc-400">
-                      {selectedWallet.description}
-                    </p>
+                    <h4 className="text-base font-semibold text-white">{selectedWallet.name}</h4>
+                    <p className="mt-1 text-xs text-zinc-400">{selectedWallet.description}</p>
                   </div>
                 </div>
               </div>
 
               {/* Error message */}
               {error && (
-                <div role="alert" className="flex items-start gap-2 rounded-md border border-rose-900 bg-rose-950/40 p-3 text-xs text-rose-200">
+                <div
+                  role="alert"
+                  className="flex items-start gap-2 rounded-md border border-rose-900 bg-rose-950/40 p-3 text-xs text-rose-200"
+                >
                   <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 flex-shrink-0 mt-0.5" />
                   <span>{error}</span>
                 </div>
@@ -306,13 +315,15 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                         <span>Extension Detected & Ready</span>
                       </div>
                       <p className="text-emerald-800 dark:text-emerald-300 leading-relaxed">
-                        Clicking connect will prompt your Zucchini Wallet side-panel to authorize access.
+                        Clicking connect will prompt your Zucchini Wallet side-panel to authorize
+                        access.
                       </p>
                     </div>
                   ) : (
                     <div className="p-4 rounded-lg bg-[#fafafa] dark:bg-[#1f1f1f] border border-[#ededed] dark:border-[#2b2b2b] text-xs text-[#707070] dark:text-[#a1a1aa] space-y-3">
                       <p>
-                        Zucchini Wallet extension was not detected in this browser. Install it to enable 1-click in-browser approvals.
+                        Zucchini Wallet extension was not detected in this browser. Install it to
+                        enable 1-click in-browser approvals.
                       </p>
                       {selectedWallet.downloadUrl && (
                         <a
@@ -339,13 +350,15 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                         <span>Noir Wallet Extension Detected</span>
                       </div>
                       <p className="text-emerald-800 dark:text-emerald-300 leading-relaxed">
-                        Noir Wallet extension was detected. Clicking connect will prompt your Noir extension popup to authorize this application.
+                        Noir Wallet extension was detected. Clicking connect will prompt your Noir
+                        extension popup to authorize this application.
                       </p>
                     </div>
                   ) : (
                     <div className="p-4 rounded-lg bg-[#fafafa] dark:bg-[#1f1f1f] border border-[#ededed] dark:border-[#2b2b2b] text-xs text-[#707070] dark:text-[#a1a1aa] space-y-3">
                       <p>
-                        Noir Wallet extension was not detected in this browser. Install it to enable 1-click in-browser shielded Zcash approvals.
+                        Noir Wallet extension was not detected in this browser. Install it to enable
+                        1-click in-browser shielded Zcash approvals.
                       </p>
                       {selectedWallet.downloadUrl && (
                         <a
@@ -373,7 +386,8 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                       className="w-full p-2.5 rounded-md bg-white dark:bg-[#141414] border border-[#dfdfdf] dark:border-[#333] font-mono text-xs text-[#171717] dark:text-white focus:outline-none focus:border-[#3ecf8e]"
                     />
                     <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa]">
-                      Noir Wallet supports zero-knowledge shielded Orchard pools and ZECFi applications.
+                      Noir Wallet supports zero-knowledge shielded Orchard pools and ZECFi
+                      applications.
                     </p>
                   </div>
                 </div>
@@ -387,7 +401,12 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                       <span>Zelcore Compatibility Note</span>
                     </div>
                     <p className="text-[11px] leading-relaxed">
-                      Zelcore is a multi-asset wallet operating primarily on <strong>Mainnet</strong> for transparent Zcash (<code className="font-mono">t1...</code>) and unified addresses. Because the Zelcore browser extension does <em>not</em> provide an in-browser Zcash dApp signing RPC popup (it only injects EVM/Solana), connection is established via your Zelcore ZEC address below.
+                      Zelcore is a multi-asset wallet operating primarily on{' '}
+                      <strong>Mainnet</strong> for transparent Zcash (
+                      <code className="font-mono">t1...</code>) and unified addresses. Because the
+                      Zelcore browser extension does <em>not</em> provide an in-browser Zcash dApp
+                      signing RPC popup (it only injects EVM/Solana), connection is established via
+                      your Zelcore ZEC address below.
                     </p>
                   </div>
 
@@ -420,7 +439,10 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                   <div className="space-y-2 text-xs">
                     <div className="flex items-center justify-between">
                       <label className="font-medium text-[#171717] dark:text-white">
-                        Zelcore ZEC Address <span className="text-[11px] font-normal text-[#707070] dark:text-[#a1a1aa]">(Optional)</span>
+                        Zelcore ZEC Address{' '}
+                        <span className="text-[11px] font-normal text-[#707070] dark:text-[#a1a1aa]">
+                          (Optional)
+                        </span>
                       </label>
                       <div className="flex items-center gap-2">
                         <button
@@ -470,7 +492,8 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                           <span className="text-[#24b47e] font-medium flex items-center gap-1">
                             ✓ Unified Zcash address detected
                           </span>
-                        ) : customKeyInput.trim().startsWith('utest1') || customKeyInput.trim().startsWith('tm') ? (
+                        ) : customKeyInput.trim().startsWith('utest1') ||
+                          customKeyInput.trim().startsWith('tm') ? (
                           <span className="text-amber-500 font-medium flex items-center gap-1">
                             ℹ️ Testnet address detected (Zelcore operates on Mainnet)
                           </span>
@@ -482,7 +505,8 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                       </div>
                     ) : (
                       <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
-                        Click <strong>Connect</strong> below to connect immediately, or paste your own address from Zelcore (Portfolio → Zcash → Receive).
+                        Click <strong>Connect</strong> below to connect immediately, or paste your
+                        own address from Zelcore (Portfolio → Zcash → Receive).
                       </p>
                     )}
                   </div>
@@ -503,10 +527,12 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                       Scan with {selectedWallet.name} app
                     </p>
                     <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa] mt-0.5">
-                      Open {selectedWallet.name} on your device and scan this QR code to authenticate.
+                      Open {selectedWallet.name} on your device and scan this QR code to
+                      authenticate.
                     </p>
                     <p className="text-[10px] text-[#9a9a9a] dark:text-[#71717a] mt-2 leading-relaxed">
-                      Browsers sandbox websites from querying local OS applications. Mobile & desktop wallets connect securely via zero-knowledge QR handoff.
+                      Browsers sandbox websites from querying local OS applications. Mobile &
+                      desktop wallets connect securely via zero-knowledge QR handoff.
                     </p>
                   </div>
                 </div>
@@ -528,7 +554,8 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                     />
                   </div>
                   <p className="text-[11px] text-[#707070] dark:text-[#a1a1aa]">
-                    Read-only connection for tax calculation, accounting reconciliation, or proof-of-reserves.
+                    Read-only connection for tax calculation, accounting reconciliation, or
+                    proof-of-reserves.
                   </p>
                 </div>
               )}
@@ -537,9 +564,12 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
               {selectedWallet.id === 'burner' && (
                 <div className="space-y-3 py-2 text-xs">
                   <div className="p-3.5 rounded-lg bg-[#fafafa] dark:bg-[#1f1f1f] border border-[#ededed] dark:border-[#2b2b2b] space-y-1.5">
-                    <span className="font-semibold text-[#171717] dark:text-white">Ephemeral Shielded Test Wallet</span>
+                    <span className="font-semibold text-[#171717] dark:text-white">
+                      Ephemeral Shielded Test Wallet
+                    </span>
                     <p className="text-[#707070] dark:text-[#a1a1aa] leading-relaxed">
-                      Instantly creates an in-memory session wallet pre-funded with simulated testnet ZEC. Perfect for testing dApps without needing external extensions.
+                      Instantly creates an in-memory session wallet pre-funded with simulated
+                      testnet ZEC. Perfect for testing dApps without needing external extensions.
                     </p>
                   </div>
                 </div>
@@ -552,8 +582,8 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                 Wallet approval stays with your selected wallet
               </span>
 
-                <button
-                  type="button"
+              <button
+                type="button"
                 onClick={handleConnectAction}
                 disabled={isSubmitting}
                 style={{ backgroundColor: accentColor, color: getContrastTextColor(accentColor) }}
@@ -570,8 +600,8 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                       {selectedWallet.id === 'viewing-key'
                         ? 'Connect Read-Only'
                         : selectedWallet.id === 'burner'
-                        ? 'Launch Dev Session'
-                        : `Connect ${selectedWallet.name}`}
+                          ? 'Launch Dev Session'
+                          : `Connect ${selectedWallet.name}`}
                     </span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </>

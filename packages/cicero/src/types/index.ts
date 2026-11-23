@@ -1,18 +1,8 @@
-export type {
-  ZcashAddressType,
-  ZcashNetwork,
-  Zip321PaymentRequest,
-} from '@cicero-zcash/core';
+export type { ZcashAddressType, ZcashNetwork, Zip321PaymentRequest } from '@cicero-zcash/core';
 
 export type CiceroTheme = 'supabase' | 'emerald' | 'dark' | 'light' | 'gold' | 'cyber';
 
-export type CiceroButtonVariant =
-  | 'primary'
-  | 'outline'
-  | 'dark'
-  | 'ghost'
-  | 'gradient'
-  | 'gold';
+export type CiceroButtonVariant = 'primary' | 'outline' | 'dark' | 'ghost' | 'gradient' | 'gold';
 
 export type CiceroButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 

@@ -33,7 +33,7 @@ export const FeaturesSection: React.FC = () => {
       title: 'Bi-Directional Network Synchronization',
       badge: 'Live Sync',
       description:
-        'Cicero auto-detects the wallet\'s active network on connect and listens for live change events. Toggling Mainnet ↔ Testnet in extension or app updates state in real-time.',
+        "Cicero auto-detects the wallet's active network on connect and listens for live change events. Toggling Mainnet ↔ Testnet in extension or app updates state in real-time.",
     },
     {
       icon: <Shield className="w-5 h-5 text-emerald-400" />,
@@ -70,16 +70,14 @@ export const FeaturesSection: React.FC = () => {
             Built on Zcash Cryptographic Standards
           </h2>
           <p className="mt-3 text-sm sm:text-base text-zinc-400 leading-relaxed">
-            Cicero provides a shared React interface for wallet connection, account state, balances, and Zcash payment requests.
+            Cicero provides a shared React interface for wallet connection, account state, balances,
+            and Zcash payment requests.
           </p>
         </div>
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feat, i) => (
-            <div
-              key={i}
-              className="p-6 sm:p-7 bg-[#101013] transition-colors space-y-4 group"
-            >
+            <div key={i} className="p-6 sm:p-7 bg-[#101013] transition-colors space-y-4 group">
               <div className="flex items-center justify-between">
                 <div className="w-10 h-10 rounded-md bg-[#19191d] flex items-center justify-center">
                   {feat.icon}
@@ -93,9 +91,7 @@ export const FeaturesSection: React.FC = () => {
                 <h3 className="text-base font-semibold text-white group-hover:text-emerald-400 transition-colors">
                   {feat.title}
                 </h3>
-                <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
-                  {feat.description}
-                </p>
+                <p className="text-xs text-zinc-400 mt-2 leading-relaxed">{feat.description}</p>
               </div>
             </div>
           ))}

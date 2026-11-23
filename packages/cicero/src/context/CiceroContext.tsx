@@ -46,7 +46,9 @@ export interface CiceroContextType {
 
   // Network
   network: ZcashNetwork;
-  switchNetwork: (net: ZcashNetwork) => Promise<{ success: boolean; requiresManualSwitch?: boolean; currentNetwork?: ZcashNetwork }>;
+  switchNetwork: (
+    net: ZcashNetwork
+  ) => Promise<{ success: boolean; requiresManualSwitch?: boolean; currentNetwork?: ZcashNetwork }>;
 
   // Balance
   balance: BalanceState;
@@ -126,7 +128,8 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
   // Modal states
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
-  const [modalAppearance, setModalAppearance] = useState<CiceroButtonAppearance>(DEFAULT_MODAL_APPEARANCE);
+  const [modalAppearance, setModalAppearance] =
+    useState<CiceroButtonAppearance>(DEFAULT_MODAL_APPEARANCE);
 
   // Price oracle
   const { convertZecToUsd } = useZcashPrice(true);
@@ -279,14 +282,22 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
   }, [account.isConnected, balance.zec, convertZecToUsd]);
 
   const switchNetwork = useCallback(
-    async (newNet: ZcashNetwork): Promise<{ success: boolean; requiresManualSwitch?: boolean; currentNetwork?: ZcashNetwork }> => {
+    async (
+      newNet: ZcashNetwork
+    ): Promise<{
+      success: boolean;
+      requiresManualSwitch?: boolean;
+      currentNetwork?: ZcashNetwork;
+    }> => {
       // If a wallet is connected, consult the wallet first so Cicero doesn't get out of sync
       if (account.wallet?.switchNetwork) {
         try {
           const switchRes = await account.wallet.switchNetwork(newNet);
           if (switchRes && switchRes.requiresManualSwitch) {
             // Extension security model requires manual switch in wallet settings
-            const currentNet = switchRes.currentNetwork || (account.wallet.getNetwork ? await account.wallet.getNetwork() : network);
+            const currentNet =
+              switchRes.currentNetwork ||
+              (account.wallet.getNetwork ? await account.wallet.getNetwork() : network);
             setNetwork(currentNet);
             if (typeof window !== 'undefined') {
               localStorage.setItem('cicero_network', currentNet);
@@ -355,9 +366,10 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
         if (walletId === 'viewing-key' && customAddressOrKey) {
           session = {
             address: customAddressOrKey,
-            viewingKey: customAddressOrKey.startsWith('zx') || customAddressOrKey.startsWith('uview')
-              ? customAddressOrKey
-              : undefined,
+            viewingKey:
+              customAddressOrKey.startsWith('zx') || customAddressOrKey.startsWith('uview')
+                ? customAddressOrKey
+                : undefined,
             connected: true,
             network,
             walletId: 'viewing-key',
@@ -370,8 +382,7 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
 
         // Synchronize Cicero network with the connected wallet's actual network
         const walletNetwork =
-          session.network ||
-          (targetWallet.getNetwork ? await targetWallet.getNetwork() : network);
+          session.network || (targetWallet.getNetwork ? await targetWallet.getNetwork() : network);
 
         if (walletNetwork && walletNetwork !== network) {
           setNetwork(walletNetwork);

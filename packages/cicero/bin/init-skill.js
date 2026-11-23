@@ -44,4 +44,6 @@ destinations.forEach(({ dir, file }) => {
   }
 });
 
-console.log('\n🚀 Cicero Agent Skill successfully installed! Your AI coding assistant is now equipped with shielded Zcash capabilities.');
+console.log(
+  '\n🚀 Cicero Agent Skill successfully installed! Your AI coding assistant is now equipped with shielded Zcash capabilities.'
+);

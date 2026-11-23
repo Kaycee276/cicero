@@ -1,17 +1,9 @@
 import { generateZip321Uri } from '../zip321';
 import { ZcashNetwork } from '../types';
 
-export type WalletConnectionStatus =
-  | 'disconnected'
-  | 'connecting'
-  | 'connected'
-  | 'error';
+export type WalletConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'error';
 
-export type WalletPaymentStatus =
-  | 'idle'
-  | 'requesting'
-  | 'submitted'
-  | 'error';
+export type WalletPaymentStatus = 'idle' | 'requesting' | 'submitted' | 'error';
 
 export interface ZucchiniWalletSession {
   address?: string;
@@ -106,9 +98,8 @@ export class ZucchiniExtensionAdapter {
 
     try {
       // Import the official dapp SDK
-      const { discoverZucchiniProvider, createZucchiniClient } = await import(
-        '@zucchinifi/dapp-sdk/zcash'
-      );
+      const { discoverZucchiniProvider, createZucchiniClient } =
+        await import('@zucchinifi/dapp-sdk/zcash');
 
       const discovered = discoverZucchiniProvider() || rawProvider;
       if (discovered) {
@@ -126,7 +117,9 @@ export class ZucchiniExtensionAdapter {
       this.client = {
         async connect(req?: any) {
           if (typeof rawProvider.connect === 'function') {
-            return rawProvider.connect(req?.permissions || ['view_addresses', 'view_balance', 'send_transaction']);
+            return rawProvider.connect(
+              req?.permissions || ['view_addresses', 'view_balance', 'send_transaction']
+            );
           }
           if (typeof rawProvider.request === 'function') {
             return rawProvider.request({ method: 'connect', params: req });
@@ -190,10 +183,7 @@ export class ZucchiniExtensionAdapter {
       try {
         const addresses = await client.getAddresses();
         address =
-          addresses?.unified ||
-          addresses?.orchard ||
-          addresses?.sapling ||
-          addresses?.transparent;
+          addresses?.unified || addresses?.orchard || addresses?.sapling || addresses?.transparent;
       } catch {
         // best effort
       }
@@ -234,9 +224,7 @@ export class ZucchiniExtensionAdapter {
 
     const raw =
       this.provider ||
-      (typeof window !== 'undefined'
-        ? (window as any).zucchini || (window as any).zcash
-        : null);
+      (typeof window !== 'undefined' ? (window as any).zucchini || (window as any).zcash : null);
 
     if (raw && typeof raw.request === 'function') {
       try {
@@ -286,9 +274,7 @@ export class ZucchiniExtensionAdapter {
 
     const raw =
       this.provider ||
-      (typeof window !== 'undefined'
-        ? (window as any).zucchini || (window as any).zcash
-        : null);
+      (typeof window !== 'undefined' ? (window as any).zucchini || (window as any).zcash : null);
 
     if (raw && typeof raw.request === 'function') {
       try {
@@ -316,9 +302,7 @@ export class ZucchiniExtensionAdapter {
   onNetworkChanged(listener: (network: ZcashNetwork) => void): () => void {
     const raw =
       this.provider ||
-      (typeof window !== 'undefined'
-        ? (window as any).zucchini || (window as any).zcash
-        : null);
+      (typeof window !== 'undefined' ? (window as any).zucchini || (window as any).zcash : null);
 
     const handler = async () => {
       const net = await this.getNetwork();
@@ -385,9 +369,7 @@ export class ZucchiniExtensionAdapter {
   async getBalance(options?: { address?: string; network?: string }): Promise<number | null> {
     const raw =
       this.provider ||
-      (typeof window !== 'undefined'
-        ? (window as any).zucchini || (window as any).zcash
-        : null);
+      (typeof window !== 'undefined' ? (window as any).zucchini || (window as any).zcash : null);
 
     const methods = [
       'getBalance',
@@ -434,10 +416,7 @@ export class ZucchiniExtensionAdapter {
     }
 
     const client = await this.getClient();
-    const numAmount =
-      typeof params.amount === 'number'
-        ? params.amount
-        : parseFloat(params.amount);
+    const numAmount = typeof params.amount === 'number' ? params.amount : parseFloat(params.amount);
 
     if (isNaN(numAmount) || numAmount <= 0) {
       throw new Error('Payment amount must be a positive number.');

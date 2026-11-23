@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -e
+
+echo "🛡️  Running Cicero Pre-commit Verification..."
+
+# 1. Secrets & Credentials Detection
+bash scripts/check-secrets.sh
+
+# 2. Prettier Formatting Verification
+pnpm format:check
+
+# 3. Typecheck across all workspace packages
+pnpm typecheck
+
+# 4. Automated Tests across all workspace packages
+pnpm test
+
+echo "✨ All pre-commit checks passed successfully!"

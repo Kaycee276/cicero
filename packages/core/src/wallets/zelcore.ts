@@ -38,7 +38,8 @@ export function isZelcoreAvailable(): boolean {
     zelcoreDetected ||
     win.zelcore ||
     win.ethereum?.isZelcore ||
-    (Array.isArray(win.ethereum?.providers) && win.ethereum.providers.some((p: any) => p?.isZelcore))
+    (Array.isArray(win.ethereum?.providers) &&
+      win.ethereum.providers.some((p: any) => p?.isZelcore))
   );
 }
 
@@ -60,11 +61,9 @@ export const zelcoreWallet: ZcashWallet = {
     }
 
     const isTestnet =
-      address.startsWith('utest') ||
-      address.startsWith('tm') ||
-      address.startsWith('ztest');
+      address.startsWith('utest') || address.startsWith('tm') || address.startsWith('ztest');
 
-    const network: ZcashNetwork = isTestnet ? 'testnet' : (options?.network || 'mainnet');
+    const network: ZcashNetwork = isTestnet ? 'testnet' : options?.network || 'mainnet';
 
     return {
       address,
@@ -104,4 +103,3 @@ export const zelcoreWallet: ZcashWallet = {
     };
   },
 };
-

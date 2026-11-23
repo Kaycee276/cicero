@@ -13,10 +13,9 @@ export async function GET() {
       return NextResponse.json({ count: null }, { status: 200 });
     }
 
-    const repository = await response.json() as { stargazers_count?: unknown };
-    const count = typeof repository.stargazers_count === 'number'
-      ? repository.stargazers_count
-      : null;
+    const repository = (await response.json()) as { stargazers_count?: unknown };
+    const count =
+      typeof repository.stargazers_count === 'number' ? repository.stargazers_count : null;
 
     return NextResponse.json({ count });
   } catch {

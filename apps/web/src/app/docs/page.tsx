@@ -67,9 +67,7 @@ export default function DocsPage() {
     },
     {
       title: 'AI Agent Acceleration',
-      items: [
-        { id: 'ai-agent', label: '🤖 AI Agent Skill & Prompts', highlight: true },
-      ],
+      items: [{ id: 'ai-agent', label: '🤖 AI Agent Skill & Prompts', highlight: true }],
     },
     {
       title: 'Components API',
@@ -106,11 +104,12 @@ export default function DocsPage() {
 
       {/* Docs Header Banner */}
       <div className="border-b border-zinc-800/80 bg-[#0c0c0f] py-10 sm:py-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2.5">
             <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
-              <Link href="/" className="hover:text-white transition-colors">Home</Link>
+              <Link href="/" className="hover:text-white transition-colors">
+                Home
+              </Link>
               <span>/</span>
               <span className="text-emerald-400 font-semibold">Docs</span>
             </div>
@@ -118,7 +117,8 @@ export default function DocsPage() {
               Cicero Developer Documentation
             </h1>
             <p className="text-sm sm:text-base text-zinc-400 max-w-2xl leading-relaxed">
-              The universal wallet connection toolkit for shielded Zcash. Drop-in React components, real-time balance polling, and AI agent skills for high-speed dApp development.
+              The universal wallet connection toolkit for shielded Zcash. Drop-in React components,
+              real-time balance polling, and AI agent skills for high-speed dApp development.
             </p>
           </div>
 
@@ -146,7 +146,6 @@ export default function DocsPage() {
       {/* Main Docs Body: 2-Column Responsive Layout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 flex-1 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          
           {/* Left Sticky Sidebar (3 cols on desktop) */}
           <aside className="hidden lg:block lg:col-span-3 sticky top-24 space-y-6 text-xs max-h-[calc(100vh-8rem)] overflow-y-auto pr-3">
             {navSections.map((sec, idx) => (
@@ -176,30 +175,39 @@ export default function DocsPage() {
 
           {/* Right Main Content (9 cols) */}
           <main id="docs-content" className="lg:col-span-9 space-y-16 max-w-4xl" tabIndex={-1}>
-            
             {/* 1. Overview */}
             <section id="overview" className="space-y-4 scroll-mt-24">
               <div className="flex items-center gap-2">
-                <h2 className="text-2xl font-bold tracking-tight text-white">
-                  Overview
-                </h2>
+                <h2 className="text-2xl font-bold tracking-tight text-white">Overview</h2>
               </div>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                Cicero is the developer payment and wallet connection kit for shielded Zcash apps. Designed with the familiar ergonomics of RainbowKit, it abstracts the complexities of Zcash browser extension APIs, mobile QR handoffs, zero-knowledge unified addresses, and real-time balance queries into simple React hooks and components.
+                Cicero is the developer payment and wallet connection kit for shielded Zcash apps.
+                Designed with the familiar ergonomics of RainbowKit, it abstracts the complexities
+                of Zcash browser extension APIs, mobile QR handoffs, zero-knowledge unified
+                addresses, and real-time balance queries into simple React hooks and components.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                 <div className="p-4 rounded-xl border border-zinc-800/80 bg-[#0e0e12] space-y-1">
                   <span className="font-semibold text-xs text-white">One Button Integration</span>
-                  <p className="text-[11px] text-zinc-400">Drop &lt;CiceroConnectButton /&gt; into your navigation bar for instant wallet connectivity.</p>
+                  <p className="text-[11px] text-zinc-400">
+                    Drop &lt;CiceroConnectButton /&gt; into your navigation bar for instant wallet
+                    connectivity.
+                  </p>
                 </div>
                 <div className="p-4 rounded-xl border border-zinc-800/80 bg-[#0e0e12] space-y-1">
                   <span className="font-semibold text-xs text-white">Zero-Knowledge Shielded</span>
-                  <p className="text-[11px] text-zinc-400">Supports Orchard and Sapling shielded pools, unified addresses (ZIP-316), and encrypted memos.</p>
+                  <p className="text-[11px] text-zinc-400">
+                    Supports Orchard and Sapling shielded pools, unified addresses (ZIP-316), and
+                    encrypted memos.
+                  </p>
                 </div>
                 <div className="p-4 rounded-xl border border-zinc-800/80 bg-[#0e0e12] space-y-1">
                   <span className="font-semibold text-xs text-white">RainbowKit Experience</span>
-                  <p className="text-[11px] text-zinc-400">Modal drawer with live balance display, network switching indicator, and address copy.</p>
+                  <p className="text-[11px] text-zinc-400">
+                    Modal drawer with live balance display, network switching indicator, and address
+                    copy.
+                  </p>
                 </div>
               </div>
             </section>
@@ -207,9 +215,7 @@ export default function DocsPage() {
             {/* 2. Installation */}
             <section id="installation" className="space-y-4 scroll-mt-24">
               <div className="flex items-center justify-between pb-2 border-b border-zinc-800/80">
-                <h2 className="text-xl font-bold tracking-tight text-white">
-                  Installation
-                </h2>
+                <h2 className="text-xl font-bold tracking-tight text-white">Installation</h2>
                 <span className="text-xs font-mono text-emerald-400">v0.2.10 (Latest)</span>
               </div>
               <p className="text-sm text-zinc-400">
@@ -261,7 +267,12 @@ export default function DocsPage() {
                 Quick Start: Provider Setup
               </h2>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                Wrap your client component tree in <code className="px-1.5 py-0.5 rounded bg-zinc-800 text-xs font-mono text-white">CiceroProvider</code>. This establishes the React context for wallet discovery, balance polling, and modal state.
+                Wrap your client component tree in{' '}
+                <code className="px-1.5 py-0.5 rounded bg-zinc-800 text-xs font-mono text-white">
+                  CiceroProvider
+                </code>
+                . This establishes the React context for wallet discovery, balance polling, and
+                modal state.
               </p>
 
               <div className="rounded-xl border border-zinc-800/80 bg-[#0e0e12] overflow-hidden text-white shadow-xl">
@@ -285,7 +296,7 @@ export default function DocsPage() {
                   </button>
                 </div>
                 <pre className="p-4 text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed bg-[#09090b]">
-{`'use client';
+                  {`'use client';
 
 import { CiceroProvider } from '@cicero-zcash/react';
 
@@ -312,7 +323,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 </h2>
               </div>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                Build 10x faster by giving your AI coding assistant (Cursor, Claude Code, Windsurf, Antigravity, Copilot, ChatGPT) the exact Cicero mental model. Never deal with hallucinations or outdated API calls.
+                Build 10x faster by giving your AI coding assistant (Cursor, Claude Code, Windsurf,
+                Antigravity, Copilot, ChatGPT) the exact Cicero mental model. Never deal with
+                hallucinations or outdated API calls.
               </p>
 
               {/* Interactive AI Skill Component */}
@@ -325,7 +338,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 Component: CiceroConnectButton
               </h2>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                The primary UI component. When disconnected, it displays a connect trigger. When connected, it transforms into an interactive pill showing active network, shielded balance, and a truncated address.
+                The primary UI component. When disconnected, it displays a connect trigger. When
+                connected, it transforms into an interactive pill showing active network, shielded
+                balance, and a truncated address.
               </p>
 
               <div className="rounded-xl border border-zinc-800/80 bg-[#0e0e12] overflow-hidden text-white shadow-xl">
@@ -349,7 +364,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                   </button>
                 </div>
                 <pre className="p-4 text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed bg-[#09090b]">
-{`import { CiceroConnectButton } from '@cicero-zcash/react';
+                  {`import { CiceroConnectButton } from '@cicero-zcash/react';
 
 export function Header() {
   return (
@@ -384,8 +399,12 @@ export function Header() {
                   </thead>
                   <tbody className="divide-y divide-zinc-800/60 text-zinc-300">
                     <tr>
-                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">variant</td>
-                      <td className="py-2.5 px-3 font-mono text-zinc-400">'primary' | 'outline' | 'dark' | 'ghost' | 'gradient' | 'gold'</td>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">
+                        variant
+                      </td>
+                      <td className="py-2.5 px-3 font-mono text-zinc-400">
+                        'primary' | 'outline' | 'dark' | 'ghost' | 'gradient' | 'gold'
+                      </td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">'primary'</td>
                       <td className="py-2.5 px-3 text-zinc-400">Button visual appearance token.</td>
                     </tr>
@@ -396,40 +415,64 @@ export function Header() {
                       <td className="py-2.5 px-3 text-zinc-400">Padding and typography tier.</td>
                     </tr>
                     <tr>
-                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">radius</td>
-                      <td className="py-2.5 px-3 font-mono text-zinc-400">'none' | 'sm' | 'md' | 'lg' | 'full'</td>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">
+                        radius
+                      </td>
+                      <td className="py-2.5 px-3 font-mono text-zinc-400">
+                        'none' | 'sm' | 'md' | 'lg' | 'full'
+                      </td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">'md'</td>
                       <td className="py-2.5 px-3 text-zinc-400">Corner border-radius token.</td>
                     </tr>
                     <tr>
-                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">label</td>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">
+                        label
+                      </td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">string</td>
-                      <td className="py-2.5 px-3 font-mono text-zinc-400">'Connect Zcash Wallet'</td>
+                      <td className="py-2.5 px-3 font-mono text-zinc-400">
+                        'Connect Zcash Wallet'
+                      </td>
                       <td className="py-2.5 px-3 text-zinc-400">Disconnected state text.</td>
                     </tr>
                     <tr>
-                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">showBalance</td>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">
+                        showBalance
+                      </td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">boolean</td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">true</td>
-                      <td className="py-2.5 px-3 text-zinc-400">Renders shielded ZEC balance in connected pill.</td>
+                      <td className="py-2.5 px-3 text-zinc-400">
+                        Renders shielded ZEC balance in connected pill.
+                      </td>
                     </tr>
                     <tr>
-                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">showNetwork</td>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">
+                        showNetwork
+                      </td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">boolean</td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">true</td>
-                      <td className="py-2.5 px-3 text-zinc-400">Renders mainnet/testnet status indicator.</td>
+                      <td className="py-2.5 px-3 text-zinc-400">
+                        Renders mainnet/testnet status indicator.
+                      </td>
                     </tr>
                     <tr>
-                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">showIcon</td>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">
+                        showIcon
+                      </td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">boolean</td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">true</td>
-                      <td className="py-2.5 px-3 text-zinc-400">Shows the wallet icon in the button and dialogs.</td>
+                      <td className="py-2.5 px-3 text-zinc-400">
+                        Shows the wallet icon in the button and dialogs.
+                      </td>
                     </tr>
                     <tr>
-                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">accentColor</td>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400 font-semibold">
+                        accentColor
+                      </td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">string</td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">Variant default</td>
-                      <td className="py-2.5 px-3 text-zinc-400">Hex color shared by the connected pill and wallet dialogs.</td>
+                      <td className="py-2.5 px-3 text-zinc-400">
+                        Hex color shared by the connected pill and wallet dialogs.
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -442,12 +485,13 @@ export function Header() {
                 Component: CiceroQRCode
               </h2>
               <p className="text-sm text-zinc-400 leading-relaxed">
-                A hardened SVG QR code component optimized for high-density ZIP-321 payment request URIs and unified addresses. Includes error correction level 'M'.
+                A hardened SVG QR code component optimized for high-density ZIP-321 payment request
+                URIs and unified addresses. Includes error correction level 'M'.
               </p>
 
               <div className="rounded-xl border border-zinc-800/80 bg-[#0e0e12] overflow-hidden text-white shadow-xl">
                 <pre className="p-4 text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed bg-[#09090b]">
-{`import { CiceroQRCode } from '@cicero-zcash/react';
+                  {`import { CiceroQRCode } from '@cicero-zcash/react';
 
 // ZIP-321 Payment URI with amount and encrypted memo
 const zip321Uri = "zcash:u1testaddress...?amount=1.25&message=Order%20%234912";
@@ -469,12 +513,13 @@ export function PaymentBox() {
                 Hook: useAccount()
               </h2>
               <p className="text-sm text-zinc-400">
-                Provides access to current connection status, connected shielded address, and active wallet metadata.
+                Provides access to current connection status, connected shielded address, and active
+                wallet metadata.
               </p>
 
               <div className="rounded-xl border border-zinc-800/80 bg-[#0e0e12] overflow-hidden text-white shadow-xl">
                 <pre className="p-4 text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed bg-[#09090b]">
-{`import { useAccount } from '@cicero-zcash/react';
+                  {`import { useAccount } from '@cicero-zcash/react';
 
 export function ProfileWidget() {
   const { isConnected, isConnecting, address, wallet } = useAccount();
@@ -499,12 +544,13 @@ export function ProfileWidget() {
                 Hook: useBalance()
               </h2>
               <p className="text-sm text-zinc-400">
-                Queries shielded balance in ZEC, computes fiat USD estimates, tracks loading state, and exposes manual refetch.
+                Queries shielded balance in ZEC, computes fiat USD estimates, tracks loading state,
+                and exposes manual refetch.
               </p>
 
               <div className="rounded-xl border border-zinc-800/80 bg-[#0e0e12] overflow-hidden text-white shadow-xl">
                 <pre className="p-4 text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed bg-[#09090b]">
-{`import { useBalance } from '@cicero-zcash/react';
+                  {`import { useBalance } from '@cicero-zcash/react';
 
 export function WalletBalance() {
   const { zec, usd, isLoading, refetch } = useBalance();
@@ -527,12 +573,13 @@ export function WalletBalance() {
                 Hook: useCicero()
               </h2>
               <p className="text-sm text-zinc-400">
-                Exposes the master Cicero context: network switching between Mainnet and Testnet, modal triggers, and disconnect controls.
+                Exposes the master Cicero context: network switching between Mainnet and Testnet,
+                modal triggers, and disconnect controls.
               </p>
 
               <div className="rounded-xl border border-zinc-800/80 bg-[#0e0e12] overflow-hidden text-white shadow-xl">
                 <pre className="p-4 text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed bg-[#09090b]">
-{`import { useCicero } from '@cicero-zcash/react';
+                  {`import { useCicero } from '@cicero-zcash/react';
 
 export function NetworkSwitch() {
   const { network, switchNetwork, openConnectModal, disconnect } = useCicero();
@@ -558,12 +605,14 @@ export function NetworkSwitch() {
                 Hook: useZucchiniWallet()
               </h2>
               <p className="text-sm text-zinc-400">
-                Direct interface to the Zucchini web browser extension via <code className="text-xs font-mono text-emerald-400">@zucchinifi/dapp-sdk</code>. Auto-detects extension presence and listens for unlock events.
+                Direct interface to the Zucchini web browser extension via{' '}
+                <code className="text-xs font-mono text-emerald-400">@zucchinifi/dapp-sdk</code>.
+                Auto-detects extension presence and listens for unlock events.
               </p>
 
               <div className="rounded-xl border border-zinc-800/80 bg-[#0e0e12] overflow-hidden text-white shadow-xl">
                 <pre className="p-4 text-xs font-mono text-zinc-300 overflow-x-auto leading-relaxed bg-[#09090b]">
-{`import { useZucchiniWallet } from '@cicero-zcash/react';
+                  {`import { useZucchiniWallet } from '@cicero-zcash/react';
 
 export function ExtensionCard() {
   const { isAvailable, isConnected, connect, address } = useZucchiniWallet();
@@ -588,7 +637,9 @@ export function ExtensionCard() {
                 Supported Wallets Architecture
               </h2>
               <p className="text-sm text-zinc-400">
-                Web browsers enforce strict sandbox security preventing websites from querying arbitrary local OS processes. Cicero supports both in-browser injected extensions and zero-knowledge QR handoffs for mobile wallets:
+                Web browsers enforce strict sandbox security preventing websites from querying
+                arbitrary local OS processes. Cicero supports both in-browser injected extensions
+                and zero-knowledge QR handoffs for mobile wallets:
               </p>
 
               <div className="overflow-x-auto rounded-xl border border-zinc-800/80 bg-[#0e0e12]">
@@ -605,19 +656,25 @@ export function ExtensionCard() {
                     <tr>
                       <td className="py-2.5 px-3 font-semibold text-white">Zucchini Wallet</td>
                       <td className="py-2.5 px-3 text-zinc-400">Browser Extension</td>
-                      <td className="py-2.5 px-3 font-mono text-emerald-400">1-Click Sidepanel Approval</td>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400">
+                        1-Click Sidepanel Approval
+                      </td>
                       <td className="py-2.5 px-3">Mainnet & Testnet (Orchard & Sapling)</td>
                     </tr>
                     <tr>
                       <td className="py-2.5 px-3 font-semibold text-white">🖤 Noir Wallet</td>
                       <td className="py-2.5 px-3 text-zinc-400">Browser Extension</td>
-                      <td className="py-2.5 px-3 font-mono text-emerald-400">1-Click In-Browser Popup</td>
+                      <td className="py-2.5 px-3 font-mono text-emerald-400">
+                        1-Click In-Browser Popup
+                      </td>
                       <td className="py-2.5 px-3">Mainnet & Testnet (Shielded & ZECFi)</td>
                     </tr>
                     <tr>
                       <td className="py-2.5 px-3 font-semibold text-white">🔷 Zelcore</td>
                       <td className="py-2.5 px-3 text-zinc-400">Multi-Asset Extension</td>
-                      <td className="py-2.5 px-3 font-mono text-amber-400">Address Input (No ZEC dApp RPC)</td>
+                      <td className="py-2.5 px-3 font-mono text-amber-400">
+                        Address Input (No ZEC dApp RPC)
+                      </td>
                       <td className="py-2.5 px-3">Mainnet Only (Transparent t1)</td>
                     </tr>
                     <tr>
@@ -635,13 +692,19 @@ export function ExtensionCard() {
                     <tr>
                       <td className="py-2.5 px-3 font-semibold text-white">Viewing Key</td>
                       <td className="py-2.5 px-3 text-zinc-400">Auditor / Read-Only</td>
-                      <td className="py-2.5 px-3 font-mono text-zinc-400">Unified Viewing Key (uview...)</td>
+                      <td className="py-2.5 px-3 font-mono text-zinc-400">
+                        Unified Viewing Key (uview...)
+                      </td>
                       <td className="py-2.5 px-3">Shielded Decryption</td>
                     </tr>
                     <tr>
-                      <td className="py-2.5 px-3 font-semibold text-white">🔥 Burner Dev Session</td>
+                      <td className="py-2.5 px-3 font-semibold text-white">
+                        🔥 Burner Dev Session
+                      </td>
                       <td className="py-2.5 px-3 text-zinc-400">Local Development</td>
-                      <td className="py-2.5 px-3 font-mono text-amber-400">Ephemeral In-Memory Testnet</td>
+                      <td className="py-2.5 px-3 font-mono text-amber-400">
+                        Ephemeral In-Memory Testnet
+                      </td>
                       <td className="py-2.5 px-3">Testnet Orchard</td>
                     </tr>
                   </tbody>
@@ -656,20 +719,32 @@ export function ExtensionCard() {
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-5 rounded-xl border border-zinc-800/80 bg-[#0e0e12] space-y-2">
-                  <span className="font-semibold text-xs text-white">ZIP-321: Payment Request URIs</span>
+                  <span className="font-semibold text-xs text-white">
+                    ZIP-321: Payment Request URIs
+                  </span>
                   <p className="text-xs text-zinc-400 leading-relaxed">
-                    Standardizes payment URIs for Zcash (<code className="font-mono text-emerald-400">zcash:&lt;address&gt;?amount=&lt;val&gt;&message=&lt;memo&gt;</code>). Enables mobile and desktop wallets to auto-fill recipients, exact amounts, and encrypted memos.
+                    Standardizes payment URIs for Zcash (
+                    <code className="font-mono text-emerald-400">
+                      zcash:&lt;address&gt;?amount=&lt;val&gt;&message=&lt;memo&gt;
+                    </code>
+                    ). Enables mobile and desktop wallets to auto-fill recipients, exact amounts,
+                    and encrypted memos.
                   </p>
                 </div>
                 <div className="p-5 rounded-xl border border-zinc-800/80 bg-[#0e0e12] space-y-2">
-                  <span className="font-semibold text-xs text-white">ZIP-316: Unified Addresses</span>
+                  <span className="font-semibold text-xs text-white">
+                    ZIP-316: Unified Addresses
+                  </span>
                   <p className="text-xs text-zinc-400 leading-relaxed">
-                    Combines multiple receiver types (Orchard, Sapling, and Transparent) into a single address starting with <code className="font-mono text-emerald-400">u1</code> (mainnet) or <code className="font-mono text-emerald-400">utest1</code> (testnet) to prevent cross-pool confusion.
+                    Combines multiple receiver types (Orchard, Sapling, and Transparent) into a
+                    single address starting with{' '}
+                    <code className="font-mono text-emerald-400">u1</code> (mainnet) or{' '}
+                    <code className="font-mono text-emerald-400">utest1</code> (testnet) to prevent
+                    cross-pool confusion.
                   </p>
                 </div>
               </div>
             </section>
-
           </main>
         </div>
       </div>

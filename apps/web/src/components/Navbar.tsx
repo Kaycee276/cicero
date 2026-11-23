@@ -1,23 +1,17 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  Github,
-  Menu,
-  X,
-  Sun,
-  Moon,
-} from "lucide-react";
-import { CiceroConnectButton } from "@cicero-zcash/react";
-import { useStudioSettings } from "@/context/StudioSettingsContext";
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Github, Menu, X, Sun, Moon } from 'lucide-react';
+import { CiceroConnectButton } from '@cicero-zcash/react';
+import { useStudioSettings } from '@/context/StudioSettingsContext';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [starCount, setStarCount] = useState<number | null>(null);
   const pathname = usePathname();
-  const isDocs = pathname === "/docs";
+  const isDocs = pathname === '/docs';
 
   const {
     variant,
@@ -32,12 +26,14 @@ export const Navbar: React.FC = () => {
     toggleTheme,
   } = useStudioSettings();
 
-  const studioHref = isDocs ? "/#playground" : "#playground";
+  const studioHref = isDocs ? '/#playground' : '#playground';
 
   useEffect(() => {
     const controller = new AbortController();
     fetch('/api/github-stars', { signal: controller.signal })
-      .then((response) => response.ok ? response.json() as Promise<{ count: number | null }> : null)
+      .then((response) =>
+        response.ok ? (response.json() as Promise<{ count: number | null }>) : null
+      )
       .then((data) => {
         if (data && typeof data.count === 'number') setStarCount(data.count);
       })
@@ -52,7 +48,11 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand / Logo */}
         <div className="flex items-center gap-4">
-          <Link href="/" aria-label="Cicero home" className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] focus-visible:ring-offset-4 focus-visible:ring-offset-zinc-950">
+          <Link
+            href="/"
+            aria-label="Cicero home"
+            className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] focus-visible:ring-offset-4 focus-visible:ring-offset-zinc-950"
+          >
             <div className="flex items-center gap-2">
               <span className="font-inscription uppercase text-lg font-semibold tracking-[0.16em] text-white group-hover:text-emerald-400 transition-colors">
                 CICERO
@@ -63,13 +63,16 @@ export const Navbar: React.FC = () => {
 
         {/* Desktop Nav Links */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
-          <a href={studioHref} className="rounded-sm hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e]">
+          <a
+            href={studioHref}
+            className="rounded-sm hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e]"
+          >
             Studio
           </a>
           <Link
             href="/docs"
             className={`rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] ${
-              isDocs ? "text-[#3ecf8e] font-semibold" : "hover:text-white"
+              isDocs ? 'text-[#3ecf8e] font-semibold' : 'hover:text-white'
             }`}
           >
             Docs
@@ -90,7 +93,11 @@ export const Navbar: React.FC = () => {
             <span className="text-zinc-500">|</span>
             <span
               className="font-mono text-emerald-400"
-              aria-label={starCount === null ? 'Loading GitHub stars' : `${starCount} GitHub ${starCount === 1 ? 'star' : 'stars'}`}
+              aria-label={
+                starCount === null
+                  ? 'Loading GitHub stars'
+                  : `${starCount} GitHub ${starCount === 1 ? 'star' : 'stars'}`
+              }
             >
               {starCount === null ? '…' : starCount.toLocaleString()}
             </span>
@@ -102,11 +109,11 @@ export const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={toggleTheme}
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             className="p-2 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-900/60 text-zinc-400 hover:text-white transition-all shadow-sm"
-            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
-            {theme === "dark" ? (
+            {theme === 'dark' ? (
               <Sun className="w-4 h-4 text-amber-400" />
             ) : (
               <Moon className="w-4 h-4 text-zinc-300" />
@@ -131,10 +138,10 @@ export const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={toggleTheme}
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             className="p-2 rounded-lg border border-zinc-800 bg-zinc-900 text-zinc-400"
           >
-            {theme === "dark" ? (
+            {theme === 'dark' ? (
               <Sun className="w-4 h-4 text-amber-400" />
             ) : (
               <Moon className="w-4 h-4" />
@@ -145,21 +152,20 @@ export const Navbar: React.FC = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
-            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             className="p-2 rounded-lg border border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e]"
           >
-            {mobileMenuOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div id="mobile-navigation" className="sm:hidden border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-xl px-4 py-5 space-y-4 animate-in fade-in slide-in-from-top-2 duration-150">
+        <div
+          id="mobile-navigation"
+          className="sm:hidden border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-xl px-4 py-5 space-y-4 animate-in fade-in slide-in-from-top-2 duration-150"
+        >
           <nav className="flex flex-col space-y-3 text-sm font-medium">
             <a
               href={studioHref}
@@ -191,8 +197,12 @@ export const Navbar: React.FC = () => {
               rel="noopener noreferrer"
               className="flex min-h-10 items-center justify-between rounded-lg border border-zinc-800 px-3 text-xs text-zinc-300 hover:bg-zinc-900"
             >
-              <span className="inline-flex items-center gap-2"><Github className="h-4 w-4" aria-hidden="true" /> GitHub</span>
-              <span className="font-mono text-emerald-400">{starCount === null ? '…' : `${starCount.toLocaleString()} · v0.2.10`}</span>
+              <span className="inline-flex items-center gap-2">
+                <Github className="h-4 w-4" aria-hidden="true" /> GitHub
+              </span>
+              <span className="font-mono text-emerald-400">
+                {starCount === null ? '…' : `${starCount.toLocaleString()} · v0.2.10`}
+              </span>
             </a>
             <CiceroConnectButton
               variant={variant}

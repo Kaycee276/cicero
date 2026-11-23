@@ -26,12 +26,7 @@ export function decodeBase64Url(value: string): string {
 }
 
 /** Generates a ZIP-321 payment request URI. */
-export function generateZip321Uri({
-  address,
-  amount,
-  memo,
-  message,
-}: BuildZip321Params): string {
+export function generateZip321Uri({ address, amount, memo, message }: BuildZip321Params): string {
   const cleanAddress = address.trim();
   const params = new URLSearchParams();
 

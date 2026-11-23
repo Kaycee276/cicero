@@ -48,27 +48,39 @@ export class ZucchiniWalletAdapter extends CatalogWalletAdapter {
 }
 
 export class NoirWalletAdapter extends CatalogWalletAdapter {
-  constructor(wallet: ZcashWallet = noirWallet) { super(wallet); }
+  constructor(wallet: ZcashWallet = noirWallet) {
+    super(wallet);
+  }
 }
 
 export class ZelcoreWalletAdapter extends CatalogWalletAdapter {
-  constructor(wallet: ZcashWallet = zelcoreWallet) { super(wallet); }
+  constructor(wallet: ZcashWallet = zelcoreWallet) {
+    super(wallet);
+  }
 }
 
 export class ZashiWalletAdapter extends CatalogWalletAdapter {
-  constructor(wallet: ZcashWallet = zashiWallet) { super(wallet); }
+  constructor(wallet: ZcashWallet = zashiWallet) {
+    super(wallet);
+  }
 }
 
 export class YwalletAdapter extends CatalogWalletAdapter {
-  constructor(wallet: ZcashWallet = ywallet) { super(wallet); }
+  constructor(wallet: ZcashWallet = ywallet) {
+    super(wallet);
+  }
 }
 
 export class ViewingKeyAdapter extends CatalogWalletAdapter {
-  constructor(wallet: ZcashWallet = viewingKeyWallet) { super(wallet); }
+  constructor(wallet: ZcashWallet = viewingKeyWallet) {
+    super(wallet);
+  }
 }
 
 export class DevSessionWalletAdapter extends CatalogWalletAdapter {
-  constructor(wallet: ZcashWallet = burnerWallet) { super(wallet); }
+  constructor(wallet: ZcashWallet = burnerWallet) {
+    super(wallet);
+  }
 }
 
 export type { SendPaymentParams };

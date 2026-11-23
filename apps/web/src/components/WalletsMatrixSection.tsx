@@ -1,10 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  CheckCircle2,
-  ArrowRight,
-} from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { useCicero } from '@cicero-zcash/react';
 import { useStudioSettings } from '@/context/StudioSettingsContext';
 
@@ -22,16 +19,18 @@ interface WalletCardInfo {
 
 export const WalletsMatrixSection: React.FC = () => {
   const { openConnectModalWithAppearance } = useCicero();
-  const { variant, size, radius, showBalance, showNetwork, showIcon, accentColor } = useStudioSettings();
-  const openConnectModal = () => openConnectModalWithAppearance({
-    variant,
-    size,
-    radius,
-    showBalance,
-    showNetwork,
-    showIcon,
-    accentColor,
-  });
+  const { variant, size, radius, showBalance, showNetwork, showIcon, accentColor } =
+    useStudioSettings();
+  const openConnectModal = () =>
+    openConnectModalWithAppearance({
+      variant,
+      size,
+      radius,
+      showBalance,
+      showNetwork,
+      showIcon,
+      accentColor,
+    });
 
   const wallets: WalletCardInfo[] = [
     {
@@ -40,8 +39,13 @@ export const WalletsMatrixSection: React.FC = () => {
       mark: 'N',
       badge: 'In-Browser RPC',
       type: 'Web Extension',
-      description: 'Self-custodial privacy extension for shielded Zcash & ZECFi with direct in-browser JSON-RPC authorization.',
-      features: ['Native zcash_requestAccounts RPC', 'Zero-knowledge Orchard pool', 'Automatic network detection'],
+      description:
+        'Self-custodial privacy extension for shielded Zcash & ZECFi with direct in-browser JSON-RPC authorization.',
+      features: [
+        'Native zcash_requestAccounts RPC',
+        'Zero-knowledge Orchard pool',
+        'Automatic network detection',
+      ],
       protocol: 'window.noirwallet.zcash',
       network: 'Mainnet & Testnet',
     },
@@ -51,8 +55,13 @@ export const WalletsMatrixSection: React.FC = () => {
       mark: 'Z',
       badge: '1-Click Connect',
       type: 'Extension & Desktop',
-      description: 'Multi-asset web extension & desktop wallet with 1-click transparent ZEC binding and zel: protocol deep-linking.',
-      features: ['Zero-friction 1-click connection', 'Native zel:?action=pay deep link', 'Multi-currency portfolio bridge'],
+      description:
+        'Multi-asset web extension & desktop wallet with 1-click transparent ZEC binding and zel: protocol deep-linking.',
+      features: [
+        'Zero-friction 1-click connection',
+        'Native zel:?action=pay deep link',
+        'Multi-currency portfolio bridge',
+      ],
       protocol: 'zel: URI & Extension Binding',
       network: 'Mainnet Native',
     },
@@ -62,8 +71,13 @@ export const WalletsMatrixSection: React.FC = () => {
       mark: 'Z',
       badge: 'Dedicated Extension',
       type: 'Web Extension',
-      description: 'Built specifically for Zcash with 1-click side-panel approvals via the official @zucchinifi/dapp-sdk.',
-      features: ['1-click in-browser approval', 'Live network sync listener', 'Full Unified Address (u1) support'],
+      description:
+        'Built specifically for Zcash with 1-click side-panel approvals via the official @zucchinifi/dapp-sdk.',
+      features: [
+        '1-click in-browser approval',
+        'Live network sync listener',
+        'Full Unified Address (u1) support',
+      ],
       protocol: '@zucchinifi/dapp-sdk',
       network: 'Mainnet & Testnet',
     },
@@ -73,8 +87,13 @@ export const WalletsMatrixSection: React.FC = () => {
       mark: 'Z',
       badge: 'Official Mobile',
       type: 'iOS & Android',
-      description: 'Electric Coin Company’s shielded mobile wallet. Create a ZIP-321 request that users can review and approve in their wallet.',
-      features: ['ZIP-321 payment request handoff', 'User reviews before approval', 'Orchard & Sapling support'],
+      description:
+        'Electric Coin Company’s shielded mobile wallet. Create a ZIP-321 request that users can review and approve in their wallet.',
+      features: [
+        'ZIP-321 payment request handoff',
+        'User reviews before approval',
+        'Orchard & Sapling support',
+      ],
       protocol: 'ZIP-321 QR Protocol',
       network: 'Mainnet & Testnet',
     },
@@ -84,8 +103,13 @@ export const WalletsMatrixSection: React.FC = () => {
       mark: 'Y',
       badge: 'High Performance',
       type: 'Desktop & Mobile',
-      description: 'High-performance privacy wallet for desktop and mobile with ultra-fast sync and advanced transaction construction.',
-      features: ['Ultra-fast blockchain sync', 'Cold-wallet signing bridge', 'Multi-account management'],
+      description:
+        'High-performance privacy wallet for desktop and mobile with ultra-fast sync and advanced transaction construction.',
+      features: [
+        'Ultra-fast blockchain sync',
+        'Cold-wallet signing bridge',
+        'Multi-account management',
+      ],
       protocol: 'ZIP-321 QR Protocol',
       network: 'Mainnet & Testnet',
     },
@@ -95,8 +119,13 @@ export const WalletsMatrixSection: React.FC = () => {
       mark: 'VK',
       badge: 'Auditor Mode',
       type: 'Read-Only Key',
-      description: 'Non-custodial read-only inspection for accounting, tax calculation, and proof-of-reserves without spend authority.',
-      features: ['Unified & Sapling viewing keys', 'Zero spend key exposure', 'Compliance & accounting ready'],
+      description:
+        'Non-custodial read-only inspection for accounting, tax calculation, and proof-of-reserves without spend authority.',
+      features: [
+        'Unified & Sapling viewing keys',
+        'Zero spend key exposure',
+        'Compliance & accounting ready',
+      ],
       protocol: 'uview... / zxviews...',
       network: 'Mainnet & Testnet',
     },
@@ -106,18 +135,25 @@ export const WalletsMatrixSection: React.FC = () => {
       mark: 'DEV',
       badge: 'Zero Setup',
       type: 'In-Memory Testnet',
-      description: 'Instantly creates an in-memory session wallet pre-funded with simulated testnet ZEC for rapid local dApp testing.',
-      features: ['Instant zero-dependency launch', 'Pre-funded simulated balance', 'Perfect for hackathons & CI'],
+      description:
+        'Instantly creates an in-memory session wallet pre-funded with simulated testnet ZEC for rapid local dApp testing.',
+      features: [
+        'Instant zero-dependency launch',
+        'Pre-funded simulated balance',
+        'Perfect for hackathons & CI',
+      ],
       protocol: 'In-Memory Keypair',
       network: 'Simulated Testnet',
     },
   ];
 
   return (
-    <section id="wallets" className="relative overflow-hidden border-y border-zinc-800/80 bg-[#0c0c0e] py-24 sm:py-32">
+    <section
+      id="wallets"
+      className="relative overflow-hidden border-y border-zinc-800/80 bg-[#0c0c0e] py-24 sm:py-32"
+    >
       {/* Background Glow */}
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        
         {/* Section Header */}
         <div className="flex flex-col justify-between gap-7 border-b border-zinc-800/80 pb-14 md:flex-row md:items-end sm:pb-16">
           <div className="space-y-3 max-w-2xl">
@@ -128,7 +164,8 @@ export const WalletsMatrixSection: React.FC = () => {
               One Interface. All 7 Zcash Wallets.
             </h2>
             <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
-              One API for browser extensions, mobile wallet handoffs, read-only viewing keys, and local development sessions.
+              One API for browser extensions, mobile wallet handoffs, read-only viewing keys, and
+              local development sessions.
             </p>
           </div>
 
@@ -153,7 +190,10 @@ export const WalletsMatrixSection: React.FC = () => {
                 {/* Card Top: Icon & Badge */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span aria-hidden="true" className="flex h-10 min-w-10 items-center justify-center rounded-md bg-[#3ecf8e]/10 px-2 font-mono text-xs font-semibold tracking-wide text-[#3ecf8e]">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-10 min-w-10 items-center justify-center rounded-md bg-[#3ecf8e]/10 px-2 font-mono text-xs font-semibold tracking-wide text-[#3ecf8e]"
+                    >
                       {w.mark}
                     </span>
                     <div>
@@ -162,15 +202,11 @@ export const WalletsMatrixSection: React.FC = () => {
                     </div>
                   </div>
 
-                  <span className="text-[10px] font-mono text-zinc-400">
-                    {w.badge}
-                  </span>
+                  <span className="text-[10px] font-mono text-zinc-400">{w.badge}</span>
                 </div>
 
                 {/* Description */}
-                <p className="text-xs text-zinc-300 leading-relaxed font-normal">
-                  {w.description}
-                </p>
+                <p className="text-xs text-zinc-300 leading-relaxed font-normal">{w.description}</p>
 
                 {/* Features List */}
                 <ul className="space-y-1.5 pt-2 border-t border-zinc-800/80">
@@ -186,7 +222,9 @@ export const WalletsMatrixSection: React.FC = () => {
               {/* Card Bottom: Protocol Meta & Connect Action */}
               <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-[11px] font-mono text-zinc-400">
                 <div className="min-w-0 pr-3">
-                  <span className="block truncate text-zinc-300" title={w.protocol}>{w.protocol}</span>
+                  <span className="block truncate text-zinc-300" title={w.protocol}>
+                    {w.protocol}
+                  </span>
                   <span className="mt-1 block truncate text-[10px] text-zinc-500">{w.network}</span>
                 </div>
                 <button
@@ -201,7 +239,6 @@ export const WalletsMatrixSection: React.FC = () => {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

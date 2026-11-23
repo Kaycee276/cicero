@@ -47,7 +47,13 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
     modalAppearance.variant === 'gold' ? '#f59e0b' : '#3ecf8e'
   );
   const modalWidth = { sm: 'max-w-md', md: 'max-w-lg', lg: 'max-w-xl' }[modalAppearance.size];
-  const modalRadius = { none: 'rounded-none', sm: 'rounded', md: 'rounded-lg', lg: 'rounded-xl', full: 'rounded-2xl' }[modalAppearance.radius];
+  const modalRadius = {
+    none: 'rounded-none',
+    sm: 'rounded',
+    md: 'rounded-lg',
+    lg: 'rounded-xl',
+    full: 'rounded-2xl',
+  }[modalAppearance.radius];
 
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
@@ -81,14 +87,14 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
   // Keep keyboard focus inside the dialog and restore it to its trigger on close.
   useEffect(() => {
     if (!isOpen || !mounted) return;
-    const previousFocus = document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : null;
-    const getFocusable = () => Array.from(
-      dialogRef.current?.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      ) ?? []
-    );
+    const previousFocus =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const getFocusable = () =>
+      Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) ?? []
+      );
     getFocusable()[0]?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -155,7 +161,14 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-zinc-800 bg-[#0d0d10] px-6 py-5 sm:px-8">
           <div className="flex items-center gap-2">
-            {modalAppearance.showIcon && <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-sm font-semibold text-[#3ecf8e]">{wallet?.icon || 'Z'}</span>}
+            {modalAppearance.showIcon && (
+              <span
+                aria-hidden="true"
+                className="flex h-9 w-9 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-sm font-semibold text-[#3ecf8e]"
+              >
+                {wallet?.icon || 'Z'}
+              </span>
+            )}
             <div>
               <span id="cicero-account-title" className="text-sm font-semibold text-white">
                 {wallet?.name || 'Zcash Wallet'}
@@ -201,7 +214,9 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
               <span className="text-sm font-medium text-[#707070] dark:text-[#a1a1aa]">ZEC</span>
             </div>
             {balance.usd && (
-              <p className="text-xs text-[#707070] dark:text-[#a1a1aa] font-mono">≈ ${balance.usd} USD</p>
+              <p className="text-xs text-[#707070] dark:text-[#a1a1aa] font-mono">
+                ≈ ${balance.usd} USD
+              </p>
             )}
           </div>
 

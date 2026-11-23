@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Code,
   Copy,
@@ -11,21 +11,18 @@ import {
   Palette,
   Layers,
   Terminal,
-} from "lucide-react";
-import {
-  CiceroConnectButton,
-  ZucchiniWalletAdapter,
-} from "@cicero-zcash/react";
+} from 'lucide-react';
+import { CiceroConnectButton, ZucchiniWalletAdapter } from '@cicero-zcash/react';
 import {
   useStudioSettings,
   DESIGN_PRESETS,
   ButtonVariant,
   ButtonSize,
   ButtonRadius,
-} from "@/context/StudioSettingsContext";
-import { CustomSelect, SelectOption } from "./ui/CustomSelect";
-import { CustomSwitch } from "./ui/CustomSwitch";
-import { CustomSegmentedControl } from "./ui/CustomSegmentedControl";
+} from '@/context/StudioSettingsContext';
+import { CustomSelect, SelectOption } from './ui/CustomSelect';
+import { CustomSwitch } from './ui/CustomSwitch';
+import { CustomSegmentedControl } from './ui/CustomSegmentedControl';
 
 export const PlaygroundStudio: React.FC = () => {
   const {
@@ -58,44 +55,44 @@ export const PlaygroundStudio: React.FC = () => {
 
   const variantOptions: SelectOption[] = [
     {
-      value: "primary",
-      label: "Primary Emerald",
-      description: "Signature Supabase #3ecf8e emerald CTA",
-      indicatorColor: "#3ecf8e",
-      badge: "Default",
+      value: 'primary',
+      label: 'Primary Emerald',
+      description: 'Signature Supabase #3ecf8e emerald CTA',
+      indicatorColor: '#3ecf8e',
+      badge: 'Default',
     },
     {
-      value: "dark",
-      label: "Midnight Dark",
-      description: "Canvas night #18181b with subtle border",
-      indicatorColor: "#27272a",
+      value: 'dark',
+      label: 'Midnight Dark',
+      description: 'Canvas night #18181b with subtle border',
+      indicatorColor: '#27272a',
     },
     {
-      value: "gold",
-      label: "Zcash Amber Gold",
-      description: "Warm Zcash amber with rounded pill styling",
-      indicatorColor: "#f59e0b",
+      value: 'gold',
+      label: 'Zcash Amber Gold',
+      description: 'Warm Zcash amber with rounded pill styling',
+      indicatorColor: '#f59e0b',
     },
     {
-      value: "ghost",
-      label: "Subtle Ghost Flat",
-      description: "Borderless transparent trigger with hover fill",
-      indicatorColor: "#52525b",
+      value: 'ghost',
+      label: 'Subtle Ghost Flat',
+      description: 'Borderless transparent trigger with hover fill',
+      indicatorColor: '#52525b',
     },
   ];
 
   const sizeOptions = [
-    { value: "sm", label: "Small" },
-    { value: "md", label: "Medium" },
-    { value: "lg", label: "Large" },
+    { value: 'sm', label: 'Small' },
+    { value: 'md', label: 'Medium' },
+    { value: 'lg', label: 'Large' },
   ];
 
   const radiusOptions = [
-    { value: "none", label: "Sharp" },
-    { value: "sm", label: "4px" },
-    { value: "md", label: "6px" },
-    { value: "lg", label: "12px" },
-    { value: "full", label: "Pill" },
+    { value: 'none', label: 'Sharp' },
+    { value: 'sm', label: '4px' },
+    { value: 'md', label: '6px' },
+    { value: 'lg', label: '12px' },
+    { value: 'full', label: 'Pill' },
   ];
 
   const generatedCode = `import { CiceroProvider, CiceroConnectButton, useAccount, useBalance } from '@cicero-zcash/react';
@@ -109,7 +106,7 @@ export default function App() {
           variant="${variant}"
           size="${size}"
           radius="${radius}"
-          label={${JSON.stringify(label.trim() || "Connect Zcash Wallet")}}
+          label={${JSON.stringify(label.trim() || 'Connect Zcash Wallet')}}
           showBalance={${showBalance}}
           showNetwork={${showNetwork}}
           showIcon={${showIcon}}
@@ -151,10 +148,7 @@ function MainDashboard() {
   };
 
   return (
-    <section
-      id="playground"
-      className="py-20 bg-[#09090b] border-t border-[#1a1a1e] relative"
-    >
+    <section id="playground" className="py-20 bg-[#09090b] border-t border-[#1a1a1e] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="max-w-2xl">
@@ -165,9 +159,8 @@ function MainDashboard() {
             Wallet Connection Studio
           </h2>
           <p className="mt-3 text-sm sm:text-base text-zinc-400 leading-relaxed">
-            Customize the button style, border geometry, typography, and badges
-            in real-time. Live changes instantly reflect across both the
-            workbench and the header navigation bar above.
+            Customize the button style, border geometry, typography, and badges in real-time. Live
+            changes instantly reflect across both the workbench and the header navigation bar above.
           </p>
         </div>
 
@@ -178,9 +171,7 @@ function MainDashboard() {
               <Palette className="w-3.5 h-3.5 text-emerald-400" />
               <span>Design Presets:</span>
             </span>
-            <span className="text-[11px] font-mono text-zinc-500">
-              1-click curated themes
-            </span>
+            <span className="text-[11px] font-mono text-zinc-500">1-click curated themes</span>
           </div>
 
           <div className="flex flex-wrap gap-2 overflow-x-auto pb-1 sm:pb-0">
@@ -193,21 +184,21 @@ function MainDashboard() {
                   onClick={() => applyPreset(preset.id)}
                   className={`flex items-center gap-2 px-3 py-2 sm:px-3.5 rounded-lg text-xs font-medium transition-all flex-shrink-0 ${
                     isActive
-                      ? "bg-[#242428] text-white font-semibold"
-                      : "bg-[#141418] text-zinc-400 hover:text-white hover:bg-zinc-800/60"
+                      ? 'bg-[#242428] text-white font-semibold'
+                      : 'bg-[#141418] text-zinc-400 hover:text-white hover:bg-zinc-800/60'
                   }`}
                 >
                   <span
                     className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                     style={{
                       backgroundColor:
-                        preset.variant === "primary"
-                          ? "#3ecf8e"
-                          : preset.variant === "gold"
-                            ? "#f59e0b"
-                            : preset.variant === "dark"
-                              ? "#27272a"
-                              : "#71717a",
+                        preset.variant === 'primary'
+                          ? '#3ecf8e'
+                          : preset.variant === 'gold'
+                            ? '#f59e0b'
+                            : preset.variant === 'dark'
+                              ? '#27272a'
+                              : '#71717a',
                     }}
                   />
                   <span>{preset.name}</span>
@@ -255,15 +246,12 @@ function MainDashboard() {
             {/* Custom Button Label Input */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between text-xs">
-                <label
-                  htmlFor="studio-button-label"
-                  className="font-medium text-zinc-300"
-                >
+                <label htmlFor="studio-button-label" className="font-medium text-zinc-300">
                   Button label
                 </label>
                 <button
                   type="button"
-                  onClick={() => setLabel("Connect Zcash Wallet")}
+                  onClick={() => setLabel('Connect Zcash Wallet')}
                   className="text-[11px] text-emerald-400 hover:underline flex items-center gap-1 font-mono"
                 >
                   <RotateCcw className="w-3 h-3" />
@@ -286,18 +274,13 @@ function MainDashboard() {
                 className="flex justify-between text-[11px] text-zinc-500"
               >
                 <span>Use 1–40 characters. Blank labels use the default.</span>
-                <span className="font-mono tabular-nums">
-                  {label.length}/40
-                </span>
+                <span className="font-mono tabular-nums">{label.length}/40</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between gap-4 border-t border-zinc-800/80 pt-4">
               <div className="space-y-1">
-                <label
-                  htmlFor="studio-accent-color"
-                  className="text-xs font-medium text-zinc-200"
-                >
+                <label htmlFor="studio-accent-color" className="text-xs font-medium text-zinc-200">
                   Accent color
                 </label>
                 <p className="text-[11px] text-zinc-500">
@@ -359,9 +342,7 @@ function MainDashboard() {
                     Live Interactive Preview
                   </span>
                 </div>
-                <span className="text-xs text-zinc-400">
-                  Click button to launch modal
-                </span>
+                <span className="text-xs text-zinc-400">Click button to launch modal</span>
               </div>
 
               {/* Zucchini Extension Status Banner */}
@@ -375,9 +356,7 @@ function MainDashboard() {
                       Z
                     </span>
                     <div>
-                      <span className="font-semibold">
-                        Zucchini Extension Ready
-                      </span>
+                      <span className="font-semibold">Zucchini Extension Ready</span>
                       <p className="text-[11px] text-emerald-300">
                         In-browser zero-knowledge signing active.
                       </p>
@@ -397,9 +376,7 @@ function MainDashboard() {
                       Z
                     </span>
                     <div>
-                      <span className="font-medium text-zinc-200">
-                        Zucchini Browser Wallet
-                      </span>
+                      <span className="font-medium text-zinc-200">Zucchini Browser Wallet</span>
                       <p className="text-[11px] text-zinc-500">
                         Install extension to enable 1-click in-browser approval.
                       </p>

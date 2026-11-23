@@ -1,18 +1,8 @@
 export type ZcashNetwork = 'mainnet' | 'testnet';
 
-export type ZcashAddressType =
-  | 'unified'
-  | 'sapling'
-  | 'transparent'
-  | 'viewing-key'
-  | 'unknown';
+export type ZcashAddressType = 'unified' | 'sapling' | 'transparent' | 'viewing-key' | 'unknown';
 
-export type WalletCategory =
-  | 'extension'
-  | 'mobile'
-  | 'desktop'
-  | 'read-only'
-  | 'developer';
+export type WalletCategory = 'extension' | 'mobile' | 'desktop' | 'read-only' | 'developer';
 
 export interface Zip321PaymentRequest {
   address: string;
@@ -70,8 +60,9 @@ export interface WalletAdapterEventMap {
   disconnect: undefined;
 }
 
-export type WalletAdapterEventListener<K extends WalletAdapterEvent> =
-  (payload: WalletAdapterEventMap[K]) => void;
+export type WalletAdapterEventListener<K extends WalletAdapterEvent> = (
+  payload: WalletAdapterEventMap[K]
+) => void;
 
 export interface WalletEventSources {
   onAccountChange?: (listener: (session: WalletSession | null) => void) => () => void;
@@ -90,10 +81,7 @@ export interface WalletAdapter {
   getNetwork(): Promise<ZcashNetwork>;
   switchNetwork(network: ZcashNetwork): Promise<WalletNetworkSwitchResult>;
   sendPayment(params: SendPaymentParams): Promise<SendPaymentResult>;
-  on<K extends WalletAdapterEvent>(
-    event: K,
-    listener: WalletAdapterEventListener<K>
-  ): () => void;
+  on<K extends WalletAdapterEvent>(event: K, listener: WalletAdapterEventListener<K>): () => void;
 }
 
 /** Legacy wallet catalog contract retained for @cicero-zcash/react. */

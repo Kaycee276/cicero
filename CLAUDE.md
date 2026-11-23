@@ -5,6 +5,7 @@
 ---
 
 ## 🏆 Project Background
+
 - **What is Cicero?** The universal, RainbowKit-style wallet connection and checkout kit for zero-knowledge Zcash (`@cicero-zcash/react`).
 - **Hackathon Win**: Cicero took 1st place in the **Zcash Global Hackathon 2024**!
 - **Current Published Version**: `@cicero-zcash/react@0.2.10` on public npm.
@@ -13,6 +14,7 @@
 ---
 
 ## 📦 Monorepo Structure
+
 - `packages/cicero`: Core React SDK (`@cicero-zcash/react`). Built with `tsup` and Tailwind CSS into `dist/`.
 - `apps/web`: Next.js 15 documentation, interactive component studio, and live zk-paywall showcase. Runs on port 3000.
 - `cicero-demo`: Standalone clean test consumer dApp verifying production npm package consumption.
@@ -20,6 +22,7 @@
 ---
 
 ## 🛡️ 7 Supported Wallets & Standards
+
 1. **Zucchini Wallet** (In-browser extension via `@zucchinifi/dapp-sdk` with 1-click sidepanel approval)
 2. **Noir Wallet** (Self-custodial privacy extension for Orchard & ZECFi with `zcash_requestAccounts` RPC)
 3. **Zelcore Wallet** (Multi-asset desktop/extension connecting via `zel:` URI protocol)
@@ -31,6 +34,7 @@
 ---
 
 ## ⚡ Essential Commands
+
 ```bash
 # Development
 pnpm dev --port 3000         # Runs apps/web dev server
@@ -50,6 +54,7 @@ pnpm dev                     # Verifies consumer build
 ---
 
 ## 📅 10-Day Milestones Roadmap
+
 1. **Days 1–3**: Live Production Portal & Playground (Deploy to Vercel/Cloudflare, 100% mobile responsiveness, dark mode token parity).
 2. **Days 4–6**: Core Decoupling (`@cicero-zcash/core`) (Extract vanilla TypeScript wallet adapters and ZIP-321 builders for Vue, Svelte, React Native).
 3. **Days 7–8**: Automated Testing & Error Telemetry (Unit and mock-provider integration tests covering all 7 wallets with 90%+ coverage).
@@ -58,6 +63,8 @@ pnpm dev                     # Verifies consumer build
 ---
 
 ## 📜 Full Conversation History
+
 For complete transcripts of previous discussions, decisions, and trajectory logs, see:
+
 - [CONTEXT.md](file:///home/kaycee/Desktop/hackathon/cicero/CONTEXT.md)
 - [MILESTONES.md](file:///home/kaycee/Desktop/hackathon/cicero/MILESTONES.md)

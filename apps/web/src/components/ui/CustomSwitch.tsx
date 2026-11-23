@@ -27,9 +27,7 @@ export const CustomSwitch: React.FC<CustomSwitchProps> = ({
           {label}
         </span>
         {description && (
-          <span className="text-[11px] text-zinc-500 block leading-tight">
-            {description}
-          </span>
+          <span className="text-[11px] text-zinc-500 block leading-tight">{description}</span>
         )}
       </div>
 

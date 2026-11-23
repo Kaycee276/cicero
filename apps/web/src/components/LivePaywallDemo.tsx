@@ -135,7 +135,10 @@ export const LivePaywallDemo: React.FC = () => {
       setTimeout(() => {
         setPaymentStatus('settled');
         setTxHash(
-          '9c2b4e87' + Math.random().toString(16).substring(2, 10) + '007a' + Math.random().toString(16).substring(2, 10)
+          '9c2b4e87' +
+            Math.random().toString(16).substring(2, 10) +
+            '007a' +
+            Math.random().toString(16).substring(2, 10)
         );
       }, 1200);
     }, 900);
@@ -147,7 +150,10 @@ export const LivePaywallDemo: React.FC = () => {
   };
 
   return (
-    <section id="paywall-demo" className="py-20 bg-[#09090b] relative overflow-hidden border-t border-[#1a1a1e]">
+    <section
+      id="paywall-demo"
+      className="py-20 bg-[#09090b] relative overflow-hidden border-t border-[#1a1a1e]"
+    >
       {/* Glow Backdrop */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
@@ -160,12 +166,18 @@ export const LivePaywallDemo: React.FC = () => {
             Build a ZIP-321 payment request
           </h2>
           <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Configure a recipient, amount, and memo. Cicero builds the payment URI and QR code for compatible wallets. This page demonstrates the request flow; it does not submit a transaction or generate a proof.
+            Configure a recipient, amount, and memo. Cicero builds the payment URI and QR code for
+            compatible wallets. This page demonstrates the request flow; it does not submit a
+            transaction or generate a proof.
           </p>
         </div>
 
-        <p className="mt-8 border-l-2 border-[#3ecf8e] bg-[#101013] px-4 py-3 text-sm leading-6 text-zinc-300" role="note">
-          Demo only: no ZEC is transferred. The final unlock is simulated so you can preview a paywall experience.
+        <p
+          className="mt-8 border-l-2 border-[#3ecf8e] bg-[#101013] px-4 py-3 text-sm leading-6 text-zinc-300"
+          role="note"
+        >
+          Demo only: no ZEC is transferred. The final unlock is simulated so you can preview a
+          paywall experience.
         </p>
 
         {/* Studio Grid */}
@@ -189,9 +201,7 @@ export const LivePaywallDemo: React.FC = () => {
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <div className="p-1.5 rounded-lg bg-zinc-900">
-                        {p.icon}
-                      </div>
+                      <div className="p-1.5 rounded-lg bg-zinc-900">{p.icon}</div>
                       <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-800/80 text-zinc-300">
                         {p.badge}
                       </span>
@@ -224,7 +234,10 @@ export const LivePaywallDemo: React.FC = () => {
 
               {/* Recipient Address */}
               <div className="space-y-1.5">
-                <label htmlFor="payment-recipient" className="text-xs font-medium text-zinc-400 flex items-center justify-between">
+                <label
+                  htmlFor="payment-recipient"
+                  className="text-xs font-medium text-zinc-400 flex items-center justify-between"
+                >
                   <span>Merchant Shielded Unified Address (u1)</span>
                   <span className="text-[10px] text-zinc-500 font-mono">Demo address</span>
                 </label>
@@ -244,9 +257,14 @@ export const LivePaywallDemo: React.FC = () => {
               {/* Amount & Memo Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="payment-amount" className="text-xs font-medium text-zinc-400 flex items-center justify-between">
+                  <label
+                    htmlFor="payment-amount"
+                    className="text-xs font-medium text-zinc-400 flex items-center justify-between"
+                  >
                     <span>Payment Amount (ZEC)</span>
-                    <span className="text-[10px] text-zinc-400 font-mono">≈ ${fiatEstimate} USD</span>
+                    <span className="text-[10px] text-zinc-400 font-mono">
+                      ≈ ${fiatEstimate} USD
+                    </span>
                   </label>
                   <div className="relative">
                     <input
@@ -270,7 +288,10 @@ export const LivePaywallDemo: React.FC = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="payment-memo" className="text-xs font-medium text-zinc-400 flex items-center justify-between">
+                  <label
+                    htmlFor="payment-memo"
+                    className="text-xs font-medium text-zinc-400 flex items-center justify-between"
+                  >
                     <span>Encrypted Memo (ZIP-321)</span>
                     <span className="text-[10px] text-zinc-400 font-mono">{memo.length}/512 B</span>
                   </label>
@@ -292,11 +313,13 @@ export const LivePaywallDemo: React.FC = () => {
               {/* Live ZIP-321 URI Bar */}
               <div className="pt-2">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[11px] font-mono text-zinc-400">Constructed ZIP-321 Payment URI:</span>
+                  <span className="text-[11px] font-mono text-zinc-400">
+                    Constructed ZIP-321 Payment URI:
+                  </span>
                   <button
                     onClick={copyUri}
                     type="button"
-                    aria-label={copiedUri ? "Payment URI copied" : "Copy payment URI"}
+                    aria-label={copiedUri ? 'Payment URI copied' : 'Copy payment URI'}
                     className="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
                   >
                     {copiedUri ? (
@@ -357,18 +380,21 @@ export const LivePaywallDemo: React.FC = () => {
                       paymentStatus === 'settled'
                         ? 'bg-emerald-400'
                         : paymentStatus === 'proving'
-                        ? 'bg-amber-400'
-                        : 'bg-zinc-500'
+                          ? 'bg-amber-400'
+                          : 'bg-zinc-500'
                     }`}
                   />
-                  <span className="text-xs font-mono uppercase font-semibold text-white tracking-wider" aria-live="polite">
+                  <span
+                    className="text-xs font-mono uppercase font-semibold text-white tracking-wider"
+                    aria-live="polite"
+                  >
                     {paymentStatus === 'settled'
                       ? 'Demo flow complete'
                       : paymentStatus === 'proving'
-                      ? 'Simulating verification…'
-                      : paymentStatus === 'authorizing'
-                      ? 'Simulating authorization…'
-                      : 'Payment request preview'}
+                        ? 'Simulating verification…'
+                        : paymentStatus === 'authorizing'
+                          ? 'Simulating authorization…'
+                          : 'Payment request preview'}
                   </span>
                 </div>
                 {paymentStatus === 'settled' ? (
@@ -451,7 +477,8 @@ export const LivePaywallDemo: React.FC = () => {
                       )}
                     </button>
                     <p className="text-[11px] text-zinc-400 text-center">
-                      Simulates authorization and an access grant. No wallet prompt or transaction is created.
+                      Simulates authorization and an access grant. No wallet prompt or transaction
+                      is created.
                     </p>
                   </div>
                 </div>
@@ -466,7 +493,8 @@ export const LivePaywallDemo: React.FC = () => {
                       <span>Simulated access granted</span>
                     </div>
                     <p className="text-xs text-zinc-300 leading-relaxed">
-                      Preview state only. No transaction, block confirmation, or zero-knowledge proof was generated.
+                      Preview state only. No transaction, block confirmation, or zero-knowledge
+                      proof was generated.
                     </p>
                     <div className="pt-2 border-t border-emerald-500/20 text-[11px] font-mono text-zinc-400 flex items-center justify-between">
                       <span>Demo reference:</span>
@@ -483,7 +511,8 @@ export const LivePaywallDemo: React.FC = () => {
                       <span className="text-[10px] font-mono text-zinc-400">Confidential</span>
                     </div>
                     <p className="text-xs text-zinc-300 font-serif leading-relaxed italic bg-zinc-950/60 p-3 rounded-lg border border-zinc-800/80">
-                      “This sample content represents material a merchant could show after verifying a real payment.”
+                      “This sample content represents material a merchant could show after verifying
+                      a real payment.”
                     </p>
                     <div className="text-[11px] font-mono text-emerald-400/90 flex items-center gap-1">
                       <Check className="w-3 h-3 text-emerald-400" />

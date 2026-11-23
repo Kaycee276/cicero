@@ -14,8 +14,13 @@ type AdapterConstructor = new (wallet: ZcashWallet) => {
   connect: (options?: { network?: ZcashNetwork }) => Promise<WalletSession>;
   disconnect: () => Promise<void>;
   getAddress: () => string | null;
-  on: (event: 'accountChange' | 'networkChange' | 'disconnect', listener: (payload: any) => void) => () => void;
-  switchNetwork: (network: ZcashNetwork) => Promise<{ success: boolean; currentNetwork?: ZcashNetwork }>;
+  on: (
+    event: 'accountChange' | 'networkChange' | 'disconnect',
+    listener: (payload: any) => void
+  ) => () => void;
+  switchNetwork: (
+    network: ZcashNetwork
+  ) => Promise<{ success: boolean; currentNetwork?: ZcashNetwork }>;
 };
 
 const adapterCases: Array<[string, AdapterConstructor]> = [

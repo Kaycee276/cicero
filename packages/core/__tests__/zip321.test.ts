@@ -31,9 +31,7 @@ describe('ZIP-321 helpers', () => {
   });
 
   it('trims memo and message and omits empty query fields', () => {
-    expect(generateZip321Uri({ address: 'u1abc', memo: '  ', message: '  ' })).toBe(
-      'zcash:u1abc'
-    );
+    expect(generateZip321Uri({ address: 'u1abc', memo: '  ', message: '  ' })).toBe('zcash:u1abc');
   });
 
   it('encodes Base64URL without padding and supports Unicode', () => {

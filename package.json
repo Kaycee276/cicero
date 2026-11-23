@@ -9,9 +9,16 @@
     "build:core": "pnpm --filter \"@cicero-zcash/core\" build",
     "build:package": "pnpm --filter \"@cicero-zcash/react\" build",
     "build:web": "pnpm --filter web build",
-    "test": "pnpm --filter \"@cicero-zcash/core\" test",
+    "test": "pnpm -r --if-present test",
     "typecheck": "pnpm -r --if-present typecheck",
-    "lint": "pnpm -r lint"
+    "lint": "pnpm -r lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "secrets:check": "bash scripts/check-secrets.sh",
+    "pre-commit": "bash .githooks/pre-commit"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.2"
   },
   "keywords": [
     "zcash",

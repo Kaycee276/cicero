@@ -53,11 +53,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 
   return (
     <div className={`space-y-1.5 ${className}`} ref={containerRef}>
-      {label && (
-        <label className="block text-xs font-medium text-zinc-300">
-          {label}
-        </label>
-      )}
+      {label && <label className="block text-xs font-medium text-zinc-300">{label}</label>}
 
       <div className="relative">
         {/* Trigger Button */}

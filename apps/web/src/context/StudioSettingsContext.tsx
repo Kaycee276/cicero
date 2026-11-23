@@ -109,9 +109,7 @@ export interface StudioSettingsContextType {
 
 const StudioSettingsContext = createContext<StudioSettingsContextType | null>(null);
 
-export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [variant, setVariant] = useState<ButtonVariant>('primary');
   const [size, setSize] = useState<ButtonSize>('md');
   const [radius, setRadius] = useState<ButtonRadius>('md');
@@ -129,18 +127,24 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
       const stored = localStorage.getItem(STUDIO_SETTINGS_KEY);
       if (stored) {
         const settings = JSON.parse(stored) as StoredStudioSettings;
-        if (settings.variant && ['primary', 'outline', 'dark', 'ghost', 'gold'].includes(settings.variant)) {
+        if (
+          settings.variant &&
+          ['primary', 'outline', 'dark', 'ghost', 'gold'].includes(settings.variant)
+        ) {
           setVariant(settings.variant === 'outline' ? 'ghost' : settings.variant);
         }
         if (settings.size && ['sm', 'md', 'lg'].includes(settings.size)) setSize(settings.size);
-        if (settings.radius && ['none', 'sm', 'md', 'lg', 'full'].includes(settings.radius)) setRadius(settings.radius);
+        if (settings.radius && ['none', 'sm', 'md', 'lg', 'full'].includes(settings.radius))
+          setRadius(settings.radius);
         if (typeof settings.label === 'string') setLabel(settings.label.slice(0, 40));
         if (typeof settings.showBalance === 'boolean') setShowBalance(settings.showBalance);
         if (typeof settings.showNetwork === 'boolean') setShowNetwork(settings.showNetwork);
         if (typeof settings.showIcon === 'boolean') setShowIcon(settings.showIcon);
-        if (typeof settings.accentColor === 'string' && /^#[\da-f]{6}$/i.test(settings.accentColor)) setAccentColorState(settings.accentColor);
+        if (typeof settings.accentColor === 'string' && /^#[\da-f]{6}$/i.test(settings.accentColor))
+          setAccentColorState(settings.accentColor);
         if (settings.id === null) setActivePreset(null);
-        else if (typeof settings.id === 'string' && settings.id in DESIGN_PRESETS) setActivePreset(settings.id);
+        else if (typeof settings.id === 'string' && settings.id in DESIGN_PRESETS)
+          setActivePreset(settings.id);
         else setActivePreset(null);
       }
     } catch {
@@ -153,21 +157,35 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
   useEffect(() => {
     if (!settingsLoaded) return;
     try {
-      localStorage.setItem(STUDIO_SETTINGS_KEY, JSON.stringify({
-        variant,
-        size,
-        radius,
-        label,
-        showBalance,
-        showNetwork,
-        showIcon,
-        accentColor,
-        id: activePreset,
-      }));
+      localStorage.setItem(
+        STUDIO_SETTINGS_KEY,
+        JSON.stringify({
+          variant,
+          size,
+          radius,
+          label,
+          showBalance,
+          showNetwork,
+          showIcon,
+          accentColor,
+          id: activePreset,
+        })
+      );
     } catch {
       // The Studio still works when storage is unavailable.
     }
-  }, [settingsLoaded, variant, size, radius, label, showBalance, showNetwork, showIcon, accentColor, activePreset]);
+  }, [
+    settingsLoaded,
+    variant,
+    size,
+    radius,
+    label,
+    showBalance,
+    showNetwork,
+    showIcon,
+    accentColor,
+    activePreset,
+  ]);
 
   // Synchronize theme with DOM & localStorage
   useEffect(() => {

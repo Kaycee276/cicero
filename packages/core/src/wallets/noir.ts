@@ -46,7 +46,8 @@ function extractAddress(res: any): string | null {
   // Priority: shielded/unified addresses first for privacy, then transparent
   if (typeof res.shielded === 'string' && res.shielded.trim()) return res.shielded.trim();
   if (typeof res.unified === 'string' && res.unified.trim()) return res.unified.trim();
-  if (typeof res.unifiedAddress === 'string' && res.unifiedAddress.trim()) return res.unifiedAddress.trim();
+  if (typeof res.unifiedAddress === 'string' && res.unifiedAddress.trim())
+    return res.unifiedAddress.trim();
   if (typeof res.address === 'string' && res.address.trim()) return res.address.trim();
   if (typeof res.transparent === 'string' && res.transparent.trim()) return res.transparent.trim();
 
@@ -68,7 +69,8 @@ function extractAddress(res: any): string | null {
       if (typeof acc?.shielded === 'string' && acc.shielded.trim()) return acc.shielded.trim();
       if (typeof acc?.unified === 'string' && acc.unified.trim()) return acc.unified.trim();
       if (typeof acc?.address === 'string' && acc.address.trim()) return acc.address.trim();
-      if (typeof acc?.transparent === 'string' && acc.transparent.trim()) return acc.transparent.trim();
+      if (typeof acc?.transparent === 'string' && acc.transparent.trim())
+        return acc.transparent.trim();
     }
   }
 
@@ -103,15 +105,20 @@ export const noirWallet: ZcashWallet = {
     if (!noir) {
       if (options?.customKey?.trim()) {
         const customAddr = options.customKey.trim();
-        const isTestnet = customAddr.startsWith('utest') || customAddr.startsWith('tm') || customAddr.startsWith('ztest');
+        const isTestnet =
+          customAddr.startsWith('utest') ||
+          customAddr.startsWith('tm') ||
+          customAddr.startsWith('ztest');
         return {
           address: customAddr,
           connected: true,
-          network: isTestnet ? 'testnet' : (options?.network || 'mainnet'),
+          network: isTestnet ? 'testnet' : options?.network || 'mainnet',
           walletId: 'noir',
         };
       }
-      throw new Error('Noir Wallet extension was not detected. Please install Noir Wallet from the Chrome Web Store.');
+      throw new Error(
+        'Noir Wallet extension was not detected. Please install Noir Wallet from the Chrome Web Store.'
+      );
     }
 
     const provider = getNoirProvider();
@@ -124,7 +131,11 @@ export const noirWallet: ZcashWallet = {
           connectRes = await provider.request({ method: 'zcash_requestAccounts' });
         } catch (rpcErr: any) {
           // If user actively rejected/cancelled the popup
-          if (rpcErr?.code === 4001 || rpcErr?.message?.toLowerCase().includes('reject') || rpcErr?.message?.toLowerCase().includes('cancel')) {
+          if (
+            rpcErr?.code === 4001 ||
+            rpcErr?.message?.toLowerCase().includes('reject') ||
+            rpcErr?.message?.toLowerCase().includes('cancel')
+          ) {
             throw new Error('Connection request was rejected in Noir Wallet.');
           }
           console.warn('zcash_requestAccounts error, trying SDK connect():', rpcErr);
@@ -157,12 +168,15 @@ export const noirWallet: ZcashWallet = {
       }
 
       if (!address) {
-        throw new Error('No address returned from Noir Wallet authorization. Please unlock Noir Wallet and approve the connection in the extension window.');
+        throw new Error(
+          'No address returned from Noir Wallet authorization. Please unlock Noir Wallet and approve the connection in the extension window.'
+        );
       }
 
       // Automatically detect network from the address prefix
-      const isTestnet = address.startsWith('utest') || address.startsWith('tm') || address.startsWith('ztest');
-      const network: ZcashNetwork = isTestnet ? 'testnet' : (options?.network || 'mainnet');
+      const isTestnet =
+        address.startsWith('utest') || address.startsWith('tm') || address.startsWith('ztest');
+      const network: ZcashNetwork = isTestnet ? 'testnet' : options?.network || 'mainnet';
 
       return {
         address,
@@ -215,7 +229,7 @@ export const noirWallet: ZcashWallet = {
         });
 
         return {
-          txId: typeof txId === 'string' ? txId : (txId?.txId || txId?.hash || ''),
+          txId: typeof txId === 'string' ? txId : txId?.txId || txId?.hash || '',
           submitted: true,
         };
       } catch (err) {

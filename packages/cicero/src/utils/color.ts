@@ -2,11 +2,18 @@ export function normalizeHexColor(value: string | undefined, fallback: string): 
   const match = /^#([\da-f]{3}|[\da-f]{6})$/i.exec(value || '');
   if (!match) return fallback;
   if (match[1].length === 6) return `#${match[1].toLowerCase()}`;
-  return `#${match[1].split('').map((digit) => digit + digit).join('').toLowerCase()}`;
+  return `#${match[1]
+    .split('')
+    .map((digit) => digit + digit)
+    .join('')
+    .toLowerCase()}`;
 }
 
 export function getContrastTextColor(hexColor: string): '#171717' | '#ffffff' {
-  const channels = hexColor.slice(1).match(/.{2}/g)?.map((channel) => parseInt(channel, 16) / 255);
+  const channels = hexColor
+    .slice(1)
+    .match(/.{2}/g)
+    ?.map((channel) => parseInt(channel, 16) / 255);
   if (!channels || channels.length !== 3) return '#171717';
 
   const [red, green, blue] = channels.map((channel) =>

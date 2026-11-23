@@ -10,6 +10,7 @@ You are an expert developer assistant specialized in building decentralized appl
 ## Overview
 
 `@cicero-zcash/react` is the universal wallet connection suite for shielded Zcash. It provides a drop-in `<CiceroConnectButton />`, prebuilt modals, and React hooks that connect:
+
 - **Zucchini Wallet**: In-browser privacy extension with 1-click approvals via `@zucchinifi/dapp-sdk`.
 - **Noir Wallet**: Self-custodial privacy extension for shielded Zcash & ZECFi with native in-browser JSON-RPC (`zcash_requestAccounts`, `zcash_getBalance`).
 - **Zelcore Wallet**: Multi-asset browser extension & desktop wallet with 1-click transparent ZEC binding and `zel:?action=pay` protocol deep linking.
@@ -60,6 +61,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 ## Key Components
 
 ### 1. `CiceroConnectButton`
+
 Drop-in connected/disconnected button pill with customizable styling:
 
 ```tsx
@@ -71,8 +73,8 @@ export function Header() {
       <h1>My App</h1>
       <CiceroConnectButton
         variant="primary" // 'primary' | 'outline' | 'dark' | 'ghost' | 'gradient' | 'gold'
-        size="md"         // 'sm' | 'md' | 'lg'
-        radius="md"       // 'none' | 'sm' | 'md' | 'lg' | 'full'
+        size="md" // 'sm' | 'md' | 'lg'
+        radius="md" // 'none' | 'sm' | 'md' | 'lg' | 'full'
         label="Connect Zcash Wallet"
         showBalance={true}
         showNetwork={true}
@@ -84,18 +86,14 @@ export function Header() {
 ```
 
 ### 2. `CiceroQRCode`
+
 Render zero-knowledge payment requests and connection handoffs:
 
 ```tsx
 import { CiceroQRCode } from '@cicero-zcash/react';
 
 export function DonationQR() {
-  return (
-    <CiceroQRCode
-      value="zcash:u1exampleaddress?amount=0.5&message=Donation"
-      size={180}
-    />
-  );
+  return <CiceroQRCode value="zcash:u1exampleaddress?amount=0.5&message=Donation" size={180} />;
 }
 ```
 
@@ -104,6 +102,7 @@ export function DonationQR() {
 ## React Hooks Reference
 
 ### 1. `useAccount()`
+
 Access the active connection state:
 
 ```tsx
@@ -126,6 +125,7 @@ function UserStatus() {
 ```
 
 ### 2. `useBalance()`
+
 Query real-time shielded ZEC balance and USD estimate:
 
 ```tsx
@@ -145,20 +145,15 @@ function BalanceDisplay() {
 ```
 
 ### 3. `useCicero()` & `sendPayment()`
+
 Full access to Cicero context state, modal triggers, and cross-wallet payment dispatch:
 
 ```tsx
 import { useCicero } from '@cicero-zcash/react';
 
 function PaymentAction() {
-  const {
-    network,
-    switchNetwork,
-    openConnectModal,
-    openAccountModal,
-    sendPayment,
-    disconnect,
-  } = useCicero();
+  const { network, switchNetwork, openConnectModal, openAccountModal, sendPayment, disconnect } =
+    useCicero();
 
   const handlePay = async () => {
     // Automatically routes across Extension RPC, Zelcore URI, or ZIP-321
@@ -186,15 +181,15 @@ function PaymentAction() {
 
 ## Supported Wallets Matrix
 
-| Wallet | Type | Protocol / Method | Network |
-| :--- | :--- | :--- | :--- |
-| **Zucchini** | Browser Extension | Injected SDK (`@zucchinifi/dapp-sdk`) | Mainnet & Testnet |
-| **Noir Wallet** | Browser Extension | Direct RPC (`zcash_requestAccounts`) | Mainnet & Testnet |
-| **Zelcore** | Extension & Desktop | Address-bound / `zel:?action=pay` URI | Mainnet |
-| **Zashi** | Mobile (ECC) | ZIP-321 QR Handoff | Mainnet & Testnet |
-| **Ywallet** | Mobile & Desktop | ZIP-321 QR Handoff | Mainnet & Testnet |
-| **Viewing Keys** | Read-Only | Unified / Sapling viewing keys | Mainnet & Testnet |
-| **Dev Session** | In-Memory Session | Ephemeral testnet wallet | Testnet |
+| Wallet           | Type                | Protocol / Method                     | Network           |
+| :--------------- | :------------------ | :------------------------------------ | :---------------- |
+| **Zucchini**     | Browser Extension   | Injected SDK (`@zucchinifi/dapp-sdk`) | Mainnet & Testnet |
+| **Noir Wallet**  | Browser Extension   | Direct RPC (`zcash_requestAccounts`)  | Mainnet & Testnet |
+| **Zelcore**      | Extension & Desktop | Address-bound / `zel:?action=pay` URI | Mainnet           |
+| **Zashi**        | Mobile (ECC)        | ZIP-321 QR Handoff                    | Mainnet & Testnet |
+| **Ywallet**      | Mobile & Desktop    | ZIP-321 QR Handoff                    | Mainnet & Testnet |
+| **Viewing Keys** | Read-Only           | Unified / Sapling viewing keys        | Mainnet & Testnet |
+| **Dev Session**  | In-Memory Session   | Ephemeral testnet wallet              | Testnet           |
 
 ---
 

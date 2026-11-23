@@ -16,10 +16,8 @@ export function useZucchiniWallet(options: UseZucchiniWalletOptions = {}) {
 
   const [adapter] = useState(() => new ZucchiniWalletAdapter());
   const [isAvailable, setIsAvailable] = useState(false);
-  const [connectionStatus, setConnectionStatus] =
-    useState<WalletConnectionStatus>('disconnected');
-  const [paymentStatus, setPaymentStatus] =
-    useState<WalletPaymentStatus>('idle');
+  const [connectionStatus, setConnectionStatus] = useState<WalletConnectionStatus>('disconnected');
+  const [paymentStatus, setPaymentStatus] = useState<WalletPaymentStatus>('idle');
   const [session, setSession] = useState<WalletSession | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,8 +41,7 @@ export function useZucchiniWallet(options: UseZucchiniWalletOptions = {}) {
       setConnectionStatus('connected');
       return sess;
     } catch (err: unknown) {
-      const msg =
-        err instanceof Error ? err.message : 'Failed to connect to Zucchini Wallet';
+      const msg = err instanceof Error ? err.message : 'Failed to connect to Zucchini Wallet';
       setError(msg);
       setConnectionStatus('error');
       throw err;
@@ -60,8 +57,7 @@ export function useZucchiniWallet(options: UseZucchiniWalletOptions = {}) {
         setPaymentStatus('submitted');
         return result;
       } catch (err: unknown) {
-        const msg =
-          err instanceof Error ? err.message : 'Payment request failed';
+        const msg = err instanceof Error ? err.message : 'Payment request failed';
         setError(msg);
         setPaymentStatus('error');
         throw err;
