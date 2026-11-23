@@ -12,6 +12,7 @@ import { useCicero } from '../context/CiceroContext';
 import { CiceroQRCode } from './CiceroQRCode';
 import { ZucchiniWalletAdapter } from '../wallet/zucchini';
 import { getContrastTextColor, normalizeHexColor } from '../utils/color';
+import { useDocumentTheme } from '../hooks/useDocumentTheme';
 
 export interface CiceroConnectModalProps {
   isOpen?: boolean;
@@ -34,6 +35,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : isConnectModalOpen;
   const handleClose = propOnClose || closeConnectModal;
+  const theme = useDocumentTheme();
   const accentColor = normalizeHexColor(
     modalAppearance.accentColor,
     modalAppearance.variant === 'gold' ? '#f59e0b' : '#3ecf8e'
@@ -156,7 +158,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto p-4 font-sans sm:p-6"
+      className={`cicero-theme-${theme} ${theme} fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto overscroll-contain p-4 font-sans sm:p-6`}
       style={{ '--cicero-accent': accentColor } as React.CSSProperties}
     >
       {/* Backdrop */}
@@ -175,10 +177,10 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
         aria-describedby="cicero-connect-description"
         ref={dialogRef}
         tabIndex={-1}
-        className={`relative z-[100000] w-full ${modalWidth} ${modalRadius} overflow-hidden border border-zinc-800 bg-[#111114] text-zinc-100 shadow-2xl animate-in fade-in zoom-in-95 duration-150`}
+        className={`relative z-[100000] w-full ${modalWidth} ${modalRadius} overflow-hidden border border-zinc-800 bg-[#111114] p-1 text-zinc-100 shadow-2xl animate-in fade-in zoom-in-95 duration-150 sm:p-2`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-zinc-800 bg-[#0d0d10] px-5 py-4 sm:px-6">
+        <div className="flex items-center justify-between border-b border-zinc-800 bg-[#0d0d10] px-6 py-5 sm:px-8">
           <div className="flex items-center gap-2.5">
             {modalAppearance.showIcon && (
               <div className="flex h-9 w-9 items-center justify-center rounded-md border border-zinc-700 bg-zinc-900" style={{ color: accentColor }}>
@@ -210,7 +212,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
         {/* 2-Column RainbowKit Layout */}
         <div className="grid min-h-[380px] grid-cols-1 md:grid-cols-12">
           {/* Left Column: Wallet Selector List (5 cols) */}
-          <div className="space-y-1 border-r border-zinc-800 bg-[#0c0c0e] p-3 md:col-span-5">
+          <div className="space-y-1 border-r border-zinc-800 bg-[#0c0c0e] p-4 sm:p-5 md:col-span-5">
             <div className="px-3 py-2 flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-[#707070] dark:text-[#a1a1aa]">
               <span>Wallets</span>
               {wallets.some((w) => w.isAvailable()) ? (
@@ -270,7 +272,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
           </div>
 
           {/* Right Column: Wallet Connection Screen (7 cols) */}
-          <div className="flex flex-col justify-between bg-[#111114] p-5 sm:p-6 md:col-span-7">
+          <div className="flex flex-col justify-between bg-[#111114] p-6 sm:p-8 md:col-span-7">
             <div className="space-y-4">
               {/* Wallet Header */}
               <div className="flex items-start justify-between border-b border-zinc-800 pb-4">

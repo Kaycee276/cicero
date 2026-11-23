@@ -15,6 +15,7 @@ import { useCicero } from '../context/CiceroContext';
 import { truncateAddress } from '../utils/address';
 import { CiceroQRCode } from './CiceroQRCode';
 import { getContrastTextColor, normalizeHexColor } from '../utils/color';
+import { useDocumentTheme } from '../hooks/useDocumentTheme';
 
 export interface CiceroAccountModalProps {
   isOpen?: boolean;
@@ -40,6 +41,7 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : isAccountModalOpen;
   const handleClose = propOnClose || closeAccountModal;
+  const theme = useDocumentTheme();
   const accentColor = normalizeHexColor(
     modalAppearance.accentColor,
     modalAppearance.variant === 'gold' ? '#f59e0b' : '#3ecf8e'
@@ -130,7 +132,7 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto p-4 font-sans sm:p-6"
+      className={`cicero-theme-${theme} ${theme} fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto overscroll-contain p-4 font-sans sm:p-6`}
       style={{ '--cicero-accent': accentColor } as React.CSSProperties}
     >
       {/* Backdrop */}
@@ -148,10 +150,10 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
         aria-labelledby="cicero-account-title"
         ref={dialogRef}
         tabIndex={-1}
-        className={`relative z-[100000] w-full ${modalWidth} ${modalRadius} overflow-hidden border border-zinc-800 bg-[#111114] text-zinc-100 shadow-2xl animate-in fade-in zoom-in-95 duration-150`}
+        className={`relative z-[100000] w-full ${modalWidth} ${modalRadius} overflow-hidden border border-zinc-800 bg-[#111114] p-1 text-zinc-100 shadow-2xl animate-in fade-in zoom-in-95 duration-150 sm:p-2`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-zinc-800 bg-[#0d0d10] px-5 py-4 sm:px-6">
+        <div className="flex items-center justify-between border-b border-zinc-800 bg-[#0d0d10] px-6 py-5 sm:px-8">
           <div className="flex items-center gap-2">
             {modalAppearance.showIcon && <span aria-hidden="true" className="text-xl">{wallet?.icon || '🛡️'}</span>}
             <div>
@@ -175,9 +177,9 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
         </div>
 
         {/* Body */}
-        <div className="p-6 space-y-5">
+        <div className="space-y-5 p-6 sm:p-8">
           {/* Balance Display */}
-          <div className="p-4 rounded-lg bg-[#0c0c0e] border border-zinc-800 text-center space-y-1">
+          <div className="rounded-lg border border-zinc-800 bg-[#0c0c0e] p-5 text-center space-y-1 sm:p-6">
             <div className="flex items-center justify-center gap-1.5 text-xs text-[#707070] dark:text-[#a1a1aa]">
               <span>Shielded Balance</span>
               <button
@@ -315,7 +317,7 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
         </div>
 
         {/* Footer with Disconnect */}
-        <div className="flex items-center justify-between border-t border-zinc-800 bg-[#0d0d10] px-5 py-3.5 sm:px-6">
+        <div className="flex items-center justify-between border-t border-zinc-800 bg-[#0d0d10] px-6 py-4 sm:px-8">
           <button
             type="button"
             onClick={disconnect}
