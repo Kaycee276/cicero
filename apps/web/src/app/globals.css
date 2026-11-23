@@ -18,6 +18,7 @@ h3 {
   --canvas-night: #121215;
   --surface: #18181b;
   --surface-border: #27272a;
+  --wallet-card-background: #111114;
 }
 
 html.dark {
@@ -38,6 +39,11 @@ html.light {
   --surface-inset: #e7e2d7;
   --muted: #635f55;
   --accent-ink: #087451;
+  --wallet-card-background: #fffdf8;
+}
+
+.wallet-kit-card {
+  background-color: var(--wallet-card-background);
 }
 
 body {

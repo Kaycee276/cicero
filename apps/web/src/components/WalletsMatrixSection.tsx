@@ -115,12 +115,12 @@ export const WalletsMatrixSection: React.FC = () => {
   ];
 
   return (
-    <section id="wallets" className="py-20 sm:py-28 bg-[#0c0c0e] border-y border-zinc-800/80 relative overflow-hidden">
+    <section id="wallets" className="relative overflow-hidden border-y border-zinc-800/80 bg-[#0c0c0e] py-24 sm:py-32">
       {/* Background Glow */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-zinc-800/80">
+        <div className="flex flex-col justify-between gap-7 border-b border-zinc-800/80 pb-14 md:flex-row md:items-end sm:pb-16">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-mono text-[#3ecf8e]">
               <Sparkles className="w-3.5 h-3.5" />
@@ -137,7 +137,7 @@ export const WalletsMatrixSection: React.FC = () => {
           <button
             type="button"
             onClick={openConnectModal}
-            className="self-start md:self-auto inline-flex min-h-11 items-center gap-2 px-4 py-2.5 rounded-md bg-[#3ecf8e] hover:bg-[#24b47e] text-zinc-950 font-semibold text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c0c0e]"
+            className="self-start md:self-auto inline-flex min-h-11 items-center gap-2 px-4 py-2.5 rounded-md bg-[#3ecf8e] hover:bg-[#24b47e] text-zinc-950 font-semibold text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c0c0e]"
           >
             <span>Launch Live Connect Modal</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -145,11 +145,11 @@ export const WalletsMatrixSection: React.FC = () => {
         </div>
 
         {/* Wallets Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 pt-10">
+        <div className="grid grid-cols-1 gap-5 pt-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-6">
           {wallets.map((w, index) => (
             <div
               key={w.id}
-              className={`group flex flex-col justify-between border border-zinc-800 bg-[#101013] p-5 transition-colors hover:border-zinc-600 focus-within:border-[#3ecf8e]/60 ${index === 0 ? 'lg:col-span-7' : index === 1 ? 'lg:col-span-5' : 'lg:col-span-4'}`}
+              className={`wallet-kit-card group flex flex-col justify-between border border-zinc-800 p-7 transition-colors hover:border-zinc-600 focus-within:border-[#3ecf8e]/60 sm:p-8 ${index === 0 ? 'lg:col-span-7' : index === 1 ? 'lg:col-span-5' : 'lg:col-span-4'}`}
             >
               <div className="space-y-4">
                 {/* Card Top: Icon & Badge */}
