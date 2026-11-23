@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "pnpm --filter web dev",
     "build": "pnpm --filter \"@cicero-zcash/react\" build && pnpm --filter web build",
+    "build:core": "pnpm --filter \"@cicero-zcash/core\" build",
     "build:package": "pnpm --filter \"@cicero-zcash/react\" build",
     "build:web": "pnpm --filter web build",
+    "test": "pnpm --filter \"@cicero-zcash/core\" test",
+    "typecheck": "pnpm -r --if-present typecheck",
     "lint": "pnpm -r lint"
   },
   "keywords": [
