@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Briefcase, Globe, ShieldAlert, Check, Sparkles } from 'lucide-react';
+import { Briefcase, Globe, ShieldAlert, Check } from 'lucide-react';
 
 export const UseCasesSection: React.FC = () => {
   const useCases = [
@@ -51,7 +51,6 @@ export const UseCasesSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 uppercase tracking-wider mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
             <span>Real-World Impact</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
@@ -66,10 +65,10 @@ export const UseCasesSection: React.FC = () => {
           {useCases.map((uc, i) => (
             <div
               key={i}
-              className="flex flex-col justify-between p-7 rounded-2xl bg-[#0e0e12] border border-zinc-800/80 hover:border-zinc-700 transition-all shadow-xl space-y-6"
+              className="flex flex-col justify-between p-7 bg-[#101013] transition-colors space-y-6"
             >
               <div className="space-y-4">
-                <div className="w-10 h-10 rounded-xl bg-[#141418] border border-zinc-800 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-md bg-[#19191d] flex items-center justify-center">
                   {uc.icon}
                 </div>
 

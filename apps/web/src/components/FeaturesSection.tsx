@@ -10,7 +10,6 @@ import {
   CheckCircle2,
   Lock,
   Layers,
-  Sparkles,
 } from 'lucide-react';
 
 export const FeaturesSection: React.FC = () => {
@@ -79,13 +78,13 @@ export const FeaturesSection: React.FC = () => {
           {features.map((feat, i) => (
             <div
               key={i}
-              className="p-6 sm:p-7 rounded-md bg-[#0e0e12] border border-zinc-800/80 hover:border-zinc-700 transition-colors space-y-4 group"
+              className="p-6 sm:p-7 bg-[#101013] transition-colors space-y-4 group"
             >
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-[#141418] border border-zinc-800 flex items-center justify-center group-hover:border-emerald-500/40 transition-colors">
+                <div className="w-10 h-10 rounded-md bg-[#19191d] flex items-center justify-center">
                   {feat.icon}
                 </div>
-                <span className="text-[10px] uppercase font-mono font-semibold px-2 py-0.5 rounded-full bg-zinc-800/80 text-zinc-300 border border-zinc-700">
+                <span className="text-[10px] uppercase font-mono font-semibold px-2 py-0.5 rounded-full bg-zinc-800/80 text-zinc-300">
                   {feat.badge}
                 </span>
               </div>

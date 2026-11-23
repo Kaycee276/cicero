@@ -70,9 +70,9 @@ export const DESIGN_PRESETS: Record<string, DesignPreset> = {
   },
   minimal: {
     id: 'minimal',
-    name: 'Minimal Outline',
-    description: 'Clean monochrome border with sharp modernist geometry',
-    variant: 'outline',
+    name: 'Flat Minimal',
+    description: 'Quiet text and a flat surface with sharp geometry',
+    variant: 'ghost',
     size: 'sm',
     radius: 'sm',
     label: 'Connect ZEC',
@@ -129,7 +129,9 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
       const stored = localStorage.getItem(STUDIO_SETTINGS_KEY);
       if (stored) {
         const settings = JSON.parse(stored) as StoredStudioSettings;
-        if (settings.variant && ['primary', 'outline', 'dark', 'ghost', 'gold'].includes(settings.variant)) setVariant(settings.variant);
+        if (settings.variant && ['primary', 'outline', 'dark', 'ghost', 'gold'].includes(settings.variant)) {
+          setVariant(settings.variant === 'outline' ? 'ghost' : settings.variant);
+        }
         if (settings.size && ['sm', 'md', 'lg'].includes(settings.size)) setSize(settings.size);
         if (settings.radius && ['none', 'sm', 'md', 'lg', 'full'].includes(settings.radius)) setRadius(settings.radius);
         if (typeof settings.label === 'string') setLabel(settings.label.slice(0, 40));

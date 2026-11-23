@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { BookOpen, Copy, Check, Terminal, ExternalLink, Bot, ArrowRight, Sparkles, Code2 } from 'lucide-react';
+import { BookOpen, Copy, Check, Terminal, ExternalLink, Bot, ArrowRight, Code2 } from 'lucide-react';
 
 export const DocsSection: React.FC = () => {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);

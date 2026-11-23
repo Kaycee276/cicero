@@ -6,7 +6,6 @@ import {
   Copy,
   Check,
   Sliders,
-  Sparkles,
   ExternalLink,
   RotateCcw,
   Palette,
@@ -66,11 +65,6 @@ export const PlaygroundStudio: React.FC = () => {
       badge: 'Default',
     },
     {
-      value: 'outline',
-      label: 'Minimalist Outline',
-      description: 'Clean monochrome border on obsidian canvas',
-      indicatorColor: '#71717a',
-    },
     {
       value: 'dark',
       label: 'Midnight Dark',
@@ -163,7 +157,6 @@ function MainDashboard() {
         {/* Section Header */}
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 uppercase tracking-wider mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
             <span>Interactive Design Studio</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
@@ -194,8 +187,8 @@ function MainDashboard() {
                   onClick={() => applyPreset(preset.id)}
                   className={`flex items-center gap-2 px-3 py-2 sm:px-3.5 rounded-lg text-xs font-medium transition-all flex-shrink-0 ${
                     isActive
-                      ? 'bg-zinc-800 text-white shadow-sm border border-emerald-500 font-semibold ring-1 ring-emerald-500/20'
-                      : 'bg-[#141418] text-zinc-400 hover:text-white hover:bg-zinc-800/60 border border-zinc-800'
+                      ? 'bg-[#242428] text-white font-semibold'
+                      : 'bg-[#141418] text-zinc-400 hover:text-white hover:bg-zinc-800/60'
                   }`}
                 >
                   <span
@@ -221,14 +214,13 @@ function MainDashboard() {
         {/* Studio 2-Column Split Pane */}
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Heavily Customizable Controls (5 cols) */}
-          <div className="lg:col-span-5 space-y-5 p-6 bg-[#0e0e12] rounded-2xl border border-zinc-800/80 shadow-xl">
+          <div className="lg:col-span-5 space-y-5 p-6 bg-[#101013]">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
               <span className="text-xs font-semibold uppercase tracking-wider text-white font-mono flex items-center gap-2">
                 <Sliders className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Component Styling</span>
               </span>
               <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-800 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span>Syncs with Header</span>
               </span>
             </div>
@@ -338,10 +330,9 @@ function MainDashboard() {
           {/* Right Column: Live Interactive Preview & Generated Code (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
             {/* Live Component Preview Box */}
-            <div className="p-6 bg-[#0e0e12] rounded-2xl border border-zinc-800/80 shadow-xl">
+            <div className="p-6 bg-[#101013]">
               <div className="flex items-center justify-between pb-4 mb-4 border-b border-zinc-800/80">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
                   <span className="text-xs font-mono uppercase tracking-wider font-semibold text-white">
                     Live Interactive Preview
                   </span>
@@ -355,7 +346,7 @@ function MainDashboard() {
               {zucchiniDetected ? (
                 <div className="mb-4 p-3 bg-emerald-950/40 rounded-lg border border-emerald-800/60 text-xs text-emerald-200 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-base">🥒</span>
+                    <span aria-hidden="true" className="flex h-8 w-8 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-xs font-semibold text-[#3ecf8e]">Z</span>
                     <div>
                       <span className="font-semibold">Zucchini Extension Ready</span>
                       <p className="text-[11px] text-emerald-300">In-browser zero-knowledge signing active.</p>
@@ -368,7 +359,7 @@ function MainDashboard() {
               ) : (
                 <div className="mb-4 p-3 bg-[#141418] rounded-lg border border-zinc-800 text-xs text-zinc-400 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-base">🥒</span>
+                    <span aria-hidden="true" className="flex h-8 w-8 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-xs font-semibold text-[#3ecf8e]">Z</span>
                     <div>
                       <span className="font-medium text-zinc-200">Zucchini Browser Wallet</span>
                       <p className="text-[11px] text-zinc-500">Install extension to enable 1-click in-browser approval.</p>
@@ -387,7 +378,7 @@ function MainDashboard() {
               )}
 
               {/* Component Rendering Canvas */}
-              <div className="min-h-[170px] flex flex-col items-center justify-center p-8 bg-[#09090b] rounded-xl border border-dashed border-zinc-800 space-y-4">
+              <div className="min-h-[170px] flex flex-col items-center justify-center p-8 bg-[#09090b] space-y-4">
                 <div className="max-w-full overflow-x-auto py-1">
                   <CiceroConnectButton
                     variant={variant}

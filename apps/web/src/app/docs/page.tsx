@@ -10,7 +10,6 @@ import {
   Terminal,
   ExternalLink,
   Bot,
-  Sparkles,
   Layers,
   ArrowRight,
   Code2,
@@ -181,7 +180,6 @@ export default function DocsPage() {
             {/* 1. Overview */}
             <section id="overview" className="space-y-4 scroll-mt-24">
               <div className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
                 <h2 className="text-2xl font-bold tracking-tight text-white">
                   Overview
                 </h2>
@@ -605,7 +603,7 @@ export function ExtensionCard() {
                   </thead>
                   <tbody className="divide-y divide-zinc-800/60 text-zinc-300">
                     <tr>
-                      <td className="py-2.5 px-3 font-semibold text-white">🥒 Zucchini Wallet</td>
+                      <td className="py-2.5 px-3 font-semibold text-white">Zucchini Wallet</td>
                       <td className="py-2.5 px-3 text-zinc-400">Browser Extension</td>
                       <td className="py-2.5 px-3 font-mono text-emerald-400">1-Click Sidepanel Approval</td>
                       <td className="py-2.5 px-3">Mainnet & Testnet (Orchard & Sapling)</td>
@@ -623,7 +621,7 @@ export function ExtensionCard() {
                       <td className="py-2.5 px-3">Mainnet Only (Transparent t1)</td>
                     </tr>
                     <tr>
-                      <td className="py-2.5 px-3 font-semibold text-white">🛡️ Zashi</td>
+                      <td className="py-2.5 px-3 font-semibold text-white">Zashi</td>
                       <td className="py-2.5 px-3 text-zinc-400">Mobile (ECC)</td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">ZIP-321 QR Scan</td>
                       <td className="py-2.5 px-3">Mainnet (Orchard & Sapling)</td>
@@ -635,7 +633,7 @@ export function ExtensionCard() {
                       <td className="py-2.5 px-3">Mainnet & Testnet (Orchard & Sapling)</td>
                     </tr>
                     <tr>
-                      <td className="py-2.5 px-3 font-semibold text-white">👁️ Viewing Key</td>
+                      <td className="py-2.5 px-3 font-semibold text-white">Viewing Key</td>
                       <td className="py-2.5 px-3 text-zinc-400">Auditor / Read-Only</td>
                       <td className="py-2.5 px-3 font-mono text-zinc-400">Unified Viewing Key (uview...)</td>
                       <td className="py-2.5 px-3">Shielded Decryption</td>

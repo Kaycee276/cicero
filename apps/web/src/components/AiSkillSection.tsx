@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import {
   Bot,
-  Sparkles,
   Copy,
   Check,
   Terminal,
@@ -139,7 +138,7 @@ Requirements:
   return (
     <div id="ai-agent" className="space-y-6">
       {/* Section Intro Card */}
-      <div className="p-8 rounded-2xl bg-[#0e0e12] border border-zinc-800/80 shadow-2xl relative overflow-hidden">
+      <div className="p-8 bg-[#101013] relative overflow-hidden">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="space-y-2 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400">
@@ -175,7 +174,6 @@ Requirements:
                   : 'bg-zinc-800/60 text-zinc-400 hover:text-white hover:bg-zinc-800'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
               <span>Copy AI Agent Prompts</span>
             </button>
 
@@ -208,7 +206,7 @@ Requirements:
                     onClick={() => setSelectedPresetId(preset.id)}
                     className={`p-4 rounded-xl text-left border transition-all ${
                       isSelected
-                        ? 'bg-[#121216] border-emerald-500/60 ring-1 ring-emerald-500/40 shadow-sm'
+                    ? 'bg-[#202024] text-white font-semibold'
                         : 'bg-[#0e0e12] border-zinc-800/80 hover:border-zinc-700'
                     }`}
                   >
@@ -280,10 +278,10 @@ Requirements:
                     key={key}
                     type="button"
                     onClick={() => setSelectedAgentTool(key)}
-                    className={`p-3 rounded-xl text-center border text-xs font-medium transition-all ${
+                    className={`p-3 rounded-xl text-center text-xs font-medium transition-colors ${
                       active
-                        ? 'bg-zinc-800 border-emerald-500 text-white ring-1 ring-emerald-500/40'
-                        : 'bg-[#0e0e12] border-zinc-800/80 text-zinc-400 hover:border-zinc-700'
+                        ? 'bg-[#1a211e] text-white'
+                        : 'bg-[#101013] text-zinc-400 hover:bg-[#18181c]'
                     }`}
                   >
                     <span className="capitalize">{key === 'antigravity' ? 'Antigravity' : key}</span>

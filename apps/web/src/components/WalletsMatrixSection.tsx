@@ -4,7 +4,6 @@ import React from 'react';
 import {
   CheckCircle2,
   ArrowRight,
-  Sparkles,
 } from 'lucide-react';
 import { useCicero } from '@cicero-zcash/react';
 import { useStudioSettings } from '@/context/StudioSettingsContext';
@@ -123,7 +122,6 @@ export const WalletsMatrixSection: React.FC = () => {
         <div className="flex flex-col justify-between gap-7 border-b border-zinc-800/80 pb-14 md:flex-row md:items-end sm:pb-16">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-mono text-[#3ecf8e]">
-              <Sparkles className="w-3.5 h-3.5" />
               <span>Full Ecosystem Interoperability</span>
             </div>
             <h2 className="display-xl text-white font-bold tracking-tight">
@@ -149,13 +147,13 @@ export const WalletsMatrixSection: React.FC = () => {
           {wallets.map((w, index) => (
             <div
               key={w.id}
-              className={`wallet-kit-card group flex flex-col justify-between border border-zinc-800 p-7 transition-colors hover:border-zinc-600 focus-within:border-[#3ecf8e]/60 sm:p-8 ${index === 0 ? 'lg:col-span-7' : index === 1 ? 'lg:col-span-5' : 'lg:col-span-4'}`}
+              className={`wallet-kit-card group flex flex-col justify-between p-7 transition-colors sm:p-8 ${index === 0 ? 'lg:col-span-7' : index === 1 ? 'lg:col-span-5' : 'lg:col-span-4'}`}
             >
               <div className="space-y-4">
                 {/* Card Top: Icon & Badge */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span aria-hidden="true" className="flex h-10 min-w-10 items-center justify-center rounded-md border border-zinc-700 bg-zinc-950 px-2 font-mono text-xs font-semibold tracking-wide text-[#3ecf8e]">
+                    <span aria-hidden="true" className="flex h-10 min-w-10 items-center justify-center rounded-md bg-[#3ecf8e]/10 px-2 font-mono text-xs font-semibold tracking-wide text-[#3ecf8e]">
                       {w.mark}
                     </span>
                     <div>
