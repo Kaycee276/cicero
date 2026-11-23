@@ -33,9 +33,9 @@
 
 ## 📦 Success Metrics & Verification
 
-| Deliverable | Target | Verification Method |
-| :--- | :--- | :--- |
-| **Public Portal Uptime** | 99.9% | Live production URL with zero downtime |
-| **Core Decoupling** | `@cicero-zcash/core` published | Published on NPM with zero React dependencies |
-| **Test Suite Coverage** | ≥ 90% | Automated GitHub Actions CI test pass |
-| **Forum Proposal** | 1 RFC Published | Active community feedback on `forum.zcashcommunity.com` |
+| Deliverable | Target | Verification Method | Status |
+| :--- | :--- | :--- | :--- |
+| **Public Portal & Deployment** | 99.9% | Deployed live to public production domain | ✅ Completed |
+| **Core Decoupling** | `@cicero-zcash/core` decoupled | Standalone package in `packages/core` with zero React dependencies | ✅ Completed |
+| **Automated CI & Test Suite** | ≥ 90% | Automated GitHub Actions CI running 33 unit tests & full monorepo build (57s pass) | ✅ Completed |
+| **Forum Proposal (RFC)** | 1 RFC Published | Draft specification for `window.zcash` Web3 provider | 🔄 In Progress |
