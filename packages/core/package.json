@@ -20,6 +20,7 @@
   "scripts": {
     "build": "tsup && node -e \"require('node:fs').copyFileSync('dist/index.js', 'dist/index.mjs')\"",
     "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
     "test": "vitest run"
   },
   "dependencies": {

@@ -9,10 +9,13 @@ bash scripts/check-secrets.sh
 # 2. Prettier Formatting Verification
 pnpm format:check
 
-# 3. Typecheck across all workspace packages
+# 3. Linter across all workspace packages (core, react, web)
+pnpm lint
+
+# 4. Typecheck across all workspace packages (core, react, web)
 pnpm typecheck
 
-# 4. Automated Tests across all workspace packages
+# 5. Automated Tests across all workspace packages (core, react, web)
 pnpm test
 
 echo "✨ All pre-commit checks passed successfully!"

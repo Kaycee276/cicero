@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Test & Build Monorepo
+    name: Verify & Build Monorepo
     runs-on: ubuntu-latest
 
     steps:
@@ -40,15 +40,22 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Scan Secrets & Leaked Credentials
+        run: bash scripts/check-secrets.sh
+
+      - name: Check Code Formatting (Prettier)
+        run: pnpm format:check
+
       - name: Build Core Package
         run: pnpm --filter "@cicero-zcash/core" build
 
-      - name: Typecheck Core & React Packages
-        run: |
-          pnpm --filter "@cicero-zcash/core" typecheck
-          pnpm --filter "@cicero-zcash/react" lint
+      - name: Lint All Packages (core, react, web)
+        run: pnpm lint
 
-      - name: Run Automated Test Suite (33 Tests)
+      - name: Typecheck All Packages (core, react, web)
+        run: pnpm typecheck
+
+      - name: Run Automated Test Suites (All Packages)
         run: pnpm test
 
       - name: Build Monorepo (@cicero-zcash/core, @cicero-zcash/react, apps/web)
