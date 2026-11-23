@@ -1,4 +1,4 @@
-import { ZcashWallet, WalletSession, SendPaymentParams, SendPaymentResult } from './types';
+import { ZcashWallet, WalletSession, SendPaymentParams, SendPaymentResult } from '../types';
 
 // Deterministic or random mock session address
 const MOCK_BURNER_ADDR =

@@ -1,5 +1,5 @@
-import { ZcashWallet, WalletSession, SendPaymentParams, SendPaymentResult } from './types';
-import { generateZip321Uri } from '../utils/zip321';
+import { ZcashWallet, WalletSession, SendPaymentParams, SendPaymentResult } from '../types';
+import { generateZip321Uri } from '../zip321';
 
 export const ywallet: ZcashWallet = {
   id: 'ywallet',

@@ -1,4 +1,4 @@
-import { ZcashWallet, WalletSession } from './types';
+import { ZcashWallet, WalletSession } from '../types';
 
 export const viewingKeyWallet: ZcashWallet = {
   id: 'viewing-key',
