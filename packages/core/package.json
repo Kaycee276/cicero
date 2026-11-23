@@ -1,0 +1,35 @@
+{
+  "name": "@cicero-zcash/core",
+  "version": "0.1.0",
+  "description": "Framework-agnostic Zcash wallet adapters and payment utilities",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup && node -e \"require('node:fs').copyFileSync('dist/index.js', 'dist/index.mjs')\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@zucchinifi/dapp-sdk": "^0.3.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.7.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kaycee276/cicero.git",
+    "directory": "packages/core"
+  },
+  "license": "MIT"
+}
