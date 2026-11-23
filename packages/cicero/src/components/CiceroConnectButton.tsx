@@ -188,7 +188,7 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
             aria-label={`Open ${account.wallet?.name || 'Zcash wallet'} account, ${network}${address ? `, ${truncateAddress(address, 6, 4)}` : ''}`}
             className={`flex min-w-0 items-center gap-1.5 px-2.5 py-1 font-medium transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current ${radiusClasses}`}
           >
-            {showIcon && <span aria-hidden="true" className="shrink-0 text-sm">{account.wallet?.icon || '🛡️'}</span>}
+            {showIcon && <span aria-hidden="true" className="shrink-0 font-mono text-xs font-semibold">{account.wallet?.icon || 'Z'}</span>}
             <span
               style={{ color: safeAccentColor }}
               className={`truncate font-mono ${accentTextClasses[variant] || accentTextClasses.primary}`}

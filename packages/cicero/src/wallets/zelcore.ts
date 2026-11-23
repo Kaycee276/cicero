@@ -45,7 +45,7 @@ export function isZelcoreAvailable(): boolean {
 export const zelcoreWallet: ZcashWallet = {
   id: 'zelcore',
   name: 'Zelcore Wallet',
-  icon: '🔷',
+  icon: 'Z',
   description: 'Multi-asset web extension & desktop wallet with ZEC support',
   category: 'extension',
   downloadUrl: 'https://zelcore.io/download/',

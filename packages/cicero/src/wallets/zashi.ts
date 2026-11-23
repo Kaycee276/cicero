@@ -4,7 +4,7 @@ import { generateZip321Uri } from '../utils/zip321';
 export const zashiWallet: ZcashWallet = {
   id: 'zashi',
   name: 'Zashi by ECC',
-  icon: '🛡️',
+  icon: 'Z',
   description: 'Official zero-knowledge mobile wallet by Electric Coin Co.',
   category: 'mobile',
   downloadUrl: 'https://electriccoin.co/zashi/',

@@ -86,7 +86,7 @@ function extractAddress(res: any): string | null {
 export const noirWallet: ZcashWallet = {
   id: 'noir',
   name: 'Noir Wallet',
-  icon: '🖤',
+  icon: 'N',
   description: 'Self-custodial privacy extension for shielded Zcash & ZECFi',
   category: 'extension',
   downloadUrl: 'https://chromewebstore.google.com/detail/noir-wallet',

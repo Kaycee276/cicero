@@ -155,7 +155,7 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-zinc-800 bg-[#0d0d10] px-6 py-5 sm:px-8">
           <div className="flex items-center gap-2">
-            {modalAppearance.showIcon && <span aria-hidden="true" className="text-xl">{wallet?.icon || '🛡️'}</span>}
+            {modalAppearance.showIcon && <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-sm font-semibold text-[#3ecf8e]">{wallet?.icon || 'Z'}</span>}
             <div>
               <span id="cicero-account-title" className="text-sm font-semibold text-white">
                 {wallet?.name || 'Zcash Wallet'}

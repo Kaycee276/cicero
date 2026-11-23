@@ -7,7 +7,7 @@ const MOCK_BURNER_ADDR =
 export const burnerWallet: ZcashWallet = {
   id: 'burner',
   name: 'Dev Session Wallet',
-  icon: '🧪',
+  icon: 'DEV',
   description: 'Instant ephemeral shielded test wallet for rapid local testing',
   category: 'developer',
   isAvailable: () => true,

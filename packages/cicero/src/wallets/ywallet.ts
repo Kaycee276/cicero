@@ -4,7 +4,7 @@ import { generateZip321Uri } from '../utils/zip321';
 export const ywallet: ZcashWallet = {
   id: 'ywallet',
   name: 'Ywallet',
-  icon: '⚡',
+  icon: 'Y',
   description: 'Fast-syncing multi-platform shielded wallet for mobile & desktop',
   category: 'mobile',
   downloadUrl: 'https://ywallet.app/',

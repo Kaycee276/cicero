@@ -6,7 +6,7 @@ const adapter = new ZucchiniWalletAdapter();
 export const zucchiniWallet: ZcashWallet = {
   id: 'zucchini',
   name: 'Zucchini Wallet',
-  icon: '🥒',
+  icon: 'Z',
   description: 'In-browser Chrome extension with 1-click side-panel approvals',
   category: 'extension',
   downloadUrl: 'https://chromewebstore.google.com/detail/zucchini-wallet',

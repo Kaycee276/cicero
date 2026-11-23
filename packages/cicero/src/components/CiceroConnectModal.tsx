@@ -4,7 +4,6 @@ import {
   X,
   ExternalLink,
   Shield,
-  Sparkles,
   AlertCircle,
   ArrowRight,
 } from 'lucide-react';
@@ -217,7 +216,6 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
               <span>Wallets</span>
               {wallets.some((w) => w.isAvailable()) ? (
                 <span className="text-[10px] text-[#24b47e] font-semibold flex items-center gap-1 normal-case">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#24b47e] animate-pulse"></span>
                   <span>Extension found</span>
                 </span>
               ) : (
@@ -245,7 +243,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className="text-base">{w.icon}</span>
+                    <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-xs font-semibold text-[#3ecf8e]">{w.icon}</span>
                     <div>
                       <div className="flex items-center gap-1.5">
                         <span className="text-sm font-medium text-zinc-100">{w.name}</span>
@@ -277,7 +275,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
               {/* Wallet Header */}
               <div className="flex items-start justify-between border-b border-zinc-800 pb-4">
                 <div className="flex items-center gap-2.5">
-                  <span className="text-2xl">{selectedWallet.icon}</span>
+                  <span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#3ecf8e]/10 font-mono text-sm font-semibold text-[#3ecf8e]">{selectedWallet.icon}</span>
                   <div>
                     <h4 className="text-base font-semibold text-white">
                       {selectedWallet.name}
@@ -305,7 +303,6 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                   {isAvailable ? (
                     <div className="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-950 dark:text-emerald-200 space-y-2">
                       <div className="flex items-center gap-2 font-semibold">
-                        <Sparkles className="w-4 h-4 text-[#24b47e]" />
                         <span>Extension Detected & Ready</span>
                       </div>
                       <p className="text-emerald-800 dark:text-emerald-300 leading-relaxed">
@@ -339,7 +336,6 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                   {isAvailable ? (
                     <div className="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-950 dark:text-emerald-200 space-y-2">
                       <div className="flex items-center gap-2 font-semibold">
-                        <Sparkles className="w-4 h-4 text-[#24b47e]" />
                         <span>Noir Wallet Extension Detected</span>
                       </div>
                       <p className="text-emerald-800 dark:text-emerald-300 leading-relaxed">
@@ -388,7 +384,7 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                 <div className="space-y-4 py-2">
                   <div className="p-3.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 text-xs text-amber-900 dark:text-amber-200 space-y-1.5">
                     <div className="flex items-center gap-1.5 font-semibold">
-                      <span>⚠️ Zelcore Compatibility Note</span>
+                      <span>Zelcore Compatibility Note</span>
                     </div>
                     <p className="text-[11px] leading-relaxed">
                       Zelcore is a multi-asset wallet operating primarily on <strong>Mainnet</strong> for transparent Zcash (<code className="font-mono">t1...</code>) and unified addresses. Because the Zelcore browser extension does <em>not</em> provide an in-browser Zcash dApp signing RPC popup (it only injects EVM/Solana), connection is established via your Zelcore ZEC address below.
@@ -398,7 +394,6 @@ export const CiceroConnectModal: React.FC<CiceroConnectModalProps> = ({
                   {isAvailable ? (
                     <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-950 dark:text-emerald-200 flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-[#24b47e] flex-shrink-0" />
                         <span className="font-semibold">Zelcore Extension Installed</span>
                       </div>
                       <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 font-mono">
