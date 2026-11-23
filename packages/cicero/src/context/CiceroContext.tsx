@@ -151,7 +151,7 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
     }
 
     if (autoConnect && savedWalletId) {
-      const targetWallet = walletsRef.current.find((w) => w.id === savedWalletId);
+      const targetWallet = walletsRef.current.find((w: ZcashWallet) => w.id === savedWalletId);
       // If we have a saved address or the wallet is available, restore session immediately
       if (targetWallet && (savedAddress || targetWallet.isAvailable())) {
         const savedBal = localStorage.getItem('cicero_balance');
@@ -179,7 +179,7 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
         if (targetWallet.getBalance) {
           targetWallet
             .getBalance({ address: savedAddress || undefined, network })
-            .then((freshBal) => {
+            .then((freshBal: number | null) => {
               if (freshBal !== null && !isNaN(freshBal)) {
                 setBalance({
                   zec: freshBal,
@@ -205,7 +205,7 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
       const savedAddress = localStorage.getItem('cicero_address');
 
       if (savedWalletId === 'zucchini' && autoConnect) {
-        const zucchini = walletsRef.current.find((w) => w.id === 'zucchini');
+        const zucchini = walletsRef.current.find((w: ZcashWallet) => w.id === 'zucchini');
         if (zucchini) {
           // If extension became ready, ensure connected state is active
           setAccount((prev) => {
@@ -233,7 +233,7 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const adapter = new ZucchiniWalletAdapter();
-    const cleanup = adapter.onNetworkChanged(async (detectedNet) => {
+    const cleanup = adapter.onNetworkChanged(async (detectedNet: ZcashNetwork) => {
       setNetwork(detectedNet);
       localStorage.setItem('cicero_network', detectedNet);
 
@@ -337,7 +337,7 @@ export const CiceroProvider: React.FC<CiceroProviderProps> = ({
 
   const connect = useCallback(
     async (walletId: string, customAddressOrKey?: string) => {
-      const targetWallet = wallets.find((w) => w.id === walletId);
+      const targetWallet = wallets.find((w: ZcashWallet) => w.id === walletId);
       if (!targetWallet) {
         throw new Error(`Wallet ${walletId} not found in registered wallets`);
       }
