@@ -132,7 +132,7 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
 
   return createPortal(
     <div
-      className={`cicero-theme-${theme} ${theme} fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto overscroll-contain p-4 font-sans sm:p-6`}
+      className={`cicero-theme-${theme} ${theme} fixed inset-0 z-[99999] flex items-start justify-center overflow-y-auto overscroll-contain p-4 font-sans sm:items-center sm:p-6`}
       style={{ '--cicero-accent': accentColor } as React.CSSProperties}
     >
       {/* Backdrop */}
@@ -150,7 +150,7 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
         aria-labelledby="cicero-account-title"
         ref={dialogRef}
         tabIndex={-1}
-        className={`relative z-[100000] w-full ${modalWidth} ${modalRadius} overflow-hidden border border-zinc-800 bg-[#111114] p-1 text-zinc-100 shadow-2xl animate-in fade-in zoom-in-95 duration-150 sm:p-2`}
+        className={`relative z-[100000] w-full max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-3rem)] ${modalWidth} ${modalRadius} overflow-x-hidden overflow-y-auto border border-zinc-800 bg-[#111114] p-1 text-zinc-100 shadow-2xl animate-in fade-in zoom-in-95 duration-150 sm:p-2`}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-zinc-800 bg-[#0d0d10] px-6 py-5 sm:px-8">
