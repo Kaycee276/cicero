@@ -65,7 +65,6 @@ export const PlaygroundStudio: React.FC = () => {
       badge: 'Default',
     },
     {
-    {
       value: 'dark',
       label: 'Midnight Dark',
       description: 'Canvas night #18181b with subtle border',
