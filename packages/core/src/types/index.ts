@@ -73,6 +73,12 @@ export interface WalletAdapterEventMap {
 export type WalletAdapterEventListener<K extends WalletAdapterEvent> =
   (payload: WalletAdapterEventMap[K]) => void;
 
+export interface WalletEventSources {
+  onAccountChange?: (listener: (session: WalletSession | null) => void) => () => void;
+  onNetworkChange?: (listener: (network: ZcashNetwork) => void) => () => void;
+  onDisconnected?: (listener: () => void) => () => void;
+}
+
 /** Framework-neutral wallet contract implemented by core adapters. */
 export interface WalletAdapter {
   readonly id: string;
@@ -91,7 +97,7 @@ export interface WalletAdapter {
 }
 
 /** Legacy wallet catalog contract retained for @cicero-zcash/react. */
-export interface ZcashWallet {
+export interface ZcashWallet extends WalletEventSources {
   id: string;
   name: string;
   icon: string;
