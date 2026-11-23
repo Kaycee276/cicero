@@ -214,7 +214,7 @@ const { zashi, ywallet } = getWalletDeepLinks(uri);`,
         <div className="mt-14">
           <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <span>Component Props:</span>
-            <code className="font-mono text-sm bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 text-emerald-400">&lt;CiceroConnectButton /&gt;</code>
+            <code className="break-all font-mono text-sm bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800 text-emerald-400">&lt;CiceroConnectButton /&gt;</code>
           </h3>
 
           <div className="overflow-x-auto border border-zinc-800/80 rounded-2xl shadow-xl bg-[#0e0e12]">

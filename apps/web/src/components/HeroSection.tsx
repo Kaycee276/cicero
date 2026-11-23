@@ -173,7 +173,7 @@ export const HeroSection: React.FC = () => {
         <div className="relative lg:col-span-6 lg:pl-4">
           <div
             aria-hidden="true"
-            className="absolute -inset-6 rounded-3xl border border-zinc-800/50"
+            className="absolute inset-x-0 -inset-y-6 rounded-3xl border border-zinc-800/50 sm:-inset-6"
           />
           <div className="relative overflow-hidden rounded-xl border border-zinc-700/80 bg-[#111114] shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
             <div className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
