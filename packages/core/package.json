@@ -14,17 +14,21 @@
       "default": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup && node -e \"require('node:fs').copyFileSync('dist/index.js', 'dist/index.mjs')\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@zucchinifi/dapp-sdk": "^0.3.0"
   },
   "devDependencies": {
     "tsup": "^8.5.1",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^5.1.1"
   },
   "repository": {
     "type": "git",
