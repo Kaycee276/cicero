@@ -79,7 +79,7 @@ export const FeaturesSection: React.FC = () => {
           {features.map((feat, i) => (
             <div
               key={i}
-              className="p-6 sm:p-7 rounded-2xl bg-[#0e0e12] border border-zinc-800/80 hover:border-zinc-700 hover:shadow-[0_0_25px_rgba(62,207,142,0.08)] transition-all space-y-4 group"
+              className="p-6 sm:p-7 rounded-md bg-[#0e0e12] border border-zinc-800/80 hover:border-zinc-700 transition-colors space-y-4 group"
             >
               <div className="flex items-center justify-between">
                 <div className="w-10 h-10 rounded-xl bg-[#141418] border border-zinc-800 flex items-center justify-center group-hover:border-emerald-500/40 transition-colors">

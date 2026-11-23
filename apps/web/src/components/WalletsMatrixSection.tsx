@@ -117,8 +117,6 @@ export const WalletsMatrixSection: React.FC = () => {
   return (
     <section id="wallets" className="py-20 sm:py-28 bg-[#0c0c0e] border-y border-zinc-800/80 relative overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-radial-glow opacity-30 pointer-events-none" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}

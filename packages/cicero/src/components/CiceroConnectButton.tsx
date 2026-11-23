@@ -79,7 +79,7 @@ export const CiceroConnectButton: React.FC<CiceroConnectButtonProps> = ({
     gradient:
       'bg-gradient-to-r from-[#171717] via-[#262626] to-[#171717] text-white border border-[#3ecf8e]/40 hover:border-[#3ecf8e] font-medium shadow-sm',
     gold:
-      'bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-zinc-950 font-semibold shadow-sm border border-amber-600/30',
+      'bg-amber-400 hover:bg-amber-300 text-zinc-950 font-semibold shadow-sm border border-amber-600/30',
   };
 
   const connectedVariantClasses: Record<CiceroButtonVariant, string> = {

@@ -130,7 +130,7 @@ export const CiceroAccountModal: React.FC<CiceroAccountModalProps> = ({
 
   return createPortal(
     <div
-      className="dark fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto p-4 font-sans sm:p-6"
+      className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto p-4 font-sans sm:p-6"
       style={{ '--cicero-accent': accentColor } as React.CSSProperties}
     >
       {/* Backdrop */}

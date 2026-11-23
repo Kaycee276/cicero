@@ -150,8 +150,6 @@ export const LivePaywallDemo: React.FC = () => {
   return (
     <section id="paywall-demo" className="py-20 bg-[#09090b] relative overflow-hidden border-t border-[#1a1a1e]">
       {/* Glow Backdrop */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-emerald-500/10 blur-[130px] rounded-full pointer-events-none -z-0" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -434,7 +432,7 @@ export const LivePaywallDemo: React.FC = () => {
                     <button
                       onClick={handleTriggerPayment}
                       disabled={paymentStatus !== 'idle'}
-                      className="w-full py-3.5 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-500 to-emerald-400 hover:from-emerald-400 hover:to-emerald-300 text-zinc-950 shadow-[0_0_25px_rgba(62,207,142,0.35)] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                      className="w-full py-3.5 px-4 rounded-md font-semibold text-sm bg-emerald-400 hover:bg-emerald-300 text-zinc-950 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       {paymentStatus === 'authorizing' ? (
                         <>

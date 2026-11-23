@@ -107,7 +107,6 @@ export default function DocsPage() {
 
       {/* Docs Header Banner */}
       <div className="border-b border-zinc-800/80 bg-[#0c0c0f] py-10 sm:py-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-[400px] h-[200px] bg-emerald-500/10 blur-[100px] pointer-events-none -z-0" />
         
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2.5">

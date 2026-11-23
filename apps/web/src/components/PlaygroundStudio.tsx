@@ -78,16 +78,9 @@ export const PlaygroundStudio: React.FC = () => {
       indicatorColor: '#27272a',
     },
     {
-      value: 'gradient',
-      label: 'Cyber Metallic Gradient',
-      description: 'Dark tech gradient with emerald rim accent',
-      indicatorColor: '#10b981',
-      badge: 'Cyber',
-    },
-    {
       value: 'gold',
       label: 'Zcash Amber Gold',
-      description: 'Official Zcash warm gold brand gradient',
+      description: 'Warm Zcash amber with rounded pill styling',
       indicatorColor: '#f59e0b',
     },
     {
@@ -215,8 +208,6 @@ function MainDashboard() {
                           ? '#f59e0b'
                           : preset.variant === 'dark'
                           ? '#27272a'
-                          : preset.variant === 'gradient'
-                          ? '#10b981'
                           : '#71717a',
                     }}
                   />

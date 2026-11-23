@@ -58,7 +58,7 @@ export const DESIGN_PRESETS: Record<string, DesignPreset> = {
   gold: {
     id: 'gold',
     name: 'Zcash Amber Gold',
-    description: 'Warm gold gradient with rounded-full pill styling',
+    description: 'Warm amber with rounded-full pill styling',
     variant: 'gold',
     size: 'lg',
     radius: 'full',
@@ -80,19 +80,6 @@ export const DESIGN_PRESETS: Record<string, DesignPreset> = {
     showNetwork: false,
     showIcon: false,
     accentColor: '#a1a1aa',
-  },
-  gradient: {
-    id: 'gradient',
-    name: 'Cyber Gradient',
-    description: 'Subtle dark metallic gradient with emerald rim accent',
-    variant: 'gradient',
-    size: 'md',
-    radius: 'full',
-    label: 'Authenticate with Zcash',
-    showBalance: true,
-    showNetwork: true,
-    showIcon: true,
-    accentColor: '#3ecf8e',
   },
 };
 
@@ -142,7 +129,7 @@ export const StudioSettingsProvider: React.FC<{ children: React.ReactNode }> = (
       const stored = localStorage.getItem(STUDIO_SETTINGS_KEY);
       if (stored) {
         const settings = JSON.parse(stored) as StoredStudioSettings;
-        if (settings.variant && ['primary', 'outline', 'dark', 'ghost', 'gradient', 'gold'].includes(settings.variant)) setVariant(settings.variant);
+        if (settings.variant && ['primary', 'outline', 'dark', 'ghost', 'gold'].includes(settings.variant)) setVariant(settings.variant);
         if (settings.size && ['sm', 'md', 'lg'].includes(settings.size)) setSize(settings.size);
         if (settings.radius && ['none', 'sm', 'md', 'lg', 'full'].includes(settings.radius)) setRadius(settings.radius);
         if (typeof settings.label === 'string') setLabel(settings.label.slice(0, 40));
