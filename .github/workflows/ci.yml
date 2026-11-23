@@ -46,8 +46,10 @@ jobs:
       - name: Check Code Formatting (Prettier)
         run: pnpm format:check
 
-      - name: Build Core Package
-        run: pnpm --filter "@cicero-zcash/core" build
+      - name: Build Workspace Packages (core & react)
+        run: |
+          pnpm build:core
+          pnpm build:package
 
       - name: Lint All Packages (core, react, web)
         run: pnpm lint
