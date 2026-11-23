@@ -40,36 +40,32 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#09090b] text-white">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-25" />
-      <div aria-hidden="true" className="pointer-events-none absolute -top-56 right-[-10rem] h-[36rem] w-[36rem] rounded-full bg-[#3ecf8e]/[0.07] blur-[110px]" />
-
+    <section className="relative overflow-hidden border-b border-zinc-800 bg-[#09090b] text-white">
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-4 pb-20 pt-16 sm:px-6 sm:pb-24 sm:pt-20 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:pb-28 lg:pt-24">
         <div className="relative z-10 lg:col-span-6">
-          <p className="mb-6 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-zinc-400">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#3ecf8e]" />
-            Wallet infrastructure for Zcash
+          <p className="mb-6 border-l-2 border-[#3ecf8e] pl-3 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-400">
+            Marcus Tvllivs Cicero · 106–43 BCE
           </p>
 
           <h1 className="display-xxl max-w-3xl text-balance text-white">
-            Zcash wallet connections, <span className="text-[#3ecf8e]">in one React integration.</span>
+            Zcash wallet connections, <span className="text-[#3ecf8e]">spoken clearly.</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-7 text-zinc-300 sm:text-lg">
-            Connect browser extensions, mobile wallets, and viewing keys with one interface. Build shielded payment flows with ZIP-321.
+            One measured interface for Zcash wallets, shielded accounts, and ZIP-321 payments.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href="#playground"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-[#3ecf8e] px-5 text-sm font-semibold text-zinc-950 transition-colors hover:bg-[#24b47e] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm bg-[#3ecf8e] px-5 text-sm font-semibold text-zinc-950 transition-colors hover:bg-[#24b47e] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]"
             >
               Try the connection studio
               <ArrowDownRight aria-hidden="true" className="h-4 w-4" />
             </a>
             <a
               href="/docs"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-zinc-700 px-5 text-sm font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm border border-zinc-700 px-5 text-sm font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b]"
             >
               Read the documentation
               <ArrowUpRight aria-hidden="true" className="h-4 w-4" />

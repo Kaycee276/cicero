@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Shield, Github, Heart, ExternalLink, Award } from 'lucide-react';
+import { Shield, Github, Heart, ExternalLink } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
             <div className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-emerald-400">
               <Shield className="w-4 h-4 fill-emerald-400/20" />
             </div>
-            <span className="font-bold text-base text-white tracking-tight">Cicero</span>
+            <span className="font-inscription text-base font-semibold tracking-wide text-white">Cicero</span>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
               v0.2.10
             </span>
@@ -23,13 +23,8 @@ export const Footer: React.FC = () => {
             The universal wallet connection kit for shielded Zcash apps. Connect Noir, Zelcore, Zucchini, Zashi, and Ywallet with cryptographic privacy by default.
           </p>
 
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/25 text-amber-300 text-[11px] font-medium">
-            <Award className="w-3.5 h-3.5 text-amber-400" />
-            <span>Winner: Zcash Global Hackathon 2024</span>
-          </div>
-
           <p className="text-[11px] text-zinc-500">
-            Named after Marcus Tullius Cicero, champion of confidential correspondence.
+            Named for Marcus Tullius Cicero, the Roman orator whose legacy inspires this focus on clear, private communication.
           </p>
         </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -15,6 +15,7 @@ import { useStudioSettings } from "@/context/StudioSettingsContext";
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [starCount, setStarCount] = useState<number | null>(null);
   const pathname = usePathname();
   const isDocs = pathname === "/docs";
 
@@ -33,6 +34,19 @@ export const Navbar: React.FC = () => {
 
   const studioHref = isDocs ? "/#playground" : "#playground";
 
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch('/api/github-stars', { signal: controller.signal })
+      .then((response) => response.ok ? response.json() as Promise<{ count: number | null }> : null)
+      .then((data) => {
+        if (data && typeof data.count === 'number') setStarCount(data.count);
+      })
+      .catch(() => {
+        // The GitHub link remains useful if the count endpoint is unavailable.
+      });
+    return () => controller.abort();
+  }, []);
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur-xl transition-colors duration-200">
       <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -40,7 +54,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center gap-4">
           <Link href="/" aria-label="Cicero home" className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3ecf8e] focus-visible:ring-offset-4 focus-visible:ring-offset-zinc-950">
             <div className="flex items-center gap-2">
-              <span className="font-science-gothic uppercase font-[850] text-lg tracking-wider text-white group-hover:text-emerald-400 transition-colors">
+              <span className="font-inscription uppercase text-lg font-semibold tracking-[0.16em] text-white group-hover:text-emerald-400 transition-colors">
                 CICERO
               </span>
             </div>
@@ -73,6 +87,13 @@ export const Navbar: React.FC = () => {
           >
             <Github className="w-3.5 h-3.5" />
             <span>Star</span>
+            <span className="text-zinc-500">|</span>
+            <span
+              className="font-mono text-emerald-400"
+              aria-label={starCount === null ? 'Loading GitHub stars' : `${starCount} GitHub ${starCount === 1 ? 'star' : 'stars'}`}
+            >
+              {starCount === null ? '…' : starCount.toLocaleString()}
+            </span>
             <span className="text-zinc-500">|</span>
             <span className="text-emerald-400 font-mono">v0.2.10</span>
           </a>
@@ -164,6 +185,15 @@ export const Navbar: React.FC = () => {
           </nav>
 
           <div className="pt-3 border-t border-zinc-800 flex flex-col gap-3">
+            <a
+              href="https://github.com/Kaycee276/cicero"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-10 items-center justify-between rounded-lg border border-zinc-800 px-3 text-xs text-zinc-300 hover:bg-zinc-900"
+            >
+              <span className="inline-flex items-center gap-2"><Github className="h-4 w-4" aria-hidden="true" /> GitHub</span>
+              <span className="font-mono text-emerald-400">{starCount === null ? '…' : `${starCount.toLocaleString()} · v0.2.10`}</span>
+            </a>
             <CiceroConnectButton
               variant={variant}
               size="md"

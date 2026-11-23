@@ -1,11 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Science+Gothic:wght@100..900&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.font-science-gothic {
-  font-family: "Science Gothic", sans-serif;
+.font-inscription,
+h1,
+h2,
+h3 {
+  font-family: var(--font-inscription), Georgia, serif;
+  text-wrap: balance;
 }
 
 :root {
@@ -27,11 +29,15 @@ html.dark {
 }
 
 html.light {
-  --background: #fafafa;
-  --foreground: #18181b;
-  --canvas-night: #ffffff;
-  --surface: #ffffff;
-  --surface-border: #e4e4e7;
+  --background: #f5f2e9;
+  --foreground: #27251f;
+  --canvas-night: #fffdf8;
+  --surface: #fffdf8;
+  --surface-border: #d4cec0;
+  --surface-raised: #eeeae0;
+  --surface-inset: #e7e2d7;
+  --muted: #635f55;
+  --accent-ink: #087451;
 }
 
 body {
@@ -52,6 +58,167 @@ html {
 
 html.dark { color-scheme: dark; }
 html.light { color-scheme: light; }
+
+/* Theme bridge for the existing utility palette across all routes and sections. */
+html.light body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+html.light [class~="bg-[#09090b]"],
+html.light [class~="bg-[#0c0c0e]"],
+html.light [class~="bg-[#0c0c0f]"],
+html.light [class~="bg-[#0d0d10]"],
+html.light [class~="bg-[#0f0f12]"],
+html.light [class~="bg-[#101013]"],
+html.light [class~="bg-[#111114]"],
+html.light [class~="bg-[#121216]"],
+html.light [class~="bg-[#121215]"],
+html.light [class~="bg-zinc-950"],
+html.light [class~="bg-zinc-950/60"],
+html.light [class~="bg-zinc-950/85"],
+html.light [class~="bg-zinc-950/95"] {
+  background-color: var(--background) !important;
+  background-image: none !important;
+}
+
+html.light [class~="bg-[#0e0e12]"],
+html.light [class~="bg-[#141418]"],
+html.light [class~="bg-zinc-900"],
+html.light [class~="bg-zinc-900/60"],
+html.light [class~="bg-zinc-850"],
+html.light [class~="bg-zinc-800"],
+html.light [class~="bg-zinc-800/30"],
+html.light [class~="bg-zinc-800/40"],
+html.light [class~="bg-zinc-800/60"],
+html.light [class~="bg-zinc-800/80"],
+html.light [class~="bg-zinc-700"] {
+  background-color: var(--surface-raised) !important;
+  background-image: none !important;
+}
+
+html.light [class~="bg-[#1f1f1f]"],
+html.light [class~="bg-[#202020]"],
+html.light [class~="bg-[#262626]"] {
+  background-color: var(--surface-inset) !important;
+  background-image: none !important;
+}
+
+html.light [class~="text-white"],
+html.light [class~="text-zinc-100"],
+html.light [class~="text-zinc-200"],
+html.light [class~="text-zinc-300"],
+html.light [class*="text-[#f4f4f5]"] {
+  color: var(--foreground) !important;
+}
+
+html.light [class~="text-zinc-400"],
+html.light [class~="text-zinc-500"],
+html.light [class~="text-zinc-600"] {
+  color: var(--muted) !important;
+}
+
+html.light [class*="dark:text-white"],
+html.light [class*="dark:text-zinc-100"],
+html.light [class*="dark:text-zinc-200"],
+html.light [class*="dark:text-zinc-300"] {
+  color: var(--foreground) !important;
+}
+
+html.light [class*="dark:text-zinc-400"],
+html.light [class*="dark:text-zinc-500"] {
+  color: var(--muted) !important;
+}
+
+html.light [class~="border-zinc-800"],
+html.light [class~="border-zinc-800/50"],
+html.light [class~="border-zinc-800/60"],
+html.light [class~="border-zinc-800/80"],
+html.light [class~="border-zinc-700"],
+html.light [class~="border-zinc-700/80"],
+html.light [class~="border-zinc-600"],
+html.light [class~="border-zinc-500"],
+html.light [class~="border-[#1a1a1e]"],
+html.light [class~="border-[#262626]"],
+html.light [class~="border-[#2b2b2b]"],
+html.light [class~="border-emerald-500"],
+html.light [class~="border-emerald-500/20"],
+html.light [class~="border-emerald-500/25"],
+html.light [class~="border-emerald-500/30"],
+html.light [class~="border-emerald-500/40"],
+html.light [class~="border-emerald-500/50"],
+html.light [class~="border-emerald-500/60"] {
+  border-color: var(--surface-border) !important;
+}
+
+html.light [class~="text-emerald-300"],
+html.light [class~="text-emerald-400"],
+html.light [class~="text-emerald-400/90"],
+html.light [class~="text-emerald-500"],
+html.light [class~="text-[#3ecf8e]"],
+html.light [class~="text-[#24b47e]"] {
+  color: var(--accent-ink) !important;
+}
+
+html.light [class~="bg-emerald-950/30"],
+html.light [class~="bg-emerald-950/40"],
+html.light [class~="bg-emerald-950/60"],
+html.light [class~="bg-emerald-900/60"],
+html.light [class~="bg-emerald-500/10"],
+html.light [class~="bg-emerald-500/15"],
+html.light [class~="bg-emerald-500/20"],
+html.light [class~="bg-emerald-800"] {
+  background-color: #e2f1e8 !important;
+  background-image: none !important;
+}
+
+html.light [class~="border-emerald-800"],
+html.light [class~="border-emerald-800/60"] {
+  border-color: #a9cbb6 !important;
+}
+
+html.light [class*="text-emerald-100"],
+html.light [class*="text-emerald-200"] {
+  color: #315a44 !important;
+}
+
+html.light [class~="bg-amber-950/30"],
+html.light [class~="bg-amber-950/40"],
+html.light [class~="bg-amber-500/10"] {
+  background-color: #f4ead4 !important;
+}
+
+html.light [class~="border-amber-900"],
+html.light [class~="border-amber-800/40"],
+html.light [class~="border-amber-500/25"] {
+  border-color: #dfc99b !important;
+}
+
+html.light [class~="text-amber-100"],
+html.light [class~="text-amber-200"],
+html.light [class~="text-amber-300"],
+html.light [class~="text-amber-400"],
+html.light [class~="text-amber-600"] {
+  color: #725311 !important;
+}
+
+html.light [class~="bg-rose-950/60"],
+html.light [class~="bg-rose-500/10"] {
+  background-color: #f7e5e3 !important;
+}
+
+html.light [class~="border-rose-900"],
+html.light [class~="border-rose-500/20"] {
+  border-color: #e3bebb !important;
+}
+
+html.light [class~="text-rose-100"],
+html.light [class~="text-rose-200"],
+html.light [class~="text-rose-300"],
+html.light [class~="text-rose-400"],
+html.light [class~="text-rose-600"] {
+  color: #8e302b !important;
+}
 
 section[id],
 main[id] {
@@ -82,65 +249,7 @@ main[id] {
   transform: translateY(0);
 }
 
-/* Background Grids & Ambient Glows */
-.bg-grid-pattern {
-  background-size: 32px 32px;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-}
-
-.bg-radial-glow {
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgba(62, 207, 142, 0.15) 0%,
-    rgba(62, 207, 142, 0.02) 50%,
-    transparent 80%
-  );
-}
-
-.bg-radial-glow-cyan {
-  background: radial-gradient(
-    circle at 80% 20%,
-    rgba(20, 184, 166, 0.12) 0%,
-    transparent 60%
-  );
-}
-
-.glow-card {
-  position: relative;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glow-card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.02)
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-.glow-card:hover::before {
-  background: linear-gradient(
-    135deg,
-    rgba(62, 207, 142, 0.4),
-    rgba(20, 184, 166, 0.2),
-    rgba(255, 255, 255, 0.05)
-  );
-}
-
-/* Supabase Engineered Typography with Negative Letter-Spacing */
+/* Inscriptional display headings nod to Cicero. */
 .display-xxl {
   font-size: 2.5rem;
   line-height: 1.1;

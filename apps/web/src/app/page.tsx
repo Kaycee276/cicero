@@ -1,5 +1,4 @@
 import React from 'react';
-import { TopBanner } from '@/components/TopBanner';
 import { Navbar } from '@/components/Navbar';
 import { HeroSection } from '@/components/HeroSection';
 import { WalletsMatrixSection } from '@/components/WalletsMatrixSection';
@@ -20,7 +19,6 @@ export default function Home() {
       >
         Skip to content
       </a>
-      <TopBanner />
       <Navbar />
       <main id="main-content" className="flex-1">
         <HeroSection />
