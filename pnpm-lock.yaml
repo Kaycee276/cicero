@@ -59,6 +59,9 @@ importers:
 
   packages/cicero:
     dependencies:
+      '@cicero-zcash/core':
+        specifier: workspace:*
+        version: link:../core
       '@zucchinifi/dapp-sdk':
         specifier: ^0.3.0
         version: 0.3.0

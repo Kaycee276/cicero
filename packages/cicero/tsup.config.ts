@@ -5,7 +5,7 @@ export default defineConfig({
   format: ["cjs", "esm"],
   dts: true,
   clean: true,
-  external: ["react", "react-dom"],
+  external: ["react", "react-dom", "@cicero-zcash/core"],
   sourcemap: true,
   minify: false,
 });

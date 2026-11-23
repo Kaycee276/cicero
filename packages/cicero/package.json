@@ -36,8 +36,8 @@
   },
   "scripts": {
     "build:css": "tailwindcss -i src/styles.css -o dist/index.css --minify",
-    "build": "tsup && pnpm build:css",
-    "dev": "tsup --watch",
+    "build": "pnpm --filter \"@cicero-zcash/core\" build && tsup && pnpm build:css",
+    "dev": "pnpm --filter \"@cicero-zcash/core\" build && tsup --watch",
     "lint": "tsc --noEmit"
   },
   "keywords": [
@@ -59,6 +59,7 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
+    "@cicero-zcash/core": "workspace:*",
     "@zucchinifi/dapp-sdk": "^0.3.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",

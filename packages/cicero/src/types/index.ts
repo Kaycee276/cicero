@@ -1,6 +1,8 @@
-export type ZcashAddressType = 'unified' | 'sapling' | 'transparent' | 'unknown';
-
-export type ZcashNetwork = 'mainnet' | 'testnet';
+export type {
+  ZcashAddressType,
+  ZcashNetwork,
+  Zip321PaymentRequest,
+} from '@cicero-zcash/core';
 
 export type CiceroTheme = 'supabase' | 'emerald' | 'dark' | 'light' | 'gold' | 'cyber';
 
@@ -24,12 +26,4 @@ export interface CiceroButtonAppearance {
   showNetwork: boolean;
   showIcon: boolean;
   accentColor: string;
-}
-
-export interface Zip321PaymentRequest {
-  address: string;
-  amount?: string;
-  memo?: string;
-  message?: string;
-  rawUri: string;
 }

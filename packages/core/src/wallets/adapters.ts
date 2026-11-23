@@ -7,7 +7,7 @@ import { zelcoreWallet } from './zelcore';
 import { zashiWallet } from './zashi';
 import { zucchiniWallet, zucchiniExtensionAdapter } from './zucchini';
 import { ZucchiniExtensionAdapter } from './ZucchiniExtensionAdapter';
-import type { SendPaymentParams, WalletSession, ZcashNetwork, ZcashWallet } from '../types';
+import type { SendPaymentParams, ZcashNetwork, ZcashWallet } from '../types';
 
 export class ZucchiniWalletAdapter extends CatalogWalletAdapter {
   static isAvailable = ZucchiniExtensionAdapter.isAvailable;
@@ -38,7 +38,7 @@ export class ZucchiniWalletAdapter extends CatalogWalletAdapter {
     return zucchiniExtensionAdapter.onNetworkChanged(listener);
   }
 
-  onAccountsChanged(listener: (session: WalletSession) => void): () => void {
+  onAccountsChanged(listener: (accounts: any) => void): () => void {
     return zucchiniExtensionAdapter.onAccountsChanged(listener);
   }
 
