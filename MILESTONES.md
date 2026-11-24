@@ -40,6 +40,6 @@
 | Deliverable                    | Target                         | Verification Method                                                                                                                  | Status         |
 | :----------------------------- | :----------------------------- | :----------------------------------------------------------------------------------------------------------------------------------- | :------------- |
 | **Public Portal & Deployment** | 99.9%                          | Deployed live to public production domain                                                                                            | ✅ Completed   |
-| **Core Decoupling**            | `@cicero-zcash/core` decoupled | Standalone package in `packages/core` with zero React dependencies                                                                   | ✅ Completed   |
+| **Core Decoupling**            | `@cicero-zcash/core` published | Published to NPM as `@cicero-zcash/core@0.1.0` with zero React dependencies, re-exported by `@cicero-zcash/react@0.2.11`             | ✅ Completed   |
 | **Automated CI & Test Suite**  | 100% Pass (118/118)            | Automated GitHub Actions CI running 118 unit & component tests, secrets scan, lint, typecheck, format check, and full monorepo build | ✅ Completed   |
 | **Forum Proposal (RFC)**       | 1 RFC Published                | Draft specification for `window.zcash` Web3 provider                                                                                 | 🔄 In Progress |
