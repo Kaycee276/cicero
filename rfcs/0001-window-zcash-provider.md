@@ -8,7 +8,7 @@ Status: Draft / Community Review
 Category: Standards / Ecosystem Interface
 Created: 2026-11-24
 License: MIT
-Discussions-To: https://forum.zcashcommunity.com
+Discussions-To: https://github.com/zcash/zips/issues/1483
 Requires: ZIP-321
 ```
 

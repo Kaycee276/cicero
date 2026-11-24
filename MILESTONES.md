@@ -39,9 +39,9 @@
 
 ## 📦 Success Metrics & Verification
 
-| Deliverable                    | Target                         | Verification Method                                                                                                                  | Status       |
-| :----------------------------- | :----------------------------- | :----------------------------------------------------------------------------------------------------------------------------------- | :----------- |
-| **Public Portal & Deployment** | 99.9%                          | Deployed live to public production domain                                                                                            | ✅ Completed |
-| **Core Decoupling**            | `@cicero-zcash/core` published | Published to NPM as `@cicero-zcash/core@0.1.0` with zero React dependencies, re-exported by `@cicero-zcash/react@0.2.11`             | ✅ Completed |
-| **Automated CI & Test Suite**  | 100% Pass (118/118)            | Automated GitHub Actions CI running 118 unit & component tests, secrets scan, lint, typecheck, format check, and full monorepo build | ✅ Completed |
-| **Forum Proposal (RFC)**       | 1 RFC Published                | Formal RFC specification in [`rfcs/0001-window-zcash-provider.md`](./rfcs/0001-window-zcash-provider.md) and forum showcase draft    | ✅ Completed |
+| Deliverable                    | Target                         | Verification Method                                                                                                                                                                             | Status       |
+| :----------------------------- | :----------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------- |
+| **Public Portal & Deployment** | 99.9%                          | Deployed live to public production domain                                                                                                                                                       | ✅ Completed |
+| **Core Decoupling**            | `@cicero-zcash/core` published | Published to NPM as `@cicero-zcash/core@0.1.0` with zero React dependencies, re-exported by `@cicero-zcash/react@0.2.11`                                                                        | ✅ Completed |
+| **Automated CI & Test Suite**  | 100% Pass (118/118)            | Automated GitHub Actions CI running 118 unit & component tests, secrets scan, lint, typecheck, format check, and full monorepo build                                                            | ✅ Completed |
+| **Standards Proposal (ZIP)**   | 1 Proposal Filed               | Official ZIP Proposal filed on [`zcash/zips#1483`](https://github.com/zcash/zips/issues/1483) and specification in [`rfcs/0001-window-zcash-provider.md`](./rfcs/0001-window-zcash-provider.md) | ✅ Completed |
