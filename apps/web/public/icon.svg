@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <rect width="180" height="180" rx="36" fill="#09090b"/>
+  <polygon points="90,30 145,50 145,105 90,150 35,105 35,50" fill="#0f241a" stroke="#3ecf8e" stroke-width="4" stroke-linejoin="round"/>
+  <text x="90" y="102" fill="#3ecf8e" font-size="50" font-family="sans-serif" font-weight="bold" text-anchor="middle">C</text>
+</svg>

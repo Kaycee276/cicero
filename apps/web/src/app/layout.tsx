@@ -18,9 +18,11 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'Cicero — Zcash Wallets & Payments for React',
+  metadataBase: new URL('https://cicero-zcash.vercel.app'),
+  title: 'Cicero — The RainbowKit for Shielded Zcash',
   description:
-    'Connect Zcash wallets in React and create ZIP-321 payment requests with Cicero’s wallet toolkit.',
+    'Universal wallet connection, ZIP-321 checkout, and shielded balance state for Zcash dApps in React.',
+  applicationName: 'Cicero',
   keywords: [
     'Zcash',
     'Shielded Payments',
@@ -29,16 +31,40 @@ export const metadata: Metadata = {
     'React Checkout',
     'Web3 Payments',
     'Cicero',
+    'RainbowKit',
+    'Wallet Adapter',
   ],
-  authors: [{ name: 'Kaycee276' }],
+  authors: [{ name: 'Kaycee276', url: 'https://github.com/Kaycee276' }],
+  creator: 'Kaycee276',
   openGraph: {
-    title: 'Cicero — Zcash Wallets & Payments for React',
+    title: 'Cicero — The RainbowKit for Shielded Zcash',
     description:
-      'A React toolkit for Zcash wallet connections, shielded account state, and ZIP-321 payment requests.',
+      'Universal wallet connection, ZIP-321 checkout, and shielded balance state for Zcash dApps in React.',
+    url: 'https://cicero-zcash.vercel.app',
+    siteName: 'Cicero',
     type: 'website',
+    locale: 'en_US',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Cicero — Universal Wallet Connection & Payments for Shielded Zcash',
+        type: 'image/png',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cicero — The RainbowKit for Shielded Zcash',
+    description:
+      'Universal wallet connection, ZIP-321 checkout, and shielded balance state for Zcash dApps in React.',
+    creator: '@kc_deblocksmith',
+    images: ['/og-image.png'],
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: [{ url: '/favicon.ico' }, { url: '/icon.svg', type: 'image/svg+xml' }],
+    apple: '/apple-touch-icon.png',
   },
 };
 
