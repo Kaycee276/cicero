@@ -26,20 +26,22 @@
 
 ### 4. Community RFC & ZIP Proposal (Days 9–10)
 
-- **Official Showcase**: Publish the official project showcase and post-hackathon roadmap on the Zcash Community Forum (`forum.zcashcommunity.com`).
-- **Standardized In-Browser Provider (`window.zcash`)**: Propose a formal draft RFC / ZIP specification for a unified in-browser Web3 provider interface (equivalent to Ethereum's EIP-1193):
+- **Official Showcase**: Authored community announcement draft in [`COMMUNITY-FORUM-POST.md`](./COMMUNITY-FORUM-POST.md) ready to publish on the Zcash Community Forum (`forum.zcashcommunity.com`).
+- **Standardized In-Browser Provider (`window.zcash`)**: Published formal specification in [`rfcs/0001-window-zcash-provider.md`](./rfcs/0001-window-zcash-provider.md) defining a standardized Web3 provider interface (equivalent to Ethereum's EIP-1193):
   - `zcash_requestAccounts`
   - `zcash_sendTransaction`
   - `zcash_getBalance`
   - `zcash_signMessage`
+  - Lifecycle events (`accountsChanged`, `networkChanged`, `connect`, `disconnect`)
+  - Error codes, security considerations, and zero-knowledge privacy protections.
 
 ---
 
 ## 📦 Success Metrics & Verification
 
-| Deliverable                    | Target                         | Verification Method                                                                                                                  | Status         |
-| :----------------------------- | :----------------------------- | :----------------------------------------------------------------------------------------------------------------------------------- | :------------- |
-| **Public Portal & Deployment** | 99.9%                          | Deployed live to public production domain                                                                                            | ✅ Completed   |
-| **Core Decoupling**            | `@cicero-zcash/core` published | Published to NPM as `@cicero-zcash/core@0.1.0` with zero React dependencies, re-exported by `@cicero-zcash/react@0.2.11`             | ✅ Completed   |
-| **Automated CI & Test Suite**  | 100% Pass (118/118)            | Automated GitHub Actions CI running 118 unit & component tests, secrets scan, lint, typecheck, format check, and full monorepo build | ✅ Completed   |
-| **Forum Proposal (RFC)**       | 1 RFC Published                | Draft specification for `window.zcash` Web3 provider                                                                                 | 🔄 In Progress |
+| Deliverable                    | Target                         | Verification Method                                                                                                                  | Status       |
+| :----------------------------- | :----------------------------- | :----------------------------------------------------------------------------------------------------------------------------------- | :----------- |
+| **Public Portal & Deployment** | 99.9%                          | Deployed live to public production domain                                                                                            | ✅ Completed |
+| **Core Decoupling**            | `@cicero-zcash/core` published | Published to NPM as `@cicero-zcash/core@0.1.0` with zero React dependencies, re-exported by `@cicero-zcash/react@0.2.11`             | ✅ Completed |
+| **Automated CI & Test Suite**  | 100% Pass (118/118)            | Automated GitHub Actions CI running 118 unit & component tests, secrets scan, lint, typecheck, format check, and full monorepo build | ✅ Completed |
+| **Forum Proposal (RFC)**       | 1 RFC Published                | Formal RFC specification in [`rfcs/0001-window-zcash-provider.md`](./rfcs/0001-window-zcash-provider.md) and forum showcase draft    | ✅ Completed |

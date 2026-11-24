@@ -7,11 +7,13 @@
 **Universal wallet connection, bi-directional network synchronization, and multi-wallet state management for React and Next.js applications.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-3ecf8e.svg)](https://opensource.org/licenses/MIT)
-[![NPM Version](https://img.shields.io/npm/v/@cicero-zcash/react?color=3ecf8e)](https://www.npmjs.com/package/@cicero-zcash/react)
+[![NPM Core](https://img.shields.io/npm/v/@cicero-zcash/core?color=3ecf8e&label=@cicero-zcash/core)](https://www.npmjs.com/package/@cicero-zcash/core)
+[![NPM React](https://img.shields.io/npm/v/@cicero-zcash/react?color=3ecf8e&label=@cicero-zcash/react)](https://www.npmjs.com/package/@cicero-zcash/react)
 [![Zcash](https://img.shields.io/badge/Zcash-Shielded-171717?logo=zcash&logoColor=3ecf8e)](https://z.cash)
 [![Design](https://img.shields.io/badge/Design-Supabase%20Tokens-3ecf8e)](./DESIGN.md)
+[![RFC 0001](https://img.shields.io/badge/RFC-0001%20window.zcash-3ecf8e)](./rfcs/0001-window-zcash-provider.md)
 
-[Live Demo](https://cicero-zcash.vercel.app) • [Quickstart](#-quickstart) • [React Hooks](#-react-hooks) • [Supported Wallets](#-supported-wallets)
+[Live Demo](https://cicero-zcash.vercel.app) • [RFC: window.zcash](./rfcs/0001-window-zcash-provider.md) • [Forum Proposal](./COMMUNITY-FORUM-POST.md) • [Quickstart](#-quickstart) • [React Hooks](#-react-hooks) • [Supported Wallets](#-supported-wallets)
 
 ---
 
