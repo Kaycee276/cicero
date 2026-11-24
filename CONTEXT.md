@@ -52,6 +52,15 @@ In modern Web3, **Cicero** carries this legacy forward into the cryptographic ag
 - **Days 7–8**: Automated integration test suite across all 7 wallet adapters with 90%+ coverage.
 - **Days 9–10**: Zcash Community Forum RFC presentation proposing standardized `window.zcash` browser provider.
 
+### 6. Production Hardening, NPM Release & Public Launch
+
+- **Published to NPM**:
+  - `@cicero-zcash/core@0.1.0`: [npmjs.com/package/@cicero-zcash/core](https://www.npmjs.com/package/@cicero-zcash/core)
+  - `@cicero-zcash/react@0.2.11`: [npmjs.com/package/@cicero-zcash/react](https://www.npmjs.com/package/@cicero-zcash/react)
+- **Quality & Verification**: 24 test suites, 118 unit & component tests passing (100% green), automated secret scanning, Prettier format verification, and GitHub Actions CI passing.
+- **Standards Track (RFC 0001)**: Authored formal specification for standardized in-browser Web3 provider (`window.zcash`) in `rfcs/0001-window-zcash-provider.md`.
+- **Public Launch Announcement**: Published live on X (Twitter): [https://x.com/kc_deblocksmith/status/2125188363955102110](https://x.com/kc_deblocksmith/status/2125188363955102110).
+
 ---
 
 ## 🤖 How to Ingest this Context into Other AI Tools
