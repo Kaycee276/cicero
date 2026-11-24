@@ -15,7 +15,23 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/Kaycee276/cicero#readme",
+  "bugs": {
+    "url": "https://github.com/Kaycee276/cicero/issues"
+  },
+  "keywords": [
+    "zcash",
+    "wallet-adapter",
+    "zip-321",
+    "shielded-payments",
+    "zero-knowledge",
+    "web3"
   ],
   "scripts": {
     "build": "tsup && node -e \"require('node:fs').copyFileSync('dist/index.js', 'dist/index.mjs')\"",
