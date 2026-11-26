@@ -8,7 +8,7 @@
 
 ### 1. Live Production Portal & Playground (Days 1–3)
 
-- **Production Deployment**: Deploy the documentation site, live component studio, and AI skill hub to a permanent public production domain (Vercel/Cloudflare at `cicero.io` or `cicero-zcash.dev`).
+- **Production Deployment**: Deploy the documentation site, live component studio, and AI skill hub to a permanent public production domain (deployed live at [`cicero.izuaba.xyz`](https://cicero.izuaba.xyz)).
 - **Performance & Polish**: Ensure 100% mobile responsiveness, dark mode token parity, and sub-second page loads.
 - **Interactive Playground**: Interactive testing for all 7 supported wallets with real-time balance queries and theme customization.
 
@@ -41,7 +41,7 @@
 
 | Deliverable                    | Target                         | Verification Method                                                                                                                                                                             | Status       |
 | :----------------------------- | :----------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------- |
-| **Public Portal & Deployment** | 99.9%                          | Deployed live to public production domain                                                                                                                                                       | ✅ Completed |
+| **Public Portal & Deployment** | 99.9%                          | Deployed live to public production domain at [`cicero.izuaba.xyz`](https://cicero.izuaba.xyz)                                                                                                   | ✅ Completed |
 | **Core Decoupling**            | `@cicero-zcash/core` published | Published to NPM as `@cicero-zcash/core@0.1.0` with zero React dependencies, re-exported by `@cicero-zcash/react@0.2.11`                                                                        | ✅ Completed |
 | **Automated CI & Test Suite**  | 100% Pass (118/118)            | Automated GitHub Actions CI running 118 unit & component tests, secrets scan, lint, typecheck, format check, and full monorepo build                                                            | ✅ Completed |
 | **Standards Proposal (ZIP)**   | 1 Proposal Filed               | Official ZIP Proposal filed on [`zcash/zips#1483`](https://github.com/zcash/zips/issues/1483) and specification in [`rfcs/0001-window-zcash-provider.md`](./rfcs/0001-window-zcash-provider.md) | ✅ Completed |

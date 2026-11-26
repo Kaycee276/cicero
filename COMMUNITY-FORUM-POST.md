@@ -4,7 +4,7 @@
 > **Author:** Kaycee ([@Kaycee276](https://github.com/Kaycee276))  
 > **Repository:** [github.com/Kaycee276/cicero](https://github.com/Kaycee276/cicero)  
 > **NPM Packages:** [`@cicero-zcash/core`](https://www.npmjs.com/package/@cicero-zcash/core) • [`@cicero-zcash/react`](https://www.npmjs.com/package/@cicero-zcash/react)  
-> **Live Production Portal:** Deployed & verified with live playground and studio.
+> **Live Production Portal:** [cicero.izuaba.xyz](https://cicero.izuaba.xyz) (deployed & verified with live playground and studio)
 
 ---
 
@@ -98,6 +98,7 @@ We want to collaborate with wallet developers, ECC engineers, Zcash Foundation t
 
 ### 🔗 Quick Links
 
+- **Live Production Portal**: [cicero.izuaba.xyz](https://cicero.izuaba.xyz)
 - **GitHub Repository**: [github.com/Kaycee276/cicero](https://github.com/Kaycee276/cicero)
 - **RFC 0001 Draft**: [rfcs/0001-window-zcash-provider.md](https://github.com/Kaycee276/cicero/blob/main/rfcs/0001-window-zcash-provider.md)
 - **NPM Core**: `npm install @cicero-zcash/core`

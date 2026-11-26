@@ -18,7 +18,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://cicero-zcash.vercel.app'),
+  metadataBase: new URL('https://cicero.izuaba.xyz'),
   title: 'Cicero — The RainbowKit for Shielded Zcash',
   description:
     'Universal wallet connection, ZIP-321 checkout, and shielded balance state for Zcash dApps in React.',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: 'Cicero — The RainbowKit for Shielded Zcash',
     description:
       'Universal wallet connection, ZIP-321 checkout, and shielded balance state for Zcash dApps in React.',
-    url: 'https://cicero-zcash.vercel.app',
+    url: 'https://cicero.izuaba.xyz',
     siteName: 'Cicero',
     type: 'website',
     locale: 'en_US',

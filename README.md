@@ -13,7 +13,7 @@
 [![Design](https://img.shields.io/badge/Design-Supabase%20Tokens-3ecf8e)](./DESIGN.md)
 [![RFC 0001](https://img.shields.io/badge/RFC-0001%20window.zcash-3ecf8e)](./rfcs/0001-window-zcash-provider.md)
 
-[Live Demo](https://cicero-eight.vercel.app) • [RFC: window.zcash](./rfcs/0001-window-zcash-provider.md) • [Forum Proposal](./COMMUNITY-FORUM-POST.md) • [Quickstart](#-quickstart) • [React Hooks](#-react-hooks) • [Supported Wallets](#-supported-wallets)
+[Live Demo](https://cicero.izuaba.xyz) • [RFC: window.zcash](./rfcs/0001-window-zcash-provider.md) • [Forum Proposal](./COMMUNITY-FORUM-POST.md) • [Quickstart](#-quickstart) • [React Hooks](#-react-hooks) • [Supported Wallets](#-supported-wallets)
 
 ---
 
